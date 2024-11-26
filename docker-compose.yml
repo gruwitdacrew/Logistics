@@ -1,0 +1,23 @@
+version: '3.8'  
+
+services:  
+  web:    
+    build:  
+      context: . 
+      dockerfile: Dockerfile   
+    ports:  
+      - "80:80"
+    depends_on:  
+      - db 
+
+  db:  
+    image: postgres:latest 
+    environment:  
+      POSTGRES_DB: Logistics 
+      POSTGRES_USER: postgres 
+      POSTGRES_PASSWORD: admin    
+    volumes:  
+      - pgdata:/var/lib/postgresql/data # Персистентное хранилище для данных базы  
+
+volumes:  
+  pgdata:
