@@ -1,0 +1,33 @@
+﻿using Logistics.Data.Account.Models;
+using Logistics.Data.Requests.Models;
+
+namespace Logistics.Data.Transportations.Models
+{
+    public class Transportation
+    {
+        public Guid id { get; set; }
+
+        public Transporter transporter { get; set; }
+
+        public TransportationStatus status { get; set; }
+
+        public Transportation(){}
+
+        public Transportation(Request request, Transporter transporter)
+        {
+            id = Guid.NewGuid();
+            this.transporter = transporter;
+            status = TransportationStatus.WaitingForStart;
+        }
+    }
+
+    public enum TransportationStatus
+    {
+        WaitingForStart,
+        OnWayToLoading,
+        Loading,
+        OnWayToUnloading,
+        Repairing,
+        Unloading
+    }
+}
