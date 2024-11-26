@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Visual Studio\\Projects\\Logistics\\Logistics\\Logistics.csproj": {}
+    "D:\\Рабочий стол\\Logistics\\Logistics\\Logistics.csproj": {}
   },
   "projects": {
-    "D:\\Visual Studio\\Projects\\Logistics\\Logistics\\Logistics.csproj": {
+    "D:\\Рабочий стол\\Logistics\\Logistics\\Logistics.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Visual Studio\\Projects\\Logistics\\Logistics\\Logistics.csproj",
+        "projectUniqueName": "D:\\Рабочий стол\\Logistics\\Logistics\\Logistics.csproj",
         "projectName": "Logistics",
-        "projectPath": "D:\\Visual Studio\\Projects\\Logistics\\Logistics\\Logistics.csproj",
+        "projectPath": "D:\\Рабочий стол\\Logistics\\Logistics\\Logistics.csproj",
         "packagesPath": "C:\\Users\\Арсений\\.nuget\\packages\\",
-        "outputPath": "D:\\Visual Studio\\Projects\\Logistics\\Logistics\\obj\\",
+        "outputPath": "D:\\Рабочий стол\\Logistics\\Logistics\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Visual Studio\\Packs\\NuGetPackages"

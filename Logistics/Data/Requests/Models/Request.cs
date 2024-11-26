@@ -55,7 +55,7 @@ namespace Logistics.Data.Requests.Models
             sendingTime = createRequest.sendingTime;
             truckType = createRequest.truckType;
             desiredDeliveryTime = createRequest.desiredDeliveryTime;
-            costInRubles = CostСalculator.calculateCostInRubles(createRequest.distanceBetweenCitiesInKilometers);
+            costInRubles = CostCalculator.calculateCostInRubles(createRequest.distanceBetweenCitiesInKilometers);
         }
 
         public void edit(EditRequestRequestDTO editRequest)

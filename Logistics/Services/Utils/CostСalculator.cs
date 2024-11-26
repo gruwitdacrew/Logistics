@@ -1,6 +1,6 @@
 ﻿namespace Logistics.Services.Utils
 {
-    public class CostСalculator
+    public class CostCalculator
     {
         private const float distancePerDayInKilometers  = 900;
 

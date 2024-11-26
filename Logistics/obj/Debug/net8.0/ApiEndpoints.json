@@ -600,6 +600,37 @@
     ]
   },
   {
+    "ContainingType": "Logistics.Controllers.RequestController",
+    "Method": "getCost",
+    "RelativePath": "api/request/cost",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "distanceBetweenCitiesInKilometers",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Single",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 401
+      }
+    ]
+  },
+  {
     "ContainingType": "Logistics.Controllers.AccountController",
     "Method": "company",
     "RelativePath": "api/user/company",

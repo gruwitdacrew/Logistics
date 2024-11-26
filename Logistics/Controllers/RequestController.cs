@@ -78,7 +78,7 @@ namespace Logistics.Controllers
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<float>> getCost(int distanceBetweenCitiesInKilometers)
         {
-            return Ok(Cost—alculator.calculateCostInRubles(distanceBetweenCitiesInKilometers));
+            return Ok(CostCalculator.calculateCostInRubles(distanceBetweenCitiesInKilometers));
         }
 
 

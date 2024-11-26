@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "RABiK7GjAzo=",
+  "dgSpecHash": "wOwZEY4pfrU=",
   "success": true,
-  "projectFilePath": "D:\\Visual Studio\\Projects\\Logistics\\Logistics\\Logistics.csproj",
+  "projectFilePath": "D:\\Рабочий стол\\Logistics\\Logistics\\Logistics.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Арсений\\.nuget\\packages\\bouncycastle.cryptography\\2.4.0\\bouncycastle.cryptography.2.4.0.nupkg.sha512",
     "C:\\Users\\Арсений\\.nuget\\packages\\geocoding.core\\4.0.1\\geocoding.core.4.0.1.nupkg.sha512",
