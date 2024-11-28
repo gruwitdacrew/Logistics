@@ -391,7 +391,7 @@
     "Parameters": [
       {
         "Name": "createRequest",
-        "Type": "Logistics.Data.Requests.RequestDTOs.Requests.CreateRequestRequestDTO",
+        "Type": "Logistics.Data.Requests.DTOs.Requests.CreateRequestRequestDTO",
         "IsRequired": true
       },
       {
@@ -424,33 +424,6 @@
   },
   {
     "ContainingType": "Logistics.Controllers.RequestController",
-    "Method": "getShipperRequests",
-    "RelativePath": "api/request",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "status",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
-      }
-    ]
-  },
-  {
-    "ContainingType": "Logistics.Controllers.RequestController",
     "Method": "editRequest",
     "RelativePath": "api/request/{requestId}",
     "HttpMethod": "PATCH",
@@ -464,7 +437,7 @@
       },
       {
         "Name": "editRequest",
-        "Type": "Logistics.Data.Requests.RequestDTOs.Requests.EditRequestRequestDTO",
+        "Type": "Logistics.Data.Requests.DTOs.Requests.EditRequestRequestDTO",
         "IsRequired": true
       }
     ],
@@ -601,8 +574,8 @@
   },
   {
     "ContainingType": "Logistics.Controllers.RequestController",
-    "Method": "getCost",
-    "RelativePath": "api/request/cost",
+    "Method": "calculateCost",
+    "RelativePath": "api/request/calculate/cost",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -631,6 +604,180 @@
     ]
   },
   {
+    "ContainingType": "Logistics.Controllers.RequestController",
+    "Method": "getShipperRequests",
+    "RelativePath": "api/shipper/requests",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "statuses",
+        "Type": "Logistics.Data.Requests.Models.RequestStatus[]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Logistics.Data.Requests.DTOs.Responses.ShipperRequestResponse, Logistics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 401
+      }
+    ]
+  },
+  {
+    "ContainingType": "Logistics.Controllers.TransportationController",
+    "Method": "getShipperTransportation",
+    "RelativePath": "api/shipper/transportation/{transportationId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transportationId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Logistics.Data.Transportations.DTOs.Responses.ShipperTransportationWideResponseDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 401
+      }
+    ]
+  },
+  {
+    "ContainingType": "Logistics.Controllers.TransportationController",
+    "Method": "getShipperTransportations",
+    "RelativePath": "api/shipper/transportations",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Logistics.Data.Transportations.DTOs.Responses.ShipperTransportationResponseDTO, Logistics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 401
+      }
+    ]
+  },
+  {
+    "ContainingType": "Logistics.Controllers.RequestController",
+    "Method": "getTransporterRequests",
+    "RelativePath": "api/transporter/requests",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Logistics.Data.Requests.DTOs.Responses.TransporterRequestResponse, Logistics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 401
+      }
+    ]
+  },
+  {
+    "ContainingType": "Logistics.Controllers.TransportationController",
+    "Method": "getTransporterTransportation",
+    "RelativePath": "api/transporter/transportation/{transportationId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transportationId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Logistics.Data.Transportations.DTOs.Responses.TransporterTransportationWideResponseDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 401
+      }
+    ]
+  },
+  {
+    "ContainingType": "Logistics.Controllers.TransportationController",
+    "Method": "getTransporterTransportations",
+    "RelativePath": "api/transporter/transportations",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Logistics.Data.Transportations.DTOs.Responses.TransporterTransportationResponseDTO, Logistics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 401
+      }
+    ]
+  },
+  {
     "ContainingType": "Logistics.Controllers.AccountController",
     "Method": "company",
     "RelativePath": "api/user/company",
@@ -640,7 +787,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "Logistics.Data.Accounts.Models.AboutCompany",
+        "Type": "Logistics.Data.Common.DTOs.Responses.Company",
         "MediaTypes": [
           "text/plain",
           "application/json",

@@ -1,8 +1,8 @@
 using Logistics.Data.Account.AccountDTOs.Requests;
 using Logistics.Data.Account.AccountDTOs.Responses;
 using Logistics.Data.Account.Models;
-using Logistics.Data.Accounts.Models;
 using Logistics.Data.Common.CommonDTOs.Responses;
+using Logistics.Data.Common.DTOs.Responses;
 using Logistics.Services;
 using Logistics.Services.Utils.TokenGenerator;
 using Microsoft.AspNetCore.Authorization;
@@ -156,7 +156,7 @@ namespace Logistics.Controllers
 
         [Authorize]
         [HttpGet]
-        [ProducesResponseType(typeof(AboutCompany), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Company), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> company()

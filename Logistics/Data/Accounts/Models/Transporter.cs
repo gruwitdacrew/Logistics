@@ -10,6 +10,8 @@ namespace Logistics.Data.Account.Models
     {
         public string permanentResidence { get; set; }
 
+        public Truck truck { get; set; }
+
         public Transporter() { }
 
         public Transporter(RegisterRequestDTO registerRequest) : base(registerRequest)

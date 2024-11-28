@@ -1,7 +1,5 @@
 ﻿using Logistics.Data.Account.AccountDTOs.Requests;
-using Logistics.Data.Accounts.Models;
-using Logistics.Data.Documents.Models;
-using Newtonsoft.Json.Converters;
+using Logistics.Data.Common.DTOs.Responses;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
@@ -20,7 +18,7 @@ namespace Logistics.Data.Account.Models
 
         public string? email { get; set; }
 
-        public AboutCompany company { get; set; }
+        public Company company { get; set; }
 
         public Role role { get; set; }
 

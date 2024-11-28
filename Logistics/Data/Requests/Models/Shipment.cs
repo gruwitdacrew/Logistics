@@ -1,4 +1,4 @@
-﻿using Logistics.Data.Requests.RequestDTOs.Requests;
+﻿using Logistics.Data.Requests.DTOs.Requests;
 
 namespace Logistics.Data.Requests.Models
 {

@@ -50,10 +50,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Geocoding.Google": {
-              "target": "Package",
-              "version": "[4.0.1, )"
-            },
             "MailKit": {
               "target": "Package",
               "version": "[4.8.0, )"

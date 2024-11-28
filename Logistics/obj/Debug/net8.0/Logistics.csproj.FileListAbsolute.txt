@@ -124,8 +124,6 @@ D:\Visual Studio\Projects\Logistics\Logistics\bin\Debug\net8.0\BouncyCastle.Cryp
 D:\Visual Studio\Projects\Logistics\Logistics\bin\Debug\net8.0\MailKit.dll
 D:\Visual Studio\Projects\Logistics\Logistics\bin\Debug\net8.0\MimeKit.dll
 D:\Visual Studio\Projects\Logistics\Logistics\bin\Debug\net8.0\Newtonsoft.Json.dll
-D:\Visual Studio\Projects\Logistics\Logistics\bin\Debug\net8.0\Geocoding.Core.dll
-D:\Visual Studio\Projects\Logistics\Logistics\bin\Debug\net8.0\Geocoding.Google.dll
 D:\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\appsettings.Development.json
 D:\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\appsettings.json
 D:\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\Logistics.exe
@@ -134,8 +132,6 @@ D:\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\Logistics.runtim
 D:\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\Logistics.dll
 D:\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\Logistics.pdb
 D:\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
-D:\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\Geocoding.Core.dll
-D:\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\Geocoding.Google.dll
 D:\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\Humanizer.dll
 D:\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\MailKit.dll
 D:\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

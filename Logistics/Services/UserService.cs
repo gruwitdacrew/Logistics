@@ -2,8 +2,8 @@
 using Logistics.Data.Account.AccountDTOs.Requests;
 using Logistics.Data.Account.AccountDTOs.Responses;
 using Logistics.Data.Account.Models;
-using Logistics.Data.Accounts.Models;
 using Logistics.Data.Common.CommonDTOs.Responses;
+using Logistics.Data.Common.DTOs.Responses;
 using Logistics.Services.Utils.TokenGenerator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

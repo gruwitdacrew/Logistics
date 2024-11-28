@@ -1,12 +1,10 @@
-﻿using Geocoding.Google;
-using Geocoding;
-using Logistics.Controllers;
+﻿using Logistics.Controllers;
 using Logistics.Data;
 using Logistics.Data.Account.Models;
 using Logistics.Data.Common.CommonDTOs.Responses;
 using Logistics.Data.Requests.Models;
-using Logistics.Data.Requests.RequestDTOs.Requests;
-using Logistics.Data.Requests.RequestDTOs.Responses;
+using Logistics.Data.Requests.DTOs.Requests;
+using Logistics.Data.Requests.DTOs.Responses;
 using Logistics.Data.Transportations.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -36,11 +34,11 @@ namespace Logistics.Services
             return new OkObjectResult(null);
         }
 
-        public async Task<ActionResult> GetShipperRequests(Guid shipperId, RequestStatus status)
+        public async Task<ActionResult> GetShipperRequests(Guid shipperId, RequestStatus[] statuses)
         {
-            List<Request> requests = _context.Requests.Where(x => x.shipper.id == shipperId && x.status == status).ToList();
+            List<Request> requests = _context.Requests.Where(x => x.shipper.id == shipperId && statuses.Contains(x.status)).ToList();
 
-            var response = requests.Select(x => new RequestResponse(x)).ToList();
+            var response = requests.Select(x => new ShipperRequestResponse(x)).ToList();
  
             return new OkObjectResult(response);
         }
@@ -54,7 +52,7 @@ namespace Logistics.Services
             if (status == RequestStatus.Accepted) requests = _context.Requests.Where(x => x.status == RequestStatus.Active && x.loadCity == transporter.permanentResidence).ToList();
             else requests = _context.Requests.Where(x => x.transportation.transporter.id == transporterId && x.status == status).ToList();
 
-            var response = requests.Select(x => new RequestResponse(x)).ToList();
+            var response = requests.Select(x => new TransporterRequestResponse(x)).ToList();
 
             return new OkObjectResult(response);
         }
@@ -116,7 +114,7 @@ namespace Logistics.Services
                     {
                         if (amount.HasValue)
                         {
-                            request.costInRubles += amount.Value;
+                            request.additionalCostInRubles += amount.Value;
                         }
                         else return new BadRequestObjectResult(new ErrorResponse(400, "Предоставьте значение на которое будет увеличена цена"));
                         break;
@@ -125,15 +123,15 @@ namespace Logistics.Services
                     {
                         if (amount.HasValue)
                         {
-                            if (request.costInRubles - amount.Value < 0) return new ConflictObjectResult(new ErrorResponse(409, "Цена не может быть меньше изначальной"));
-                            request.costInRubles -= amount.Value;
+                            if (request.additionalCostInRubles - amount.Value < 0) return new ConflictObjectResult(new ErrorResponse(409, "Цена не может быть меньше изначальной"));
+                            request.additionalCostInRubles -= amount.Value;
                         }
                         else return new BadRequestObjectResult(new ErrorResponse(400, "Предоставьте значение на которое будет снижена цена"));
                         break;
                     }
                 case ChangeCost.Initial:
                     {
-                        request.costInRubles = 0;
+                        request.additionalCostInRubles = 0;
                         break;
                     }
             }

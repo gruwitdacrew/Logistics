@@ -1,5 +1,5 @@
-﻿using Logistics.Data.Accounts.Models;
-using Logistics.Data.Common;
+﻿using Logistics.Data.Common;
+using Logistics.Data.Common.DTOs.Responses;
 
 namespace Logistics.Data.Account.AccountDTOs.Requests
 {

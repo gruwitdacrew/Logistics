@@ -1,10 +1,11 @@
 using Logistics.Data.Common.CommonDTOs.Responses;
 using Logistics.Data.Requests.Models;
-using Logistics.Data.Requests.RequestDTOs.Requests;
+using Logistics.Data.Requests.DTOs.Requests;
 using Logistics.Services;
 using Logistics.Services.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Logistics.Data.Requests.DTOs.Responses;
 
 namespace Logistics.Controllers
 {
@@ -48,13 +49,29 @@ namespace Logistics.Controllers
 
         [Authorize(Roles = "Shipper")]
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Route("/api/shipper/requests")]
+        [ProducesResponseType(typeof(List<ShipperRequestResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult> getShipperRequests(RequestStatus status)
+        public async Task<ActionResult<ShipperRequestResponse>> getShipperRequests(RequestStatus[] statuses)
         {
             var userId = User.Claims.ToList()[0].Value;
 
-            return await _requestService.GetShipperRequests(new Guid(userId), status);
+            return await _requestService.GetShipperRequests(new Guid(userId), statuses);
+        }
+
+
+        [Authorize(Roles = "Transporter")]
+        [HttpGet]
+        [Route("/api/transporter/requests")]
+        [ProducesResponseType(typeof(List<TransporterRequestResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<TransporterRequestResponse>> getTransporterRequests(RequestStatus status)
+        {
+            if (status == RequestStatus.Delayed) return new BadRequestObjectResult(new ErrorResponse(400, "Для перевозчика нет такого типа заявки"));
+
+            var userId = User.Claims.ToList()[0].Value;
+
+            return await _requestService.GetTransporterRequests(new Guid(userId), status);
         }
 
 
@@ -73,10 +90,10 @@ namespace Logistics.Controllers
 
         [Authorize(Roles = "Shipper")]
         [HttpGet]
-        [Route("cost")]
+        [Route("calculate/cost")]
         [ProducesResponseType(typeof(float), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<float>> getCost(int distanceBetweenCitiesInKilometers)
+        public async Task<ActionResult<float>> calculateCost(int distanceBetweenCitiesInKilometers)
         {
             return Ok(CostCalculator.calculateCostInRubles(distanceBetweenCitiesInKilometers));
         }

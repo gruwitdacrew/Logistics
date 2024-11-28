@@ -1,8 +1,6 @@
 ﻿using Logistics.Data.Account.Models;
-using Logistics.Data.Requests.RequestDTOs.Requests;
+using Logistics.Data.Requests.DTOs.Requests;
 using Logistics.Data.Transportations.Models;
-using Geocoding;
-using Geocoding.Google;
 using Logistics.Services.Utils;
 
 namespace Logistics.Data.Requests.Models
@@ -39,6 +37,8 @@ namespace Logistics.Data.Requests.Models
 
         public float costInRubles { get; set; }
 
+        public float additionalCostInRubles { get; set; }
+
         public Request() { }
 
         public Request(CreateRequestRequestDTO createRequest, Shipper shipper, bool isDelayed)
@@ -56,6 +56,7 @@ namespace Logistics.Data.Requests.Models
             truckType = createRequest.truckType;
             desiredDeliveryTime = createRequest.desiredDeliveryTime;
             costInRubles = CostCalculator.calculateCostInRubles(createRequest.distanceBetweenCitiesInKilometers);
+            additionalCostInRubles = 0;
         }
 
         public void edit(EditRequestRequestDTO editRequest)
@@ -84,6 +85,7 @@ namespace Logistics.Data.Requests.Models
         Active,
         Delayed,
         Accepted,
-        Archived
+        ArchivedNotAccepted,
+        ArchivedTransportationFinished
     }
 }

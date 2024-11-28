@@ -23,6 +23,8 @@ namespace Logistics.Data
         public DbSet<Passport> Passports { get; set; }
         public DbSet<DriverLicense> Licenses { get; set; }
 
+        public DbSet<TransportationStatusChange> TransportationStatusChanges { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -39,6 +41,10 @@ namespace Logistics.Data
             modelBuilder.Entity<Request>().HasOne(x => x.shipper);
             modelBuilder.Entity<Request>().HasOne(x => x.shipment);
             modelBuilder.Entity<Request>().HasOne(x => x.transportation);
+
+            modelBuilder.Entity<TransportationStatusChange>().HasOne(x => x.transportation);
+
+            modelBuilder.Entity<Transporter>().HasOne(x => x.truck);
         }
     }
 }
