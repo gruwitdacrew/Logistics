@@ -614,7 +614,7 @@
       {
         "Name": "statuses",
         "Type": "Logistics.Data.Requests.Models.RequestStatus[]",
-        "IsRequired": true
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [

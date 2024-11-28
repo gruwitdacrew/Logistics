@@ -52,7 +52,7 @@ namespace Logistics.Controllers
         [Route("/api/shipper/requests")]
         [ProducesResponseType(typeof(List<ShipperRequestResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<ShipperRequestResponse>> getShipperRequests(RequestStatus[] statuses)
+        public async Task<ActionResult<ShipperRequestResponse>> getShipperRequests([FromQuery] RequestStatus[] statuses)
         {
             var userId = User.Claims.ToList()[0].Value;
 
