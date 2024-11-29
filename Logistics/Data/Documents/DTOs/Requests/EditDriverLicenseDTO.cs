@@ -8,7 +8,7 @@ namespace Logistics.Data.Documents.Models
         [Annotations.Series]
         public string? series { get; set; }
 
-        [Annotations.Number]
+        [Annotations.PassportNumber]
         public string? number { get; set; }
     }
 }

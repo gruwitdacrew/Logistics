@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Logistics.Data.Transportations.DTOs.Responses;
 using Logistics.Data.Account.Models;
+using Logistics.Data.Transportations.Models;
 
 namespace Logistics.Services
 {
@@ -31,7 +32,7 @@ namespace Logistics.Services
             {
                 return new NotFoundObjectResult(null);
             }
-            if (request.shipper.id != transporterId)
+            if (request.transportation.transporter.id != transporterId)
             {
                 return new ForbidResult();
             }
@@ -39,6 +40,26 @@ namespace Logistics.Services
             List<TransportationStatusChangeResponseDTO> statusChangeHistory = _context.TransportationStatusChanges.Where(x => x.transportation.id == transportationId).Select(x => new TransportationStatusChangeResponseDTO(x)).ToList();
 
             return new OkObjectResult(new TransporterTransportationWideResponseDTO(request, statusChangeHistory));
+        }
+
+        public async Task<ActionResult> SetTransportationStatus(Guid transporterId, Guid transportationId, TransportationStatus status)
+        {
+            Transportation transportation = _context.Transportations.Where(x => x.id == transportationId).FirstOrDefault();
+            if (transportation == null)
+            {
+                return new NotFoundObjectResult(null);
+            }
+            if (transportation.transporter.id != transporterId)
+            {
+                return new ForbidResult();
+            }
+
+            TransportationStatusChange newChange = new TransportationStatusChange(transportation, status);
+
+            _context.TransportationStatusChanges.Add(newChange);
+            _context.SaveChanges();
+
+            return new OkObjectResult(null);
         }
 
         public async Task<ActionResult> GetShipperTransportations(Guid shipperId)

@@ -9,7 +9,7 @@ namespace Logistics.Data.Documents.DTOs.Requests
         [Annotations.Series]
         public string? series { get; set; }
 
-        [Annotations.Number]
+        [Annotations.PassportNumber]
         public string? number { get; set; }
 
         public string? issuedBy { get; set; }

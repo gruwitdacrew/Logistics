@@ -6,6 +6,7 @@ using Logistics.Services.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Logistics.Data.Transportations.DTOs.Responses;
+using Logistics.Data.Transportations.Models;
 
 namespace Logistics.Controllers
 {
@@ -65,6 +66,18 @@ namespace Logistics.Controllers
             var userId = User.Claims.ToList()[0].Value;
 
             return await _transportationService.GetTransporterTransportation(new Guid(userId), transportationId);
+        }
+
+        [Authorize(Roles = "Transporter")]
+        [HttpPatch]
+        [Route("/api/transportation/{transportationId}/status")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult> setTransportationStatus([FromRoute] Guid transportationId, TransportationStatus status)
+        {
+            var userId = User.Claims.ToList()[0].Value;
+
+            return await _transportationService.SetTransportationStatus(new Guid(userId), transportationId, status);
         }
     }
 }

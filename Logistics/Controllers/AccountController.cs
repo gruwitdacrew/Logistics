@@ -1,6 +1,8 @@
 using Logistics.Data.Account.AccountDTOs.Requests;
 using Logistics.Data.Account.AccountDTOs.Responses;
 using Logistics.Data.Account.Models;
+using Logistics.Data.Accounts.DTOs.Requests;
+using Logistics.Data.Accounts.DTOs.Responses;
 using Logistics.Data.Common.CommonDTOs.Responses;
 using Logistics.Data.Common.DTOs.Responses;
 using Logistics.Services;
@@ -166,6 +168,7 @@ namespace Logistics.Controllers
             return await _userService.AboutCompany(new Guid(userId));
         }
 
+
         [Authorize]
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -176,6 +179,48 @@ namespace Logistics.Controllers
             var userId = User.Claims.ToList()[0].Value;
 
             return await _userService.EditCompany(new Guid(userId), editShipperRequest);
+        }
+
+
+        [Authorize(Roles = "Transporter")]
+        [HttpPost]
+        [Route("/api/transporter/transport")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> createTransport(CreateTruckRequestDTO createRequest)
+        {
+            var userId = User.Claims.ToList()[0].Value;
+
+            return await _userService.CreateTransporterTruck(new Guid(userId), createRequest);
+        }
+
+
+        [Authorize(Roles = "Transporter")]
+        [HttpGet]
+        [Route("/api/transporter/transport")]
+        [ProducesResponseType(typeof(TruckResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> getTransport()
+        {
+            var userId = User.Claims.ToList()[0].Value;
+
+            return await _userService.GetTransporterTruck(new Guid(userId));
+        }
+
+
+        [Authorize(Roles = "Transporter")]
+        [HttpPatch]
+        [Route("/api/transporter/transport")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> editTransport(EditTruckRequestDTO editRequest)
+        {
+            var userId = User.Claims.ToList()[0].Value;
+
+            return await _userService.EditTransporterTruck(new Guid(userId), editRequest);
         }
     }
 }

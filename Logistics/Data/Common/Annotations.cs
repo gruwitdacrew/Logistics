@@ -54,9 +54,9 @@ namespace Logistics.Data.Common
             }
         }
 
-        internal class NumberAttribute : RegularExpressionAttribute
+        internal class PassportNumberAttribute : RegularExpressionAttribute
         {
-            public NumberAttribute() : base("^\\d{6}$")
+            public PassportNumberAttribute() : base("^\\d{6}$")
             {
                 ErrorMessage = "Номер должен состоять из 6 цифр";
             }
@@ -83,6 +83,14 @@ namespace Logistics.Data.Common
             public VolumeInCubicMetersAttribute() : base(0, 96)
             {
                 ErrorMessage = "Объем должен быть до 96 кубометров";
+            }
+        }
+
+        internal class CarNumberAttribute : RegularExpressionAttribute
+        {
+            public CarNumberAttribute() : base("^[А-Я]{2}\\d{3}[А-Я]$")
+            {
+                ErrorMessage = "Автомобильный номер имеет маску АА000А";
             }
         }
     }

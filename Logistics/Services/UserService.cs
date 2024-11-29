@@ -2,6 +2,8 @@
 using Logistics.Data.Account.AccountDTOs.Requests;
 using Logistics.Data.Account.AccountDTOs.Responses;
 using Logistics.Data.Account.Models;
+using Logistics.Data.Accounts.DTOs.Requests;
+using Logistics.Data.Accounts.DTOs.Responses;
 using Logistics.Data.Common.CommonDTOs.Responses;
 using Logistics.Data.Common.DTOs.Responses;
 using Logistics.Services.Utils.TokenGenerator;
@@ -275,15 +277,48 @@ namespace Logistics.Services
             return new OkObjectResult(user.company);
         }
 
-        public async Task<ActionResult> TransporterVehicles(Guid userId)
+        public async Task<ActionResult> CreateTransporterTruck(Guid transporterId, CreateTruckRequestDTO createRequest)
         {
-            Transporter? transporter = _context.Transporters.Where(x => x.id == userId).FirstOrDefault();
+            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
             if (transporter == null)
             {
                 return new UnauthorizedObjectResult("");
             }
 
-            return new OkObjectResult("");
+            Truck truck = new Truck(createRequest);
+            transporter.truck = truck;
+
+            _context.Transporters.Update(transporter);
+            _context.SaveChanges();
+
+            return new OkObjectResult(null);
+        }
+        
+        public async Task<ActionResult> EditTransporterTruck(Guid transporterId, EditTruckRequestDTO editRequest)
+        {
+            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
+            if (transporter == null)
+            {
+                return new UnauthorizedObjectResult("");
+            }
+
+            transporter.truck.edit(editRequest);
+
+            _context.Transporters.Update(transporter);
+            _context.SaveChanges();
+
+            return new OkObjectResult(null);
+        }
+
+        public async Task<ActionResult> GetTransporterTruck(Guid transporterId)
+        {
+            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
+            if (transporter == null)
+            {
+                return new UnauthorizedObjectResult("");
+            }
+
+            return new OkObjectResult(new TruckResponse(transporter.truck));
         }
     }
 }
