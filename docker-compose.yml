@@ -33,7 +33,9 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@example.com  
       PGADMIN_DEFAULT_PASSWORD: admin  
     ports:  
-      - "1234:80"  # Измените 8080 на 8081 или на другой свободный порт  
+      - "1234:80"
+    networks:  
+      - network
     depends_on:  
       - db
 
