@@ -799,7 +799,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "Logistics.Data.Accounts.DTOs.Requests.CreateTruckRequestDTO",
+        "Type": "Logistics.Data.Accounts.DTOs.Responses.TruckResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",

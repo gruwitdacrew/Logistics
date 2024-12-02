@@ -84,7 +84,7 @@ namespace Logistics.Services
             if (user == null) return new NotFoundObjectResult(new ErrorResponse(404, "Пользователя с такой почтой нет"));
 
             var resetPasswordToken = _tokenGenerator.GenerateToken(user, Token.ResetPassword);
-            await _emailService.SendRequestPasswordRequest(user.email, resetPasswordToken);
+            await _emailService.SendResetPasswordRequest(user.email, resetPasswordToken);
 
             return new OkObjectResult("");
         }
