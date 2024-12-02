@@ -7,12 +7,24 @@
       "RelativeMoniker": "D:0:0:{FE2D3D91-C37D-40B9-8816-894491B0C911}|Logistics\\Logistics.csproj|solutionrelative:logistics\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FE2D3D91-C37D-40B9-8816-894491B0C911}|Logistics\\Logistics.csproj|d:\\\u0440\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\logistics\\logistics\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FE2D3D91-C37D-40B9-8816-894491B0C911}|Logistics\\Logistics.csproj|solutionrelative:logistics\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Migrations\\20241202102548_truck.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Logistics\\Migrations\\20241202102548_truck.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE2D3D91-C37D-40B9-8816-894491B0C911}|Logistics\\Logistics.csproj|d:\\\u0440\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\logistics\\logistics\\services\\requestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE2D3D91-C37D-40B9-8816-894491B0C911}|Logistics\\Logistics.csproj|solutionrelative:logistics\\services\\requestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE2D3D91-C37D-40B9-8816-894491B0C911}|Logistics\\Logistics.csproj|d:\\\u0440\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\logistics\\logistics\\services\\documentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE2D3D91-C37D-40B9-8816-894491B0C911}|Logistics\\Logistics.csproj|solutionrelative:logistics\\services\\documentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FE2D3D91-C37D-40B9-8816-894491B0C911}|Logistics\\Logistics.csproj|d:\\\u0440\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\logistics\\logistics\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FE2D3D91-C37D-40B9-8816-894491B0C911}|Logistics\\Logistics.csproj|solutionrelative:logistics\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE2D3D91-C37D-40B9-8816-894491B0C911}|Logistics\\Logistics.csproj|d:\\\u0440\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\logistics\\logistics\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FE2D3D91-C37D-40B9-8816-894491B0C911}|Logistics\\Logistics.csproj|solutionrelative:logistics\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FE2D3D91-C37D-40B9-8816-894491B0C911}|Logistics\\Logistics.csproj|d:\\\u0440\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\logistics\\logistics\\data\\accounts\\dtos\\requests\\createtruckrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -82,19 +94,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "AppDBContext.cs",
-              "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Data\\AppDBContext.cs",
-              "RelativeDocumentMoniker": "Logistics\\Data\\AppDBContext.cs",
-              "ToolTip": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Data\\AppDBContext.cs",
-              "RelativeToolTip": "Logistics\\Data\\AppDBContext.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "20241202102548_truck.cs",
+              "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Migrations\\20241202102548_truck.cs",
+              "RelativeDocumentMoniker": "Logistics\\Migrations\\20241202102548_truck.cs",
+              "ToolTip": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Migrations\\20241202102548_truck.cs",
+              "RelativeToolTip": "Logistics\\Migrations\\20241202102548_truck.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T14:25:05.995Z"
+              "WhenOpened": "2024-12-02T10:25:48.719Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
+              "Title": "RequestService.cs",
+              "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Services\\RequestService.cs",
+              "RelativeDocumentMoniker": "Logistics\\Services\\RequestService.cs",
+              "ToolTip": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Services\\RequestService.cs",
+              "RelativeToolTip": "Logistics\\Services\\RequestService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T08:40:01.996Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "CreateTruckRequestDTO.cs",
               "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Data\\Accounts\\DTOs\\Requests\\CreateTruckRequestDTO.cs",
               "RelativeDocumentMoniker": "Logistics\\Data\\Accounts\\DTOs\\Requests\\CreateTruckRequestDTO.cs",
@@ -106,19 +132,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "UserService.cs",
               "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Services\\UserService.cs",
               "RelativeDocumentMoniker": "Logistics\\Services\\UserService.cs",
               "ToolTip": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Services\\UserService.cs",
               "RelativeToolTip": "Logistics\\Services\\UserService.cs",
-              "ViewState": "AgIAALEAAAAAAAAAAAAhwDcBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAADwvyYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-29T12:47:44.148Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "Annotations.cs",
               "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Data\\Common\\Annotations.cs",
               "RelativeDocumentMoniker": "Logistics\\Data\\Common\\Annotations.cs",
@@ -130,7 +156,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "CostCalculator.cs",
               "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Services\\Utils\\CostCalculator.cs",
               "RelativeDocumentMoniker": "Logistics\\Services\\Utils\\CostCalculator.cs",
@@ -142,7 +168,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "EditTruckRequestDTO.cs",
               "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Data\\Accounts\\DTOs\\Requests\\EditTruckRequestDTO.cs",
               "RelativeDocumentMoniker": "Logistics\\Data\\Accounts\\DTOs\\Requests\\EditTruckRequestDTO.cs",
@@ -154,7 +180,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "AccountController.cs",
               "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "Logistics\\Controllers\\AccountController.cs",
@@ -162,12 +188,11 @@
               "RelativeToolTip": "Logistics\\Controllers\\AccountController.cs",
               "ViewState": "AgIAALIAAAAAAAAAAAAowMcAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T12:35:07.929Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-29T12:35:07.929Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "Transporter.cs",
               "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Data\\Accounts\\Models\\Transporter.cs",
               "RelativeDocumentMoniker": "Logistics\\Data\\Accounts\\Models\\Transporter.cs",
@@ -176,18 +201,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-29T12:35:01.526Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "TransportationService.cs",
-              "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Services\\TransportationService.cs",
-              "RelativeDocumentMoniker": "Logistics\\Services\\TransportationService.cs",
-              "ToolTip": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Services\\TransportationService.cs",
-              "RelativeToolTip": "Logistics\\Services\\TransportationService.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAApwBAAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T11:53:30.393Z"
             },
             {
               "$type": "Document",
@@ -204,7 +217,43 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
+              "Title": "AppDBContext.cs",
+              "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Data\\AppDBContext.cs",
+              "RelativeDocumentMoniker": "Logistics\\Data\\AppDBContext.cs",
+              "ToolTip": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Data\\AppDBContext.cs",
+              "RelativeToolTip": "Logistics\\Data\\AppDBContext.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T14:25:05.995Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DocumentService.cs",
+              "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Services\\DocumentService.cs",
+              "RelativeDocumentMoniker": "Logistics\\Services\\DocumentService.cs",
+              "ToolTip": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Services\\DocumentService.cs",
+              "RelativeToolTip": "Logistics\\Services\\DocumentService.cs",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAIwIEAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T08:23:44.786Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "TransportationService.cs",
+              "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Services\\TransportationService.cs",
+              "RelativeDocumentMoniker": "Logistics\\Services\\TransportationService.cs",
+              "ToolTip": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Services\\TransportationService.cs",
+              "RelativeToolTip": "Logistics\\Services\\TransportationService.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAApwBAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T11:53:30.393Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "TruckResponse.cs",
               "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Data\\Accounts\\DTOs\\Responses\\TruckResponse.cs",
               "RelativeDocumentMoniker": "Logistics\\Data\\Accounts\\DTOs\\Responses\\TruckResponse.cs",
@@ -216,7 +265,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "Truck.cs",
               "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Data\\Accounts\\Models\\Truck.cs",
               "RelativeDocumentMoniker": "Logistics\\Data\\Accounts\\Models\\Truck.cs",
@@ -228,7 +277,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "TransportationController.cs",
               "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Controllers\\TransportationController.cs",
               "RelativeDocumentMoniker": "Logistics\\Controllers\\TransportationController.cs",
@@ -240,7 +289,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "RequestController.cs",
               "DocumentMoniker": "D:\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\Controllers\\RequestController.cs",
               "RelativeDocumentMoniker": "Logistics\\Controllers\\RequestController.cs",
