@@ -8,6 +8,7 @@ using Logistics.Data.Requests.DTOs.Responses;
 using Logistics.Data.Transportations.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Logistics.Services
 {
@@ -36,7 +37,7 @@ namespace Logistics.Services
 
         public async Task<ActionResult> GetShipperRequests(Guid shipperId, RequestStatus[] statuses)
         {
-            List<Request> requests = _context.Requests.Where(x => x.shipper.id == shipperId && statuses.Contains(x.status)).ToList();
+            List<Request> requests = _context.Requests.Where(x => x.shipper.id == shipperId && statuses.Contains(x.status)).Include(x => x.shipment).ToList();
 
             var response = requests.Select(x => new ShipperRequestResponse(x)).ToList();
  
@@ -49,8 +50,8 @@ namespace Logistics.Services
 
             Transporter transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
 
-            if (status == RequestStatus.Accepted) requests = _context.Requests.Where(x => x.status == RequestStatus.Active && x.loadCity == transporter.permanentResidence).ToList();
-            else requests = _context.Requests.Where(x => x.transportation.transporter.id == transporterId && x.status == status).ToList();
+            if (status == RequestStatus.Active) requests = _context.Requests.Where(x => x.status == RequestStatus.Active && x.loadCity == transporter.permanentResidence).Include(x => x.shipment).Include(x => x.shipper).ToList();
+            else requests = _context.Requests.Include(x => x.transportation).Where(x => x.transportation.transporter.id == transporterId && x.status == status).Include(x => x.shipment).Include(x => x.shipper).ToList();
 
             var response = requests.Select(x => new TransporterRequestResponse(x)).ToList();
 
@@ -59,13 +60,14 @@ namespace Logistics.Services
 
         public async Task<ActionResult> EditRequest(Guid requestId, Guid shipperId, EditRequestRequestDTO editRequest)
         {
-            Request request = _context.Requests.Where(x => x.id == requestId).FirstOrDefault();
+            Request request = _context.Requests.Include(x => x.shipment).Where(x => x.id == requestId).FirstOrDefault();
+            Guid requestShipperId = _context.Requests.Where(x => x.id == requestId).Select(x => x.shipper.id).FirstOrDefault();
 
             if (request == null)
             {
                 return new NotFoundObjectResult(null);
             }
-            else if (request.shipper.id != shipperId)
+            else if (requestShipperId != shipperId)
             {
                 return new ForbidResult();
             }
@@ -81,12 +83,13 @@ namespace Logistics.Services
         public async Task<ActionResult> DeleteRequest(Guid requestId, Guid shipperId)
         {
             Request request = _context.Requests.Where(x => x.id == requestId).FirstOrDefault();
+            Guid requestShipperId = _context.Requests.Where(x => x.id == requestId).Select(x => x.shipper.id).FirstOrDefault();
 
             if (request == null)
             {
                 return new NotFoundObjectResult(null);
             }
-            else if (request.shipper.id != shipperId)
+            else if (requestShipperId != shipperId)
             {
                 return new ForbidResult();
             }
@@ -100,11 +103,12 @@ namespace Logistics.Services
         public async Task<ActionResult> ChangeRequestCost(Guid requestId, Guid shipperId, ChangeCost change, float? amount)
         {
             Request request = _context.Requests.Where(x => x.id == requestId).FirstOrDefault();
+            Guid requestShipperId = _context.Requests.Where(x => x.id == requestId).Select(x => x.shipper.id).FirstOrDefault();
 
             if (request == null) {
                 return new NotFoundObjectResult(null);
             }
-            else if (request.shipper.id != shipperId) {
+            else if (requestShipperId != shipperId) {
                 return new ForbidResult();
             }
 
@@ -136,6 +140,9 @@ namespace Logistics.Services
                     }
             }
 
+            _context.Requests.Update(request);
+            _context.SaveChanges();
+
             return new OkObjectResult(null);
         }
 
@@ -143,15 +150,20 @@ namespace Logistics.Services
         {
             Request? request = _context.Requests.Where(x => x.id == requestId).FirstOrDefault();
             if (request == null) return new NotFoundObjectResult(new ErrorResponse(404, "Заявки с таким id нет"));
+            if (request.status != RequestStatus.Active) return new ForbidResult();
 
             Transporter transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault()!;
 
             if (request.loadCity != transporter.permanentResidence) return new ForbidResult();
 
-            Transportation transportation = new Transportation(request, transporter);
+            Transportation transportation = new Transportation(transporter);
+
+            TransportationStatusChange transportationStatusChange = new TransportationStatusChange(transportation, TransportationStatus.WaitingForStart);
 
             request.status = RequestStatus.Accepted;
+            request.transportation = transportation;
 
+            _context.TransportationStatusChanges.Add(transportationStatusChange);
             _context.Requests.Update(request);
             _context.Transportations.Add(transportation);
             _context.SaveChanges();

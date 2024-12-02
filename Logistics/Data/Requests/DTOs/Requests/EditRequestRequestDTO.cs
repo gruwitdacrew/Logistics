@@ -6,7 +6,7 @@ namespace Logistics.Data.Requests.DTOs.Requests
         public string? loadCity { get; set; }
         public string? loadAddress { get; set; }
 
-        public int distanceBetweenCitiesInKilometers { get; set; }
+        public int? distanceBetweenCitiesInKilometers { get; set; }
 
         public string? unloadCity { get; set; }
         public string? unloadAddress { get; set; }

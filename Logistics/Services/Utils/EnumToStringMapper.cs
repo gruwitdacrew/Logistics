@@ -22,7 +22,7 @@ namespace Logistics.Services.Utils
             { RequestStatus.Active, "Активно" },
             { RequestStatus.Delayed, "Отложено" },
             { RequestStatus.Accepted, "Принято" },
-            { RequestStatus.ArchivedNotAccepted, "Архив (Перевозка завершена)" },
+            { RequestStatus.ArchivedTransportationFinished, "Архив (Перевозка завершена)" },
             { RequestStatus.ArchivedNotAccepted, "Архив (Заявку не приняли)" }
         };
 

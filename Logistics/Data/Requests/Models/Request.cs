@@ -44,9 +44,9 @@ namespace Logistics.Data.Requests.Models
         public Request(CreateRequestRequestDTO createRequest, Shipper shipper, bool isDelayed)
         {
             id = Guid.NewGuid();
-            shipper = shipper;
+            this.shipper = shipper;
             shipment = new Shipment(createRequest.shipment);
-            creationTime = DateTime.Now;
+            creationTime = DateTime.UtcNow;
             status = isDelayed ? RequestStatus.Delayed : RequestStatus.Active;
             loadCity = createRequest.loadCity;
             loadAddress = createRequest.loadAddress;
@@ -68,6 +68,7 @@ namespace Logistics.Data.Requests.Models
             if (editRequest.sendingTime != null) sendingTime = (DateTime)editRequest.sendingTime;
             if (editRequest.desiredDeliveryTime != null) desiredDeliveryTime = editRequest.desiredDeliveryTime;
             if (editRequest.truckType != null) truckType = (TruckType)editRequest.truckType;
+            if (editRequest.distanceBetweenCitiesInKilometers != null) costInRubles = CostCalculator.calculateCostInRubles((int)editRequest.distanceBetweenCitiesInKilometers);
 
             if (editRequest.shipment != null)
             {

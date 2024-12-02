@@ -8,9 +8,9 @@ namespace Logistics.Data.Account.Models
 {
     public class Transporter : User
     {
-        public string permanentResidence { get; set; }
+        public string? permanentResidence { get; set; }
 
-        public Truck truck { get; set; }
+        public Truck? truck { get; set; }
 
         public Transporter() { }
 

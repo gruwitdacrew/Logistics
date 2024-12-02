@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Logistics.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20241202102548_truck")]
-    partial class truck
+    [Migration("20241202132603_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -338,10 +338,9 @@ namespace Logistics.Migrations
                     b.HasBaseType("Logistics.Data.Account.Models.User");
 
                     b.Property<string>("permanentResidence")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("truckid")
+                    b.Property<Guid?>("truckid")
                         .HasColumnType("uuid");
 
                     b.HasIndex("truckid");
@@ -479,9 +478,7 @@ namespace Logistics.Migrations
 
                     b.HasOne("Logistics.Data.Account.Models.Truck", "truck")
                         .WithMany()
-                        .HasForeignKey("truckid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("truckid");
 
                     b.Navigation("truck");
                 });

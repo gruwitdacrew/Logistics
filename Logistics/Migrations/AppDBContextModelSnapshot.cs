@@ -335,10 +335,9 @@ namespace Logistics.Migrations
                     b.HasBaseType("Logistics.Data.Account.Models.User");
 
                     b.Property<string>("permanentResidence")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("truckid")
+                    b.Property<Guid?>("truckid")
                         .HasColumnType("uuid");
 
                     b.HasIndex("truckid");
@@ -476,9 +475,7 @@ namespace Logistics.Migrations
 
                     b.HasOne("Logistics.Data.Account.Models.Truck", "truck")
                         .WithMany()
-                        .HasForeignKey("truckid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("truckid");
 
                     b.Navigation("truck");
                 });

@@ -67,6 +67,8 @@ builder.Services.AddScoped<UserService>();
 
 builder.Services.AddScoped<RequestService>();
 
+builder.Services.AddScoped<TransportationService>();
+
 builder.Services.AddSingleton<EmailService>();
 
 builder.Services.AddScoped<TokenGenerator>();
@@ -124,6 +126,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
 app.UseCors("AllowSpecificOrigin");
 
 app.UseHttpsRedirection();

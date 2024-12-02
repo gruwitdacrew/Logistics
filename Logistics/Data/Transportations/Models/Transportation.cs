@@ -14,7 +14,7 @@ namespace Logistics.Data.Transportations.Models
 
         public Transportation(){}
 
-        public Transportation(Request request, Transporter transporter)
+        public Transportation(Transporter transporter)
         {
             id = Guid.NewGuid();
             this.transporter = transporter;
