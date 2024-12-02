@@ -24,7 +24,20 @@ services:
     volumes:  
       - pgdata:/var/lib/postgresql/data # Персистентное хранилище для данных базы
     networks:  
-      - network  
+      - network
+
+  pgadmin:  
+    image: dpage/pgadmin4  
+    restart: always  
+    environment:  
+      PGADMIN_DEFAULT_EMAIL: admin@example.com  
+      PGADMIN_DEFAULT_PASSWORD: admin  
+    ports:  
+      - "1234:80"
+    networks:  
+      - network
+    depends_on:  
+      - db
 
 networks:  
   network:  
