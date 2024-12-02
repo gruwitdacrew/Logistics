@@ -162,7 +162,7 @@ namespace Logistics.Services
             emailMessage.To.Add(new MailboxAddress("", emailTo));
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
-                Text = getMailContent(token)
+                Text = getApproveMailContent(token)
             };
 
             using (var client = new SmtpClient())
