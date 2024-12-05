@@ -19,10 +19,15 @@ namespace Logistics.Services
 
         public async Task<ActionResult> CreatePassport(Guid userId, CreatePassportDTO createPassport)
         {
-            User user = _context.Users.Where(x => x.id == userId).FirstOrDefault();
+            User? user = _context.Users.Where(x => x.id == userId).FirstOrDefault();
+            if (user == null) return new UnauthorizedObjectResult(null);
 
-            Passport passport = new Passport(createPassport, user);
-            
+            Passport? passport = _context.Passports.Where(x => x.user == user).FirstOrDefault();
+
+            if (passport != null) return new ConflictObjectResult(new ErrorResponse(409, "У вас уже указан паспорт"));
+
+            passport = new Passport(createPassport, user);
+
             _context.Passports.Add(passport);
             _context.SaveChanges();
 
@@ -31,11 +36,10 @@ namespace Logistics.Services
 
         public async Task<ActionResult> EditPassport(Guid userId, EditPassportDTO editPassport)
         {
-            Passport passport = _context.Passports.Where(x => x.user.id == userId).FirstOrDefault();
-
+            Passport? passport = _context.Passports.Where(x => x.user.id == userId).FirstOrDefault();
             if (passport == null)
             {
-                return new NotFoundObjectResult(new ErrorResponse(404, "Вы не заносили паспорт в систему"));
+                return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали паспорт"));
             }
 
             passport.edit(editPassport);
@@ -48,11 +52,11 @@ namespace Logistics.Services
 
         public async Task<ActionResult> GetPassport(Guid userId)
         {
-            Passport passport = _context.Passports.Where(x => x.user.id == userId).FirstOrDefault();
+            Passport? passport = _context.Passports.Where(x => x.user.id == userId).FirstOrDefault();
 
             if (passport == null)
             {
-                return new NotFoundObjectResult(new ErrorResponse(404, "Вы не заносили паспорт в систему"));
+                return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали паспорт"));
             }
 
             return new OkObjectResult(new PassportResponse(passport));
@@ -60,10 +64,10 @@ namespace Logistics.Services
 
         public async Task<ActionResult> DeletePassport(Guid userId)
         {
-            Passport passport = _context.Passports.Where(x => x.user.id == userId).FirstOrDefault();
+            Passport? passport = _context.Passports.Where(x => x.user.id == userId).FirstOrDefault();
             if (passport == null)
             {
-                return new NotFoundObjectResult(new ErrorResponse(404, "Вы не заносили паспорт в систему"));
+                return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали паспорт"));
             }
 
             _context.Passports.Remove(passport);
@@ -73,11 +77,15 @@ namespace Logistics.Services
         }
 
 
-        public async Task<ActionResult> CreateDriverLicense(Guid userId, CreateDriverLicenseRequestDTO createLicense)
+        public async Task<ActionResult> CreateDriverLicense(Guid transporterId, CreateDriverLicenseRequestDTO createLicense)
         {
-            Transporter transporter = _context.Transporters.Where(x => x.id == userId).FirstOrDefault();
+            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
 
-            DriverLicense driverLicense = new DriverLicense(createLicense, transporter);
+            DriverLicense? driverLicense = _context.Licenses.Where(x => x.transporter == transporter).FirstOrDefault();
+
+            if (driverLicense != null) return new ConflictObjectResult(new ErrorResponse(409, "У вас уже указано водительское удостоверение"));
+
+            driverLicense = new DriverLicense(createLicense, transporter);
 
             _context.Licenses.Add(driverLicense);
             _context.SaveChanges();
@@ -85,12 +93,12 @@ namespace Logistics.Services
             return new OkObjectResult(null);
         }
 
-        public async Task<ActionResult> EditDriverLicense(Guid userId, EditDriverLicenseDTO editLicense)
+        public async Task<ActionResult> EditDriverLicense(Guid transporterId, EditDriverLicenseDTO editLicense)
         {
-            DriverLicense license = _context.Licenses.Where(x => x.transporter.id == userId).FirstOrDefault();
+            DriverLicense license = _context.Licenses.Where(x => x.transporter.id == transporterId).FirstOrDefault();
             if (license == null)
             {
-                return new NotFoundObjectResult(new ErrorResponse(404, "Вы не заносили водительское удостоверение в систему"));
+                return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали водительское удостоверение"));
             }
 
             license.edit(editLicense);
@@ -101,23 +109,23 @@ namespace Logistics.Services
             return new OkObjectResult(null);
         }
 
-        public async Task<ActionResult> GetDriverLicense(Guid userId)
+        public async Task<ActionResult> GetDriverLicense(Guid transporterId)
         {
-            DriverLicense license = _context.Licenses.Where(x => x.transporter.id == userId).FirstOrDefault();
+            DriverLicense license = _context.Licenses.Where(x => x.transporter.id == transporterId).FirstOrDefault();
             if (license == null)
             {
-                return new NotFoundObjectResult(new ErrorResponse(404, "Вы не заносили водительское удостоверение в систему"));
+                return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали водительское удостоверение"));
             }
 
             return new OkObjectResult(new DriverLicenseResponse(license));
         }
 
-        public async Task<ActionResult> DeleteDriverLicense(Guid userId)
+        public async Task<ActionResult> DeleteDriverLicense(Guid transporterId)
         {
-            DriverLicense license = _context.Licenses.Where(x => x.transporter.id == userId).FirstOrDefault();
+            DriverLicense license = _context.Licenses.Where(x => x.transporter.id == transporterId).FirstOrDefault();
             if (license == null)
             {
-                return new NotFoundObjectResult(new ErrorResponse(404, "Вы не заносили водительское удостоверение в систему"));
+                return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали водительское удостоверение"));
             }
 
             _context.Licenses.Remove(license);
@@ -135,7 +143,7 @@ namespace Logistics.Services
             passport.scan = file;
 
             _context.Passports.Update(passport);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return new OkObjectResult(null);
         }
@@ -160,28 +168,28 @@ namespace Logistics.Services
             passport.scan = null;
 
             _context.Passports.Update(passport); 
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return new OkObjectResult(null);
         }
 
 
-        public async Task<ActionResult> UploadLicenseScan(Guid userId, byte[] file)
+        public async Task<ActionResult> UploadLicenseScan(Guid transporterId, byte[] file)
         {
-            DriverLicense license = _context.Licenses.Where(p => p.transporter.id == userId).FirstOrDefault();
+            DriverLicense license = _context.Licenses.Where(p => p.transporter.id == transporterId).FirstOrDefault();
 
             if (license == null) return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали водительское удостоверение"));
             license.scan = file;
 
             _context.Licenses.Update(license);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return new OkObjectResult(null);
         }
 
-        public async Task<ActionResult> GetLicenseScan(Guid userId)
+        public async Task<ActionResult> GetLicenseScan(Guid transporterId)
         {
-            DriverLicense license = _context.Licenses.Where(p => p.transporter.id == userId).FirstOrDefault();
+            DriverLicense license = _context.Licenses.Where(p => p.transporter.id == transporterId).FirstOrDefault();
 
             if (license == null) return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали водительское удостоверение"));
             if (license.scan == null) return new NotFoundObjectResult(new ErrorResponse(404, "У вас нет прикрепленного скана водительского удостоверения"));
@@ -189,9 +197,9 @@ namespace Logistics.Services
             return new OkObjectResult(license.scan);
         }
 
-        public async Task<ActionResult> DeleteLicenseScan(Guid userId)
+        public async Task<ActionResult> DeleteLicenseScan(Guid transporterId)
         {
-            DriverLicense license = _context.Licenses.Where(p => p.transporter.id == userId).FirstOrDefault();
+            DriverLicense license = _context.Licenses.Where(p => p.transporter.id == transporterId).FirstOrDefault();
 
             if (license == null) return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали водительское удостоверение"));
             if (license.scan == null) return new NotFoundObjectResult(new ErrorResponse(404, "У вас нет прикрепленного скана водительского удостоверения"));
@@ -199,7 +207,7 @@ namespace Logistics.Services
             license.scan = null;
 
             _context.Licenses.Update(license);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return new OkObjectResult(null);
         }

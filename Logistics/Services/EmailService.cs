@@ -133,7 +133,7 @@ namespace Logistics.Services
             </html>";
         }
 
-        public async Task SendResetPasswordRequest(string emailTo, string token)
+        public Task SendResetPasswordRequest(string emailTo, string token)
         {
             using var emailMessage = new MimeMessage();
 
@@ -146,15 +146,16 @@ namespace Logistics.Services
 
             using (var client = new SmtpClient())
             {
-                await client.ConnectAsync(smtpAddress, 465, true);
-                await client.AuthenticateAsync(emailFrom, password);
-                await client.SendAsync(emailMessage);
+                client.Connect(smtpAddress, 465, true);
+                client.Authenticate(emailFrom, password);
+                client.Send(emailMessage);
 
-                await client.DisconnectAsync(true);
+                client.Disconnect(true);
             }
+            return Task.CompletedTask;
         }
 
-        public async Task SendApproveEmailRequest(string emailTo, string token)
+        public Task SendApproveEmailRequest(string emailTo, string token)
         {
             using var emailMessage = new MimeMessage();
 
@@ -167,12 +168,13 @@ namespace Logistics.Services
 
             using (var client = new SmtpClient())
             {
-                await client.ConnectAsync(smtpAddress, 465, enableSSL);
-                await client.AuthenticateAsync(emailFrom, password);
-                await client.SendAsync(emailMessage);
+                client.Connect(smtpAddress, 465, enableSSL);
+                client.Authenticate(emailFrom, password);
+                client.Send(emailMessage);
 
-                await client.DisconnectAsync(true);
+                client.Disconnect(true);
             }
+            return Task.CompletedTask;
         }
     }
 }

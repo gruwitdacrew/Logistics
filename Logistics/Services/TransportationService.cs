@@ -5,6 +5,7 @@ using System.Data;
 using Logistics.Data.Transportations.DTOs.Responses;
 using Logistics.Data.Account.Models;
 using Logistics.Data.Transportations.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Logistics.Services
 {
@@ -18,7 +19,7 @@ namespace Logistics.Services
 
         public async Task<ActionResult> GetTransporterTransportations(Guid transporterId)
         {
-            List<Request> requests = _context.Requests.Where(x => x.transportation.transporter.id == transporterId).ToList();
+            List<Request> requests = _context.Requests.Where(x => x.transportation.transporter.id == transporterId).Include(x => x.transportation).Include(x => x.shipper).Include(x => x.shipment).ToList();
 
             var response = requests.Select(x => new TransporterTransportationResponseDTO(x)).ToList();
 
@@ -27,12 +28,14 @@ namespace Logistics.Services
 
         public async Task<ActionResult> GetTransporterTransportation(Guid transporterId, Guid transportationId)
         {
-            Request request = _context.Requests.Where(x => x.transportation.id == transportationId).FirstOrDefault();
+            Request request = _context.Requests.Where(x => x.transportation.id == transportationId).Include(x => x.transportation).Include(x => x.shipper).Include(x => x.shipment).FirstOrDefault();
+            Guid transportationTransporterId = _context.Transportations.Where(x => x.id == transportationId).Select(x => x.transporter.id).FirstOrDefault();
+
             if (request == null)
             {
                 return new NotFoundObjectResult(null);
             }
-            if (request.transportation.transporter.id != transporterId)
+            if (transportationTransporterId != transporterId)
             {
                 return new ForbidResult();
             }
@@ -64,7 +67,7 @@ namespace Logistics.Services
 
         public async Task<ActionResult> GetShipperTransportations(Guid shipperId)
         {
-            List<Request> requests = _context.Requests.Where(x => x.shipper.id == shipperId).ToList();
+            List<Request> requests = _context.Requests.Where(x => x.shipper.id == shipperId).Include(x => x.transportation).Include(x => x.transportation.transporter).Include(x => x.transportation.transporter.truck).ToList();
 
             var response = requests.Select(x => new ShipperTransportationResponseDTO(x)).ToList();
 
@@ -73,12 +76,14 @@ namespace Logistics.Services
 
         public async Task<ActionResult> GetShipperTransportation(Guid shipperId, Guid transportationId)
         {
-            Request request = _context.Requests.Where(x => x.transportation.id == transportationId).FirstOrDefault();
+            Request request = _context.Requests.Where(x => x.transportation.id == transportationId).Include(x => x.transportation).Include(x => x.transportation.transporter).Include(x => x.transportation.transporter.truck).FirstOrDefault();
+            Guid requestShipperId = _context.Requests.Where(x => x.transportation.id == transportationId).Select(x => x.shipper.id).FirstOrDefault();
+
             if (request == null)
             {
                 return new NotFoundObjectResult(null);
             }
-            if (request.shipper.id != shipperId)
+            if (requestShipperId != shipperId)
             {
                 return new ForbidResult();
             }

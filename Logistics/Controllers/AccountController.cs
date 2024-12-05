@@ -69,25 +69,53 @@ namespace Logistics.Controllers
 
         [Authorize]
         [HttpGet]
-        [ProducesResponseType(typeof(ProfileResponse), StatusCodes.Status200OK)]
+        [Route("/api/shipper/profile")]
+        [ProducesResponseType(typeof(ShipperProfileResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<ProfileResponse>> profile()
+        public async Task<ActionResult<ShipperProfileResponse>> shipperProfile()
         {
             var userId = User.Claims.ToList()[0].Value;
 
-            return await _userService.Profile(new Guid(userId));
+            return await _userService.ShipperProfile(new Guid(userId));
         }
 
+
         [Authorize]
+        [HttpGet]
+        [Route("/api/transporter/profile")]
+        [ProducesResponseType(typeof(TransporterProfileResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<TransporterProfileResponse>> transporterProfile()
+        {
+            var userId = User.Claims.ToList()[0].Value;
+
+            return await _userService.TransporterProfile(new Guid(userId));
+        }
+
+        [Authorize(Roles = "Shipper")]
         [HttpPatch]
+        [Route("/api/shipper/profile")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> profile(EditRequestDTO editRequest)
+        public async Task<IActionResult> profile(EditShipperRequestDTO editRequest)
         {
             var userId = User.Claims.ToList()[0].Value;
 
-            return await _userService.Edit(new Guid(userId), editRequest);
+            return await _userService.EditShipper(new Guid(userId), editRequest);
+        }
+
+        [Authorize(Roles = "Transporter")]
+        [HttpPatch]
+        [Route("/api/transporter/profile")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> profile(EditTransporterRequestDTO editRequest)
+        {
+            var userId = User.Claims.ToList()[0].Value;
+
+            return await _userService.EditTransporter(new Guid(userId), editRequest);
         }
 
         [Route("/api/user/password/reset/request")]

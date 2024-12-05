@@ -20,11 +20,10 @@ namespace Logistics.Data.Requests.DTOs.Responses
 
         public string unloadAddress { get; set; }
 
+        public string? sendingTimeFrom { get; set; }
         public string sendingTime { get; set; }
 
         public string truckType { get; set; }
-
-        public string? desiredDeliveryTime { get; set; }
 
         public float costInRubles { get; set; }
 
@@ -39,9 +38,9 @@ namespace Logistics.Data.Requests.DTOs.Responses
             loadCity = request.loadCity;
             unloadAddress = request.unloadAddress;
             unloadCity = request.unloadCity;
-            sendingTime = request.sendingTime.ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU")); ;
+            sendingTime = request.sendingTime.ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
             truckType = EnumToStringMapper.map(request.truckType);
-            desiredDeliveryTime = ((DateTime)request.desiredDeliveryTime).ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU")); ;
+            sendingTimeFrom = ((DateTime)request.sendingTimeFrom).ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
             costInRubles = request.costInRubles;
             additionalCostInRubles = request.additionalCostInRubles;
         }

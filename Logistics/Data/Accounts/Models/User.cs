@@ -35,6 +35,12 @@ namespace Logistics.Data.Account.Models
             phone = registerRequest.phone;
             password = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(registerRequest.password)));
         }
+
+        public void edit(EditUserRequestDTO editUserRequest)
+        {
+            if (editUserRequest.fullName != null) fullName = editUserRequest.fullName;
+            if (editUserRequest.phone != null) phone = editUserRequest.phone;
+        }
     }
     public enum Role
     {

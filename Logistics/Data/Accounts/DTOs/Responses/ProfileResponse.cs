@@ -18,4 +18,21 @@ namespace Logistics.Data.Account.AccountDTOs.Responses
             phone = user.phone;
         }
     }
+
+    public class ShipperProfileResponse : ProfileResponse
+    {
+        public ShipperProfileResponse(Shipper shipper) : base(shipper)
+        {
+
+        }
+    }
+
+    public class TransporterProfileResponse : ProfileResponse
+    {
+        public string permanentResidence { get; set; }
+        public TransporterProfileResponse(Transporter transporter) : base(transporter)
+        {
+            permanentResidence = transporter.permanentResidence;
+        }
+    }
 }

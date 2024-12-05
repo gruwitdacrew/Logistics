@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -64,14 +63,16 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<AppDBContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DataBase")));
 
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<TokenGenerator>();
+builder.Services.AddSingleton<EmailService>();
 
+builder.Services.AddHostedService<RequestArchiverService>();
 builder.Services.AddScoped<RequestService>();
+
+builder.Services.AddScoped<DocumentService>();
 
 builder.Services.AddScoped<TransportationService>();
 
-builder.Services.AddSingleton<EmailService>();
-
-builder.Services.AddScoped<TokenGenerator>();
 
 TokenGeneratorConfiguration tokenGeneratorConfiguration = new TokenGeneratorConfiguration();
 builder.Configuration.Bind("Authentication", tokenGeneratorConfiguration);

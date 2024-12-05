@@ -12,5 +12,10 @@ namespace Logistics.Data.Account.Models
         {
             role = Role.Shipper;
         }
+
+        public bool haveFilledInCompany()
+        {
+            return company.organizationalForm != null && company.companyName != null && company.INN != null;
+        }
     }
 }

@@ -125,6 +125,20 @@ namespace Logistics.Controllers
 
             return await _requestService.AcceptRequest(requestId, new Guid(userId));
         }
+
+
+        [Authorize(Roles = "Shipper")]
+        [HttpPost]
+        [Route("delayed/{requestId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult> publishDelayed(Guid requestId)
+        {
+            var userId = User.Claims.ToList()[0].Value;
+
+            return await _requestService.PublishDelayedRequest(requestId, new Guid(userId));
+        }
     }
 
     public enum ChangeCost

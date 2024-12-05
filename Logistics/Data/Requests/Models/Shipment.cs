@@ -16,7 +16,6 @@ namespace Logistics.Data.Requests.Models
 
         public float weightInTons { get; set; }
 
-        public float volumeInCubicMeters { get; set; }
 
         public Shipment() { }
 
@@ -28,7 +27,6 @@ namespace Logistics.Data.Requests.Models
             widthInMeters = createShipment.widthInMeters;
             heightInMeters = createShipment.heightInMeters;
             weightInTons = createShipment.weightInTons;
-            volumeInCubicMeters = createShipment.volumeInCubicMeters;
         }
     }
 

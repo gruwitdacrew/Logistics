@@ -1,18 +1,27 @@
 ﻿using Logistics.Data.Common;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-
 namespace Logistics.Data.Account.AccountDTOs.Requests
 {
-    public class EditRequestDTO
+    public class EditUserRequestDTO
     {
         [Annotations.FullName]
         public string? fullName { get; set; }
 
-        [Annotations.FullName]
+        [Annotations.Phone]
         public string? phone { get; set; }
-        
+
+        [DataType(DataType.EmailAddress)]
         [Annotations.Email]
         public string? email { get; set; }
+    }
+
+    public class EditShipperRequestDTO : EditUserRequestDTO
+    {
+
+    }
+
+    public class EditTransporterRequestDTO : EditUserRequestDTO
+    {
+        public string? permanentResidence { get; set; } 
     }
 }

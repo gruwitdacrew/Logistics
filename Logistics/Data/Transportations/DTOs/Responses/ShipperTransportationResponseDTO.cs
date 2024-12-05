@@ -15,7 +15,7 @@ namespace Logistics.Data.Transportations.DTOs.Responses
         public ShipperTransportationResponseDTO(Request request)
         {
             id = request.transportation.id;
-            transporter = request.shipper.company;
+            transporter = request.transportation.transporter.company;
 
             Truck truck = request.transportation.transporter.truck;
             transport = truck.carBrand + " " + truck.model;

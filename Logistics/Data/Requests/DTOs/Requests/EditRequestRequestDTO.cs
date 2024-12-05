@@ -11,9 +11,8 @@ namespace Logistics.Data.Requests.DTOs.Requests
         public string? unloadCity { get; set; }
         public string? unloadAddress { get; set; }
 
+        public DateTime? sendingTimeFrom { get; set; }
         public DateTime? sendingTime { get; set; }
-
-        public DateTime? desiredDeliveryTime { get; set; }
 
         public EditShipmentRequestDTO? shipment { get; set; }
 

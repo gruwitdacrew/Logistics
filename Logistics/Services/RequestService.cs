@@ -9,6 +9,8 @@ using Logistics.Data.Transportations.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
+using Logistics.Data.Documents.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Logistics.Services
 {
@@ -26,6 +28,9 @@ namespace Logistics.Services
             if (shipper == null) {
                 return new UnauthorizedObjectResult("");
             }
+            Passport passport = _context.Passports.Where(x => x.user.id == shipperId).FirstOrDefault();
+
+            if (!(shipper.haveFilledInCompany() && passport != null && passport.haveScan())) return new ObjectResult(new ErrorResponse(403, "Необходимо заполнить разделы 'О компании' и 'Документы' в профиле")) { StatusCode = StatusCodes.Status403Forbidden };
 
             Request newRequest = new Request(createRequest, shipper, isDelayed);
 
@@ -154,6 +159,8 @@ namespace Logistics.Services
 
             Transporter transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault()!;
 
+            Request? acceptedRequest = _context.Requests.Where(x => x.transportation.transporter.id == transporterId && x.status == RequestStatus.Accepted).FirstOrDefault();
+            if (acceptedRequest != null) return new ObjectResult(new ErrorResponse(403, "Вы не можете одновременно принять больше одной заявки")) { StatusCode = StatusCodes.Status403Forbidden };
             if (request.loadCity != transporter.permanentResidence) return new ForbidResult();
 
             Transportation transportation = new Transportation(transporter);
@@ -166,6 +173,31 @@ namespace Logistics.Services
             _context.TransportationStatusChanges.Add(transportationStatusChange);
             _context.Requests.Update(request);
             _context.Transportations.Add(transportation);
+            _context.SaveChanges();
+
+            return new OkObjectResult(null);
+        }
+
+        public async Task<ActionResult> PublishDelayedRequest(Guid requestId, Guid shipperId)
+        {
+            Request request = _context.Requests.Where(x => x.id == requestId).Include(x => x.shipper).FirstOrDefault();
+
+            if (request == null)
+            {
+                return new NotFoundObjectResult(null);
+            }
+            else if (request.shipper.id != shipperId)
+            {
+                return new ForbidResult();
+            }
+            if (request.status != RequestStatus.Delayed) return new NotFoundObjectResult(new ErrorResponse(404, "Нет отложенной заявки с таким id"));
+
+            Passport passport = _context.Passports.Where(x => x.user.id == shipperId).FirstOrDefault();
+            if (!(request.shipper.haveFilledInCompany() && passport != null && passport.haveScan())) return new ObjectResult(new ErrorResponse(403, "Необходимо заполнить разделы 'О компании' и 'Документы' в профиле")) { StatusCode = StatusCodes.Status403Forbidden };
+
+            request.status = RequestStatus.Active;
+
+            _context.Requests.Update(request);
             _context.SaveChanges();
 
             return new OkObjectResult(null);

@@ -12,7 +12,7 @@ namespace Logistics.Data.Documents.DTOs.Responses
 
         public string code { get; set; }
 
-        public DateTime dateOfIssue { get; set; }
+        public string dateOfIssue { get; set; }
 
         public bool scan { get; set; }
 

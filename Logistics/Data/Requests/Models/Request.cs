@@ -29,11 +29,11 @@ namespace Logistics.Data.Requests.Models
 
         public string? receiverContacts { get; set; }
 
+
+        public DateTime? sendingTimeFrom { get; set; }
         public DateTime sendingTime { get; set; }
 
         public TruckType truckType { get; set; }
-
-        public DateTime? desiredDeliveryTime { get; set; }
 
         public float costInRubles { get; set; }
 
@@ -54,7 +54,7 @@ namespace Logistics.Data.Requests.Models
             unloadAddress = createRequest.unloadAddress;
             sendingTime = createRequest.sendingTime;
             truckType = createRequest.truckType;
-            desiredDeliveryTime = createRequest.desiredDeliveryTime;
+            sendingTimeFrom = createRequest.sendingTimeFrom;
             costInRubles = CostCalculator.calculateCostInRubles(createRequest.distanceBetweenCitiesInKilometers);
             additionalCostInRubles = 0;
         }
@@ -66,7 +66,7 @@ namespace Logistics.Data.Requests.Models
             if (editRequest.unloadAddress != null) unloadAddress = editRequest.unloadAddress;
             if (editRequest.loadAddress != null) loadAddress = editRequest.loadAddress;
             if (editRequest.sendingTime != null) sendingTime = (DateTime)editRequest.sendingTime;
-            if (editRequest.desiredDeliveryTime != null) desiredDeliveryTime = editRequest.desiredDeliveryTime;
+            if (editRequest.sendingTimeFrom != null) sendingTimeFrom = editRequest.sendingTimeFrom;
             if (editRequest.truckType != null) truckType = (TruckType)editRequest.truckType;
             if (editRequest.distanceBetweenCitiesInKilometers != null) costInRubles = CostCalculator.calculateCostInRubles((int)editRequest.distanceBetweenCitiesInKilometers);
 
@@ -77,7 +77,6 @@ namespace Logistics.Data.Requests.Models
                 if (editRequest.shipment.widthInMeters != null) shipment.widthInMeters = (float)editRequest.shipment.widthInMeters;
                 if (editRequest.shipment.heightInMeters != null) shipment.heightInMeters = (float)editRequest.shipment.heightInMeters;
                 if (editRequest.shipment.weightInTons != null) shipment.weightInTons = (float)editRequest.shipment.weightInTons;
-                if (editRequest.shipment.volumeInCubicMeters != null) shipment.volumeInCubicMeters = (float)editRequest.shipment.volumeInCubicMeters;
             }
         }
     }

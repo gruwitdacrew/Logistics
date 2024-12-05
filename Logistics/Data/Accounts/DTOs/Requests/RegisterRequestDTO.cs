@@ -11,6 +11,7 @@ namespace Logistics.Data.Account.AccountDTOs.Requests
         [Annotations.Phone]
         public string phone { get; set; }
 
+        [DataType(DataType.EmailAddress)]
         [Annotations.Email]
         public string email { get; set; }
 

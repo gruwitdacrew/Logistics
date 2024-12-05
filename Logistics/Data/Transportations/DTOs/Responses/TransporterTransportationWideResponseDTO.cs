@@ -19,8 +19,8 @@ namespace Logistics.Data.Transportations.DTOs.Responses
         public string unloadCity { get; set; }
         public string unloadAddress { get; set; }
 
+        public string? sendingTimeFrom { get; set; }
         public string sendingTime { get; set; }
-        public string desiredDeliveryTime { get; set; }
 
         public List<TransportationStatusChangeResponseDTO> statusChangeHistory { get; set; }
 
@@ -34,7 +34,7 @@ namespace Logistics.Data.Transportations.DTOs.Responses
             unloadCity = request.unloadCity;
             unloadAddress = request.unloadAddress;
             sendingTime = request.sendingTime.ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
-            desiredDeliveryTime = ((DateTime)request.desiredDeliveryTime).ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
+            sendingTimeFrom = ((DateTime)request.sendingTimeFrom).ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
             this.statusChangeHistory = statusChangeHistory;
         }
     }

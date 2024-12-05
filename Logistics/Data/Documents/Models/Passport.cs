@@ -1,6 +1,6 @@
 ﻿using Logistics.Data.Account.Models;
 using Logistics.Data.Documents.DTOs.Requests;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Globalization;
 
 namespace Logistics.Data.Documents.Models
 {
@@ -16,7 +16,7 @@ namespace Logistics.Data.Documents.Models
 
         public string code { get; set; }
 
-        public DateTime dateOfIssue { get; set; }
+        public string dateOfIssue { get; set; }
 
         public byte[]? scan { get; set; }
 
@@ -41,7 +41,12 @@ namespace Logistics.Data.Documents.Models
             if (editPassport.number != null) number = editPassport.number;
             if (editPassport.issuedBy != null) issuedBy = editPassport.issuedBy;
             if (editPassport.code != null) code = editPassport.code;
-            if (editPassport.dateOfIssue != null) dateOfIssue = (DateTime)editPassport.dateOfIssue;
+            if (editPassport.dateOfIssue != null) dateOfIssue = editPassport.dateOfIssue;
+        }
+
+        public bool haveScan()
+        {
+            return scan != null;
         }
     }
 }

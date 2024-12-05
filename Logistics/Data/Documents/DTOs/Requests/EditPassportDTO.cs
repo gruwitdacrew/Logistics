@@ -17,6 +17,7 @@ namespace Logistics.Data.Documents.DTOs.Requests
         [Annotations.Code]
         public string? code { get; set; }
 
-        public DateTime? dateOfIssue { get; set; }
+        [Annotations.Date]
+        public string dateOfIssue { get; set; }
     }
 }

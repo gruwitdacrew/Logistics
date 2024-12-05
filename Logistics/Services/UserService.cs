@@ -192,35 +192,64 @@ namespace Logistics.Services
             return new OkObjectResult(new TokenResponse(accessToken, refreshToken));
         }
 
-        public async Task<ActionResult> Edit(Guid userId, EditRequestDTO editRequest)
+        private ActionResult EditUser(User user, EditUserRequestDTO editUserRequest)
         {
-            User? user = _context.Users.Where(x => x.id == userId).FirstOrDefault();
-            if (user == null)
-            {
-                return new UnauthorizedObjectResult("");
-            }
-
-            if (_context.Users.Where(x => x.email == editRequest.email).FirstOrDefault() != null)
+            if (editUserRequest.email != null && _context.Users.Where(x => x.email == editUserRequest.email).FirstOrDefault() != null)
             {
                 return new ConflictObjectResult(new ErrorResponse(409, "На эту электронную почту уже зарегистрирован пользователь"));
             }
-            if (_context.Users.Where(x => x.phone == editRequest.phone).FirstOrDefault() != null)
+            if (editUserRequest.phone != null && _context.Users.Where(x => x.phone == editUserRequest.phone).FirstOrDefault() != null)
             {
                 return new ConflictObjectResult(new ErrorResponse(409, "Пользователь с таким телефоном уже зарегистрирован"));
             }
 
-            if (editRequest.fullName != null) user.fullName = editRequest.fullName;
-            if (editRequest.phone != null) user.phone = editRequest.phone;
-            if (editRequest.email != null)
+            user.edit(editUserRequest);
+
+            if (editUserRequest.email != null)
             {
-                PendingEmail email = new PendingEmail(user, editRequest.email);
+                PendingEmail email = new PendingEmail(user, editUserRequest.email);
                 _context.PendingEmails.Add(email);
 
                 var approveEmailToken = _tokenGenerator.GenerateToken(user, Token.ApproveEmail);
-                await _emailService.SendApproveEmailRequest(editRequest.email, approveEmailToken);
+                _emailService.SendApproveEmailRequest(editUserRequest.email, approveEmailToken);
             }
 
             _context.Users.Update(user);
+
+            return new OkObjectResult(null);
+        }
+
+        public async Task<ActionResult> EditShipper(Guid shipperId, EditShipperRequestDTO editRequest)
+        {
+            Shipper? shipper = _context.Shippers.Where(x => x.id == shipperId).FirstOrDefault();
+            if (shipper == null)
+            {
+                return new UnauthorizedObjectResult("");
+            }
+
+            ActionResult response = EditUser(shipper, editRequest);
+            if (response is not OkObjectResult) return response;
+
+            _context.Shippers.Update(shipper);
+            _context.SaveChanges();
+
+            return new OkObjectResult("");
+        }
+
+        public async Task<ActionResult> EditTransporter(Guid transporterId, EditTransporterRequestDTO editRequest)
+        {
+            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
+            if (transporter == null)
+            {
+                return new UnauthorizedObjectResult("");
+            }
+
+            ActionResult response = EditUser(transporter, editRequest);
+            if (response is not OkObjectResult) return response;
+
+            if (editRequest.permanentResidence != null) transporter.permanentResidence = editRequest.permanentResidence;
+
+            _context.Transporters.Update(transporter);
             _context.SaveChanges();
 
             return new OkObjectResult("");
@@ -257,14 +286,26 @@ namespace Logistics.Services
             return new OkObjectResult("");
         }
 
-        public async Task<ActionResult> Profile(Guid userId)
+        public async Task<ActionResult> ShipperProfile(Guid shipperId)
         {
-            User? user = _context.Users.Where(x => x.id == userId).FirstOrDefault();
-            if (user == null)
+            Shipper? shipper = _context.Shippers.Where(x => x.id == shipperId).FirstOrDefault();
+            if (shipper == null)
             {
                 return new UnauthorizedObjectResult("");
             }
-            return new OkObjectResult(new ProfileResponse(user));
+
+            return new OkObjectResult(new ShipperProfileResponse(shipper));
+        }
+
+        public async Task<ActionResult> TransporterProfile(Guid transporterId)
+        {
+            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
+            if (transporter == null)
+            {
+                return new UnauthorizedObjectResult("");
+            }
+
+            return new OkObjectResult(new TransporterProfileResponse(transporter));
         }
 
         public async Task<ActionResult> AboutCompany(Guid userId)
@@ -296,7 +337,7 @@ namespace Logistics.Services
         
         public async Task<ActionResult> EditTransporterTruck(Guid transporterId, EditTruckRequestDTO editRequest)
         {
-            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
+            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).Include(x => x.truck).FirstOrDefault();
             if (transporter == null)
             {
                 return new UnauthorizedObjectResult("");

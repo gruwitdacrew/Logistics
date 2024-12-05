@@ -16,8 +16,5 @@ namespace Logistics.Data.Requests.DTOs.Requests
 
         [Annotations.WeightInTons]
         public float weightInTons { get; set; }
-
-        [Annotations.VolumeInCubicMeters]
-        public float volumeInCubicMeters { get; set; }
     }
 }

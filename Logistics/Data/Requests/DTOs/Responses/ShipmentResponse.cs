@@ -24,7 +24,6 @@ namespace Logistics.Data.Requests.DTOs.Responses
             widthInMeters = shipment.widthInMeters;
             heightInMeters = shipment.heightInMeters;
             weightInTons = shipment.weightInTons;
-            volumeInCubicMeters = shipment.volumeInCubicMeters;
         }
     }
 }

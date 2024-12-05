@@ -1,6 +1,4 @@
 ﻿using Logistics.Data.Common;
-using System.ComponentModel.DataAnnotations;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Logistics.Data.Documents.DTOs.Requests
 {
@@ -17,6 +15,7 @@ namespace Logistics.Data.Documents.DTOs.Requests
         [Annotations.Code]
         public string code { get; set; }
 
-        public DateTime dateOfIssue { get; set; }
+        [Annotations.Date]
+        public string dateOfIssue { get; set; }
     }
 }

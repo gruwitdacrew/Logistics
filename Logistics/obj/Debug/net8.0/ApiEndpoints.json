@@ -605,6 +605,103 @@
   },
   {
     "ContainingType": "Logistics.Controllers.RequestController",
+    "Method": "publishDelayed",
+    "RelativePath": "api/request/delayed/{requestId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "requestId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Logistics.Data.Common.CommonDTOs.Responses.CustomProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 401
+      }
+    ]
+  },
+  {
+    "ContainingType": "Logistics.Controllers.AccountController",
+    "Method": "shipperProfile",
+    "RelativePath": "api/shipper/profile",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "Logistics.Data.Account.AccountDTOs.Responses.ShipperProfileResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 401
+      }
+    ]
+  },
+  {
+    "ContainingType": "Logistics.Controllers.AccountController",
+    "Method": "profile",
+    "RelativePath": "api/shipper/profile",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "editRequest",
+        "Type": "Logistics.Data.Account.AccountDTOs.Requests.EditShipperRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Logistics.Data.Common.CommonDTOs.Responses.CustomProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 401
+      }
+    ]
+  },
+  {
+    "ContainingType": "Logistics.Controllers.RequestController",
     "Method": "getShipperRequests",
     "RelativePath": "api/shipper/requests",
     "HttpMethod": "GET",
@@ -714,6 +811,67 @@
         "Type": "System.Void",
         "MediaTypes": [],
         "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 401
+      }
+    ]
+  },
+  {
+    "ContainingType": "Logistics.Controllers.AccountController",
+    "Method": "transporterProfile",
+    "RelativePath": "api/transporter/profile",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "Logistics.Data.Account.AccountDTOs.Responses.TransporterProfileResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 401
+      }
+    ]
+  },
+  {
+    "ContainingType": "Logistics.Controllers.AccountController",
+    "Method": "profile",
+    "RelativePath": "api/transporter/profile",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "editRequest",
+        "Type": "Logistics.Data.Account.AccountDTOs.Requests.EditTransporterRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Logistics.Data.Common.CommonDTOs.Responses.CustomProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
       },
       {
         "Type": "System.Void",
@@ -1186,67 +1344,6 @@
         "Name": "password",
         "Type": "System.String",
         "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Logistics.Data.Common.CommonDTOs.Responses.CustomProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 400
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
-      }
-    ]
-  },
-  {
-    "ContainingType": "Logistics.Controllers.AccountController",
-    "Method": "profile",
-    "RelativePath": "api/user/profile",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "Logistics.Data.Account.AccountDTOs.Responses.ProfileResponse",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
-      }
-    ]
-  },
-  {
-    "ContainingType": "Logistics.Controllers.AccountController",
-    "Method": "profile",
-    "RelativePath": "api/user/profile",
-    "HttpMethod": "PATCH",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "editRequest",
-        "Type": "Logistics.Data.Account.AccountDTOs.Requests.EditRequestDTO",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": [

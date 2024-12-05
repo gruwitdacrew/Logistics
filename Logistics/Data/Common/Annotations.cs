@@ -93,5 +93,13 @@ namespace Logistics.Data.Common
                 ErrorMessage = "Автомобильный номер имеет маску АА000А";
             }
         }
+
+        internal class DateAttribute : RegularExpressionAttribute
+        {
+            public DateAttribute() : base("^(0[1-9]|[12][0-9]|3[01])\\.(0[1-9]|1[0-2])\\.(19|20)\\d{2}$")
+            {
+                ErrorMessage = "Дата должна быть в формате дд.мм.гггг";
+            }
+        }
     }
 }
