@@ -2,6 +2,7 @@
 using Logistics.Data.Common.DTOs.Responses;
 using Logistics.Data.Requests.DTOs.Responses;
 using Logistics.Data.Requests.Models;
+using Logistics.Data.Transportations.Models;
 
 namespace Logistics.Data.Transportations.DTOs.Responses
 {
@@ -12,6 +13,8 @@ namespace Logistics.Data.Transportations.DTOs.Responses
         public Company company { get; set; }
 
         public ShipmentResponse shipment { get; set; }
+
+        public TransportationStatus status { get; set; }
 
         public string loadCity { get; set; }
         public string loadAddress { get; set; }
@@ -29,6 +32,9 @@ namespace Logistics.Data.Transportations.DTOs.Responses
             id = request.transportation.id;
             company = request.shipper.company;
             shipment = new ShipmentResponse(request.shipment);
+
+            status = request.transportation.status;
+
             loadCity = request.loadCity;
             loadAddress = request.loadAddress;
             unloadCity = request.unloadCity;

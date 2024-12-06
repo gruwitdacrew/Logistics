@@ -5,7 +5,7 @@ namespace Logistics.Data.Requests.DTOs.Responses
 {
     public class ShipmentResponse
     {
-        public string type { get; set; }
+        public ShipmentType type { get; set; }
 
         public float lengthInMeters { get; set; }
 
@@ -19,7 +19,7 @@ namespace Logistics.Data.Requests.DTOs.Responses
 
         public ShipmentResponse(Shipment shipment)
         {
-            type = EnumToStringMapper.map(shipment.type);
+            type = shipment.type;
             lengthInMeters = shipment.lengthInMeters;
             widthInMeters = shipment.widthInMeters;
             heightInMeters = shipment.heightInMeters;

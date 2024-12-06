@@ -1,6 +1,7 @@
 ﻿using Logistics.Data.Account.Models;
 using Logistics.Data.Requests.Models;
 using System;
+using System.ComponentModel;
 
 namespace Logistics.Data.Transportations.Models
 {

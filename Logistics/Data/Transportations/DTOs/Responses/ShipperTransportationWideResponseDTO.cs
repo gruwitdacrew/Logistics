@@ -2,6 +2,7 @@
 using Logistics.Data.Common.DTOs.Responses;
 using Logistics.Data.Requests.DTOs.Responses;
 using Logistics.Data.Requests.Models;
+using Logistics.Data.Transportations.Models;
 
 namespace Logistics.Data.Transportations.DTOs.Responses
 {
@@ -10,6 +11,8 @@ namespace Logistics.Data.Transportations.DTOs.Responses
         public Guid id { get; set; }
 
         public Company transporter { get; set; }
+
+        public TransportationStatus status { get; set; }
 
         public string transport { get; set; }
 
@@ -31,6 +34,8 @@ namespace Logistics.Data.Transportations.DTOs.Responses
 
             Truck truck = request.transportation.transporter.truck;
             transport = truck.carBrand + " " + truck.model;
+
+            status = request.transportation.status;
 
             loadCity = request.loadCity;
             loadAddress = request.loadAddress;

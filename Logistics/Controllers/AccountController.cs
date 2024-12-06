@@ -28,7 +28,7 @@ namespace Logistics.Controllers
         [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> register([Required] Role role, RegisterRequestDTO registerRequest)
+        public async Task<IActionResult> register(Role role, RegisterRequestDTO registerRequest)
         {
             return await _userService.Register(role, registerRequest);
         }

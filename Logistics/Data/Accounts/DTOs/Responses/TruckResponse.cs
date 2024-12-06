@@ -10,7 +10,7 @@ namespace Logistics.Data.Accounts.DTOs.Responses
 
         public string model { get; set; }
 
-        public string truckType { get; set; }
+        public TruckType truckType { get; set; }
 
         public int loadCapacityInTons { get; set; }
 
@@ -30,7 +30,7 @@ namespace Logistics.Data.Accounts.DTOs.Responses
         {
             carBrand = truck.carBrand;
             model = truck.model;
-            truckType = EnumToStringMapper.map(truck.truckType);
+            truckType = truck.truckType;
             loadCapacityInTons = truck.loadCapacityInTons;
             yearOfProduction = truck.yearOfProduction;
             number = truck.number;

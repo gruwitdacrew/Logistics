@@ -76,6 +76,7 @@ namespace Logistics.Services
             {
                 return new ForbidResult();
             }
+            if (request.status != RequestStatus.Active && request.status != RequestStatus.Delayed) return new ObjectResult(new ErrorResponse(403, "Редактировать можно только активные и отложенные заявки")) { StatusCode = StatusCodes.Status403Forbidden };
 
             request.edit(editRequest);
 
@@ -98,6 +99,7 @@ namespace Logistics.Services
             {
                 return new ForbidResult();
             }
+            if (request.status != RequestStatus.Active && request.status != RequestStatus.Delayed) return new ObjectResult(new ErrorResponse(403, "Удалять можно только активные и отложенные заявки")) { StatusCode = StatusCodes.Status403Forbidden };
 
             _context.Requests.Remove(request);
             _context.SaveChanges();
@@ -116,6 +118,7 @@ namespace Logistics.Services
             else if (requestShipperId != shipperId) {
                 return new ForbidResult();
             }
+            if (request.status != RequestStatus.Active && request.status != RequestStatus.Delayed) return new ObjectResult(new ErrorResponse(403, "Изменять стоимость можно только у активных и отложенных заявок")) { StatusCode = StatusCodes.Status403Forbidden };
 
             switch (change)
             {

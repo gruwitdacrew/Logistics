@@ -10,7 +10,7 @@ namespace Logistics.Data.Requests.DTOs.Responses
 
         public ShipmentResponse shipment { get; set; }
 
-        public string status { get; set; }
+        public RequestStatus status { get; set; }
 
         public string loadAddress { get; set; }
 
@@ -23,7 +23,7 @@ namespace Logistics.Data.Requests.DTOs.Responses
         public string? sendingTimeFrom { get; set; }
         public string sendingTime { get; set; }
 
-        public string truckType { get; set; }
+        public TruckType truckType { get; set; }
 
         public float costInRubles { get; set; }
 
@@ -33,13 +33,13 @@ namespace Logistics.Data.Requests.DTOs.Responses
         {
             id = request.id;
             shipment = new ShipmentResponse(request.shipment);
-            status = EnumToStringMapper.map(request.status);
+            status = request.status;
             loadAddress = request.loadAddress;
             loadCity = request.loadCity;
             unloadAddress = request.unloadAddress;
             unloadCity = request.unloadCity;
             sendingTime = request.sendingTime.ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
-            truckType = EnumToStringMapper.map(request.truckType);
+            truckType = request.truckType;
             sendingTimeFrom = ((DateTime)request.sendingTimeFrom).ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
             costInRubles = request.costInRubles;
             additionalCostInRubles = request.additionalCostInRubles;

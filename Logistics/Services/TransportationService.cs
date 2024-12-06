@@ -48,17 +48,21 @@ namespace Logistics.Services
         public async Task<ActionResult> SetTransportationStatus(Guid transporterId, Guid transportationId, TransportationStatus status)
         {
             Transportation transportation = _context.Transportations.Where(x => x.id == transportationId).FirstOrDefault();
+            Guid transportationTransporterId = _context.Transportations.Where(x => x.id == transportationId).Select(x => x.transporter.id).FirstOrDefault();
+
             if (transportation == null)
             {
                 return new NotFoundObjectResult(null);
             }
-            if (transportation.transporter.id != transporterId)
+            if (transportationTransporterId != transporterId)
             {
                 return new ForbidResult();
             }
 
+            transportation.status = status;
             TransportationStatusChange newChange = new TransportationStatusChange(transportation, status);
 
+            _context.Transportations.Update(transportation);
             _context.TransportationStatusChanges.Add(newChange);
             _context.SaveChanges();
 
