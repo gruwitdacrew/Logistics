@@ -414,11 +414,6 @@
           "text/json"
         ],
         "StatusCode": 400
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },
@@ -455,11 +450,6 @@
           "text/json"
         ],
         "StatusCode": 400
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },
@@ -482,11 +472,6 @@
         "Type": "System.Void",
         "MediaTypes": [],
         "StatusCode": 200
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },
@@ -518,11 +503,6 @@
           "text/json"
         ],
         "StatusCode": 400
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },
@@ -564,11 +544,6 @@
           "text/json"
         ],
         "StatusCode": 400
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },
@@ -595,11 +570,6 @@
           "text/json"
         ],
         "StatusCode": 200
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },
@@ -631,11 +601,6 @@
           "text/json"
         ],
         "StatusCode": 400
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },
@@ -723,11 +688,6 @@
           "text/json"
         ],
         "StatusCode": 200
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },
@@ -754,11 +714,6 @@
           "text/json"
         ],
         "StatusCode": 200
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },
@@ -779,11 +734,6 @@
           "text/json"
         ],
         "StatusCode": 200
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },
@@ -811,11 +761,6 @@
         "Type": "System.Void",
         "MediaTypes": [],
         "StatusCode": 200
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },
@@ -843,11 +788,6 @@
         "Type": "System.Void",
         "MediaTypes": [],
         "StatusCode": 200
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },
@@ -935,11 +875,6 @@
           "text/json"
         ],
         "StatusCode": 200
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },
@@ -1072,11 +1007,6 @@
           "text/json"
         ],
         "StatusCode": 200
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },
@@ -1097,11 +1027,6 @@
           "text/json"
         ],
         "StatusCode": 200
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 401
       }
     ]
   },

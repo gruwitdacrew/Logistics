@@ -6,7 +6,9 @@ namespace Logistics.Data.Account.Models
     {
         public Guid id { get; set; }
 
-        public string carBrand { get; set; }
+        public Guid transporterId { get; set; }
+
+        public TruckBrand truckBrand { get; set; }
 
         public string model { get; set; }
 
@@ -31,7 +33,7 @@ namespace Logistics.Data.Account.Models
         public Truck(CreateTruckRequestDTO createRequest)
         {
             id = Guid.NewGuid();
-            carBrand = createRequest.carBrand;
+            truckBrand = createRequest.truckBrand;
             model = createRequest.model;
             truckType = createRequest.truckType;
             loadCapacityInTons = createRequest.loadCapacityInTons;
@@ -45,7 +47,7 @@ namespace Logistics.Data.Account.Models
 
         public void edit(EditTruckRequestDTO editRequest)
         {
-            if (editRequest.carBrand != null) carBrand = editRequest.carBrand;
+            if (editRequest.truckBrand != null) truckBrand = editRequest.truckBrand;
             if (editRequest.model != null) model = editRequest.model;
             if (editRequest.truckType != null) truckType = (TruckType)editRequest.truckType;
             if (editRequest.loadCapacityInTons != null) loadCapacityInTons = (int)editRequest.loadCapacityInTons;
@@ -59,6 +61,30 @@ namespace Logistics.Data.Account.Models
     }
     public enum TruckType
     {
-        Tented
+        Tented,
+        Flatbed,
+        Curtain,
+        CurtainFlatbed,
+        Dump
+    }
+
+    public enum TruckBrand
+    {
+        Volvo,
+        Scania,
+        MercedesBenz,
+        MAN,
+        DAF,
+        Iveco,
+        Freightliner,
+        Kenworth,
+        Peterbilt,
+        International,
+        Isuzu,
+        MitsubishiFuso,
+        Hino,
+        KamAZ,
+        GAZ,
+        Ural
     }
 }

@@ -72,7 +72,7 @@ namespace Logistics.Services
                 <div class='container'>  
                     <h1>Подтверждение почты</h1>  
                     <p>Нажмите на кнопку ниже, чтобы подтвердить почту</p>  
-                    <a href='http://logistics/email/approve?token=" + token + @"' class='button'>Подтвердить</a>  
+                    <a href='http://localhost:5173/email/approve?token=" + token + @"' class='button'>Подтвердить</a>  
                     <p>Если вы не запрашивали сброс пароля, просто проигнорируйте это письмо.</p>  
                 </div>  
             </body>  
@@ -126,7 +126,7 @@ namespace Logistics.Services
                 <div class='container'>  
                     <h1>Сброс пароля</h1>  
                     <p>Вы запрашивали сброс пароля. Нажмите на кнопку ниже, чтобы сбросить его.</p>  
-                    <a href='http://logistics/password/reset?token=" + token + @"' class='button'>Сбросить пароль</a>  
+                    <a href='http://localhost:5173/password/reset?token=" + token + @"' class='button'>Сбросить пароль</a>  
                     <p>Если вы не запрашивали сброс пароля, просто проигнорируйте это письмо.</p>  
                 </div>  
             </body>  

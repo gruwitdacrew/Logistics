@@ -83,7 +83,7 @@ namespace Logistics.Services
             _context.TransportationStatusChanges.Add(newChange);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> GetShipperTransportations(Guid shipperId)
@@ -137,7 +137,7 @@ namespace Logistics.Services
             _context.Reviews.Add(review);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
     }
 }

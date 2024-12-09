@@ -24,7 +24,6 @@ namespace Logistics.Controllers
         [HttpGet]
         [Route("/api/shipper/transportations")]
         [ProducesResponseType(typeof(List<ShipperTransportationResponseDTO>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> getShipperTransportations()
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -36,7 +35,6 @@ namespace Logistics.Controllers
         [HttpGet]
         [Route("/api/shipper/transportation/{transportationId}")]
         [ProducesResponseType(typeof(ShipperTransportationWideResponseDTO), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> getShipperTransportation([FromRoute] Guid transportationId)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -48,7 +46,6 @@ namespace Logistics.Controllers
         [HttpGet]
         [Route("/api/transporter/transportations")]
         [ProducesResponseType(typeof(List<TransporterTransportationResponseDTO>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> getTransporterTransportations()
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -60,7 +57,6 @@ namespace Logistics.Controllers
         [HttpGet]
         [Route("/api/transporter/transportation/{transportationId}")]
         [ProducesResponseType(typeof(TransporterTransportationWideResponseDTO), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> getTransporterTransportation([FromRoute] Guid transportationId)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -72,7 +68,6 @@ namespace Logistics.Controllers
         [HttpPatch]
         [Route("/api/transportation/{transportationId}/status")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> setTransportationStatus([FromRoute] Guid transportationId, TransportationStatus status)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -84,7 +79,6 @@ namespace Logistics.Controllers
         [HttpPost]
         [Route("/api/transportation/{transportationId}/review")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> createReview([FromRoute] Guid transportationId, [FromBody] string reviewText)
         {
             var userId = User.Claims.ToList()[0].Value;

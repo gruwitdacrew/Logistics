@@ -24,7 +24,6 @@ namespace Logistics.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> createRequest(CreateRequestRequestDTO createRequest, bool isDelayed)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -38,7 +37,6 @@ namespace Logistics.Controllers
         [Route("{requestId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> editRequest([FromRoute] Guid requestId, EditRequestRequestDTO editRequest)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -51,7 +49,6 @@ namespace Logistics.Controllers
         [HttpGet]
         [Route("/api/shipper/requests")]
         [ProducesResponseType(typeof(List<ShipperRequestResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<ShipperRequestResponse>> getShipperRequests([FromQuery] RequestStatus[] statuses)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -64,7 +61,6 @@ namespace Logistics.Controllers
         [HttpGet]
         [Route("/api/transporter/requests")]
         [ProducesResponseType(typeof(List<TransporterRequestResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<TransporterRequestResponse>> getTransporterRequests(RequestStatus status)
         {
             if (status == RequestStatus.Delayed) return new BadRequestObjectResult(new ErrorResponse(400, "Для перевозчика нет такого типа заявки"));
@@ -79,7 +75,6 @@ namespace Logistics.Controllers
         [HttpDelete]
         [Route("{requestId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> deleteRequest(Guid requestId)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -92,7 +87,6 @@ namespace Logistics.Controllers
         [HttpGet]
         [Route("calculate/cost")]
         [ProducesResponseType(typeof(float), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<float>> calculateCost(int distanceBetweenCitiesInKilometers)
         {
             return Ok(CostCalculator.calculateCostInRubles(distanceBetweenCitiesInKilometers));
@@ -104,7 +98,6 @@ namespace Logistics.Controllers
         [Route("{requestId}/cost")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> changeCost(Guid requestId, ChangeCost change, float? amount)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -118,7 +111,6 @@ namespace Logistics.Controllers
         [Route("{requestId}/accept")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> acceptRequest(Guid requestId)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -132,7 +124,6 @@ namespace Logistics.Controllers
         [Route("delayed/{requestId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> publishDelayed(Guid requestId)
         {
             var userId = User.Claims.ToList()[0].Value;

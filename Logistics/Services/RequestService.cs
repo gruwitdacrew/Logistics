@@ -37,7 +37,7 @@ namespace Logistics.Services
             _context.Requests.Add(newRequest);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> GetShipperRequests(Guid shipperId, RequestStatus[] statuses)
@@ -83,7 +83,7 @@ namespace Logistics.Services
             _context.Requests.Update(request);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> DeleteRequest(Guid requestId, Guid shipperId)
@@ -104,7 +104,7 @@ namespace Logistics.Services
             _context.Requests.Remove(request);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> ChangeRequestCost(Guid requestId, Guid shipperId, ChangeCost change, float? amount)
@@ -151,7 +151,7 @@ namespace Logistics.Services
             _context.Requests.Update(request);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> AcceptRequest(Guid requestId, Guid transporterId)
@@ -178,7 +178,7 @@ namespace Logistics.Services
             _context.Transportations.Add(transportation);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> PublishDelayedRequest(Guid requestId, Guid shipperId)
@@ -203,7 +203,7 @@ namespace Logistics.Services
             _context.Requests.Update(request);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
     }
 }

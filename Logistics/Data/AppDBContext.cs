@@ -13,6 +13,7 @@ namespace Logistics.Data
         public DbSet<User> Users { get; set; }
         public DbSet<PendingEmail> PendingEmails { get; set; }
 
+        public DbSet<Truck> Trucks { get; set; }
         public DbSet<Transporter> Transporters { get; set; }
         public DbSet<Shipper> Shippers { get; set; }
 
@@ -46,7 +47,7 @@ namespace Logistics.Data
 
             modelBuilder.Entity<TransportationStatusChange>().HasOne(x => x.transportation);
 
-            modelBuilder.Entity<Transporter>().HasOne(x => x.truck);
+            modelBuilder.Entity<Transporter>().HasOne(x => x.truck).WithOne().HasForeignKey<Truck>(x => x.transporterId);
 
             modelBuilder.Entity<Review>().HasOne<User>().WithMany().HasForeignKey(x => x.userId);
             modelBuilder.Entity<Review>().HasOne<Transportation>().WithMany().HasForeignKey(x => x.transportationId);

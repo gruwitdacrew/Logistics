@@ -31,7 +31,7 @@ namespace Logistics.Services
             _context.Passports.Add(passport);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> EditPassport(Guid userId, EditPassportDTO editPassport)
@@ -47,7 +47,7 @@ namespace Logistics.Services
             _context.Passports.Update(passport);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> GetPassport(Guid userId)
@@ -73,7 +73,7 @@ namespace Logistics.Services
             _context.Passports.Remove(passport);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
 
@@ -90,7 +90,7 @@ namespace Logistics.Services
             _context.Licenses.Add(driverLicense);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> EditDriverLicense(Guid transporterId, EditDriverLicenseDTO editLicense)
@@ -106,7 +106,7 @@ namespace Logistics.Services
             _context.Licenses.Update(license);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> GetDriverLicense(Guid transporterId)
@@ -131,7 +131,7 @@ namespace Logistics.Services
             _context.Licenses.Remove(license);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
 
@@ -145,7 +145,7 @@ namespace Logistics.Services
             _context.Passports.Update(passport);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> GetPassportScan(Guid userId)
@@ -170,7 +170,7 @@ namespace Logistics.Services
             _context.Passports.Update(passport); 
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
 
@@ -184,7 +184,7 @@ namespace Logistics.Services
             _context.Licenses.Update(license);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> GetLicenseScan(Guid transporterId)
@@ -209,7 +209,7 @@ namespace Logistics.Services
             _context.Licenses.Update(license);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
     }

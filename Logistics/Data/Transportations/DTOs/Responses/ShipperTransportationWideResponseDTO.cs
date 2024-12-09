@@ -33,7 +33,7 @@ namespace Logistics.Data.Transportations.DTOs.Responses
             transporter = transportation.transporter.company;
 
             Truck truck = transportation.transporter.truck;
-            transport = truck.carBrand + " " + truck.model;
+            transport = truck.truckBrand + " " + truck.model;
 
             status = transportation.status;
 

@@ -23,7 +23,7 @@ namespace Logistics.Data.Transportations.DTOs.Responses
             status = transportation.status;
 
             Truck truck = transportation.transporter.truck;
-            transport = truck.carBrand + " " + truck.model;
+            transport = truck.truckBrand + " " + truck.model;
         }
     }
 }

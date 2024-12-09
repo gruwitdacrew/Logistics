@@ -5,7 +5,7 @@ namespace Logistics.Data.Accounts.DTOs.Requests
 {
     public class CreateTruckRequestDTO
     {
-        public string carBrand { get; set; }
+        public TruckBrand truckBrand { get; set; }
 
         public string model { get; set; }
 

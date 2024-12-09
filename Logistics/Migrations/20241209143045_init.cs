@@ -28,27 +28,6 @@ namespace Logistics.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Truck",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    carBrand = table.Column<string>(type: "text", nullable: false),
-                    model = table.Column<string>(type: "text", nullable: false),
-                    truckType = table.Column<int>(type: "integer", nullable: false),
-                    loadCapacityInTons = table.Column<int>(type: "integer", nullable: false),
-                    yearOfProduction = table.Column<int>(type: "integer", nullable: false),
-                    number = table.Column<string>(type: "text", nullable: false),
-                    regionCode = table.Column<int>(type: "integer", nullable: false),
-                    lengthInMeters = table.Column<float>(type: "real", nullable: false),
-                    widthInMeters = table.Column<float>(type: "real", nullable: false),
-                    heightInMeters = table.Column<float>(type: "real", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Truck", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -133,17 +112,11 @@ namespace Logistics.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    permanentResidence = table.Column<string>(type: "text", nullable: true),
-                    truckid = table.Column<Guid>(type: "uuid", nullable: true)
+                    permanentResidence = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transporters", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Transporters_Truck_truckid",
-                        column: x => x.truckid,
-                        principalTable: "Truck",
-                        principalColumn: "id");
                     table.ForeignKey(
                         name: "FK_Transporters_Users_id",
                         column: x => x.id,
@@ -206,6 +179,34 @@ namespace Logistics.Migrations
                     table.ForeignKey(
                         name: "FK_Licenses_Transporters_transporterid",
                         column: x => x.transporterid,
+                        principalTable: "Transporters",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Trucks",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    transporterId = table.Column<Guid>(type: "uuid", nullable: false),
+                    truckBrand = table.Column<int>(type: "integer", nullable: false),
+                    model = table.Column<string>(type: "text", nullable: false),
+                    truckType = table.Column<int>(type: "integer", nullable: false),
+                    loadCapacityInTons = table.Column<int>(type: "integer", nullable: false),
+                    yearOfProduction = table.Column<int>(type: "integer", nullable: false),
+                    number = table.Column<string>(type: "text", nullable: false),
+                    regionCode = table.Column<int>(type: "integer", nullable: false),
+                    lengthInMeters = table.Column<float>(type: "real", nullable: false),
+                    widthInMeters = table.Column<float>(type: "real", nullable: false),
+                    heightInMeters = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trucks", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Trucks_Transporters_transporterId",
+                        column: x => x.transporterId,
                         principalTable: "Transporters",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -330,9 +331,10 @@ namespace Logistics.Migrations
                 column: "transportationid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transporters_truckid",
-                table: "Transporters",
-                column: "truckid");
+                name: "IX_Trucks_transporterId",
+                table: "Trucks",
+                column: "transporterId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -354,6 +356,9 @@ namespace Logistics.Migrations
                 name: "TransportationStatusChanges");
 
             migrationBuilder.DropTable(
+                name: "Trucks");
+
+            migrationBuilder.DropTable(
                 name: "Transportations");
 
             migrationBuilder.DropTable(
@@ -367,9 +372,6 @@ namespace Logistics.Migrations
 
             migrationBuilder.DropTable(
                 name: "Shippers");
-
-            migrationBuilder.DropTable(
-                name: "Truck");
 
             migrationBuilder.DropTable(
                 name: "Users");

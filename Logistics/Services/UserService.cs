@@ -216,7 +216,7 @@ namespace Logistics.Services
 
             _context.Users.Update(user);
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> EditShipper(Guid shipperId, EditShipperRequestDTO editRequest)
@@ -325,41 +325,38 @@ namespace Logistics.Services
             {
                 return new UnauthorizedObjectResult("");
             }
+            Truck truck = _context.Trucks.Where(x => x.transporterId == transporterId).FirstOrDefault();
+            if (truck != null) return new ConflictObjectResult(new ErrorResponse(409, "У вас уже указан транспорт"));
 
-            Truck truck = new Truck(createRequest);
+            truck = new Truck(createRequest);
             transporter.truck = truck;
 
+            _context.Trucks.Add(truck);
             _context.Transporters.Update(transporter);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
         
         public async Task<ActionResult> EditTransporterTruck(Guid transporterId, EditTruckRequestDTO editRequest)
         {
-            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).Include(x => x.truck).FirstOrDefault();
-            if (transporter == null)
-            {
-                return new UnauthorizedObjectResult("");
-            }
+            Truck truck = _context.Trucks.Where(x => x.transporterId == transporterId).FirstOrDefault();
+            if (truck == null) return new NotFoundObjectResult(new ErrorResponse(404, "У вас не указан транспорт"));
 
-            transporter.truck.edit(editRequest);
+            truck.edit(editRequest);
 
-            _context.Transporters.Update(transporter);
+            _context.Trucks.Update(truck);
             _context.SaveChanges();
 
-            return new OkObjectResult(null);
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> GetTransporterTruck(Guid transporterId)
         {
-            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
-            if (transporter == null)
-            {
-                return new UnauthorizedObjectResult("");
-            }
+            Truck truck = _context.Trucks.Where(x => x.transporterId == transporterId).FirstOrDefault();
+            if (truck == null) return new NotFoundObjectResult(new ErrorResponse(404, "У вас не указан транспорт"));
 
-            return new OkObjectResult(new TruckResponse(transporter.truck));
+            return new OkObjectResult(new TruckResponse(truck));
         }
     }
 }

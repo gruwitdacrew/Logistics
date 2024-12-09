@@ -6,7 +6,7 @@ namespace Logistics.Data.Accounts.DTOs.Responses
 {
     public class TruckResponse
     {
-        public string carBrand { get; set; }
+        public TruckBrand truckBrand { get; set; }
 
         public string model { get; set; }
 
@@ -28,7 +28,7 @@ namespace Logistics.Data.Accounts.DTOs.Responses
 
         public TruckResponse(Truck truck)
         {
-            carBrand = truck.carBrand;
+            truckBrand = truck.truckBrand;
             model = truck.model;
             truckType = truck.truckType;
             loadCapacityInTons = truck.loadCapacityInTons;

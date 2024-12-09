@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Logistics.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20241209125439_init")]
+    [Migration("20241209143045_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -51,10 +51,6 @@ namespace Logistics.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("carBrand")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<float>("heightInMeters")
                         .HasColumnType("real");
 
@@ -75,6 +71,12 @@ namespace Logistics.Migrations
                     b.Property<int>("regionCode")
                         .HasColumnType("integer");
 
+                    b.Property<Guid>("transporterId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("truckBrand")
+                        .HasColumnType("integer");
+
                     b.Property<int>("truckType")
                         .HasColumnType("integer");
 
@@ -86,7 +88,10 @@ namespace Logistics.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Truck");
+                    b.HasIndex("transporterId")
+                        .IsUnique();
+
+                    b.ToTable("Trucks");
                 });
 
             modelBuilder.Entity("Logistics.Data.Account.Models.User", b =>
@@ -361,11 +366,6 @@ namespace Logistics.Migrations
                     b.Property<string>("permanentResidence")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("truckid")
-                        .HasColumnType("uuid");
-
-                    b.HasIndex("truckid");
-
                     b.ToTable("Transporters");
                 });
 
@@ -378,6 +378,15 @@ namespace Logistics.Migrations
                         .IsRequired();
 
                     b.Navigation("user");
+                });
+
+            modelBuilder.Entity("Logistics.Data.Account.Models.Truck", b =>
+                {
+                    b.HasOne("Logistics.Data.Account.Models.Transporter", null)
+                        .WithOne("truck")
+                        .HasForeignKey("Logistics.Data.Account.Models.Truck", "transporterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Logistics.Data.Account.Models.User", b =>
@@ -513,17 +522,16 @@ namespace Logistics.Migrations
                         .HasForeignKey("Logistics.Data.Account.Models.Transporter", "id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Logistics.Data.Account.Models.Truck", "truck")
-                        .WithMany()
-                        .HasForeignKey("truckid");
-
-                    b.Navigation("truck");
                 });
 
             modelBuilder.Entity("Logistics.Data.Requests.Models.Request", b =>
                 {
                     b.Navigation("transportation");
+                });
+
+            modelBuilder.Entity("Logistics.Data.Account.Models.Transporter", b =>
+                {
+                    b.Navigation("truck");
                 });
 #pragma warning restore 612, 618
         }
