@@ -14,12 +14,12 @@ namespace Logistics.Data.Transportations.DTOs.Responses
 
         public ShipmentResponse shipment { get; set; }
 
-        public TransporterTransportationResponseDTO(Request request)
+        public TransporterTransportationResponseDTO(Transportation transportation)
         {
-            id = request.transportation.id;
-            status = request.transportation.status;
-            company = request.shipper.company;
-            shipment = new ShipmentResponse(request.shipment);
+            id = transportation.id;
+            status = transportation.status;
+            company = transportation.request.shipper.company;
+            shipment = new ShipmentResponse(transportation.request.shipment);
         }
     }
 }

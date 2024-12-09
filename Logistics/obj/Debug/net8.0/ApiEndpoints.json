@@ -789,6 +789,38 @@
   },
   {
     "ContainingType": "Logistics.Controllers.TransportationController",
+    "Method": "createReview",
+    "RelativePath": "api/transportation/{transportationId}/review",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transportationId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "reviewText",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 401
+      }
+    ]
+  },
+  {
+    "ContainingType": "Logistics.Controllers.TransportationController",
     "Method": "setTransportationStatus",
     "RelativePath": "api/transportation/{transportationId}/status",
     "HttpMethod": "PATCH",

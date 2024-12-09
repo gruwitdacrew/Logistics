@@ -229,9 +229,6 @@ namespace Logistics.Migrations
                     b.Property<int>("status")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("transportationid")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("truckType")
                         .HasColumnType("integer");
 
@@ -248,8 +245,6 @@ namespace Logistics.Migrations
                     b.HasIndex("shipmentid");
 
                     b.HasIndex("shipperid");
-
-                    b.HasIndex("transportationid");
 
                     b.ToTable("Requests");
                 });
@@ -280,10 +275,35 @@ namespace Logistics.Migrations
                     b.ToTable("Shipments");
                 });
 
+            modelBuilder.Entity("Logistics.Data.Transportations.Models.Review", b =>
+                {
+                    b.Property<Guid>("transportationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("reviewerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("userId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("transportationId", "reviewerId", "userId");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("Reviews");
+                });
+
             modelBuilder.Entity("Logistics.Data.Transportations.Models.Transportation", b =>
                 {
                     b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("requestId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("status")
@@ -293,6 +313,9 @@ namespace Logistics.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("id");
+
+                    b.HasIndex("requestId")
+                        .IsUnique();
 
                     b.HasIndex("transporterid");
 
@@ -421,24 +444,41 @@ namespace Logistics.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Logistics.Data.Transportations.Models.Transportation", "transportation")
-                        .WithMany()
-                        .HasForeignKey("transportationid");
-
                     b.Navigation("shipment");
 
                     b.Navigation("shipper");
+                });
 
-                    b.Navigation("transportation");
+            modelBuilder.Entity("Logistics.Data.Transportations.Models.Review", b =>
+                {
+                    b.HasOne("Logistics.Data.Transportations.Models.Transportation", null)
+                        .WithMany()
+                        .HasForeignKey("transportationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Logistics.Data.Account.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Logistics.Data.Transportations.Models.Transportation", b =>
                 {
+                    b.HasOne("Logistics.Data.Requests.Models.Request", "request")
+                        .WithOne("transportation")
+                        .HasForeignKey("Logistics.Data.Transportations.Models.Transportation", "requestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Logistics.Data.Account.Models.Transporter", "transporter")
                         .WithMany()
                         .HasForeignKey("transporterid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("request");
 
                     b.Navigation("transporter");
                 });
@@ -476,6 +516,11 @@ namespace Logistics.Migrations
                         .HasForeignKey("truckid");
 
                     b.Navigation("truck");
+                });
+
+            modelBuilder.Entity("Logistics.Data.Requests.Models.Request", b =>
+                {
+                    b.Navigation("transportation");
                 });
 #pragma warning restore 612, 618
         }

@@ -9,6 +9,10 @@ namespace Logistics.Data.Transportations.Models
     {
         public Guid id { get; set; }
 
+        public Guid requestId { get; set; }
+
+        public Request request { get; set; }
+
         public Transporter transporter { get; set; }
 
         public TransportationStatus status { get; set; }
@@ -30,6 +34,7 @@ namespace Logistics.Data.Transportations.Models
         Loading,
         OnWayToUnloading,
         Repairing,
-        Unloading
+        Unloading,
+        Finished
     }
 }

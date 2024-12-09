@@ -15,14 +15,14 @@ namespace Logistics.Data.Transportations.DTOs.Responses
 
         public string transport { get; set; }
 
-        public ShipperTransportationResponseDTO(Request request)
+        public ShipperTransportationResponseDTO(Transportation transportation)
         {
-            id = request.transportation.id;
-            transporter = request.transportation.transporter.company;
+            id = transportation.id;
+            transporter = transportation.transporter.company;
 
-            status = request.transportation.status;
+            status = transportation.status;
 
-            Truck truck = request.transportation.transporter.truck;
+            Truck truck = transportation.transporter.truck;
             transport = truck.carBrand + " " + truck.model;
         }
     }

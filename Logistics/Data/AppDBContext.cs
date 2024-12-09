@@ -25,6 +25,8 @@ namespace Logistics.Data
 
         public DbSet<TransportationStatusChange> TransportationStatusChanges { get; set; }
 
+        public DbSet<Review> Reviews { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -40,11 +42,15 @@ namespace Logistics.Data
 
             modelBuilder.Entity<Request>().HasOne(x => x.shipper);
             modelBuilder.Entity<Request>().HasOne(x => x.shipment);
-            modelBuilder.Entity<Request>().HasOne(x => x.transportation);
+            modelBuilder.Entity<Request>().HasOne(x => x.transportation).WithOne(x => x.request).HasForeignKey<Transportation>(x => x.requestId);
 
             modelBuilder.Entity<TransportationStatusChange>().HasOne(x => x.transportation);
 
             modelBuilder.Entity<Transporter>().HasOne(x => x.truck);
+
+            modelBuilder.Entity<Review>().HasOne<User>().WithMany().HasForeignKey(x => x.userId);
+            modelBuilder.Entity<Review>().HasOne<Transportation>().WithMany().HasForeignKey(x => x.transportationId);
+            modelBuilder.Entity<Review>().HasKey(x => new { x.transportationId, x.reviewerId, x.userId});
         }
     }
 }

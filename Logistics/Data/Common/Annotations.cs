@@ -8,9 +8,9 @@ namespace Logistics.Data.Common
     {
         internal class PasswordAttribute : RegularExpressionAttribute
         {
-            public PasswordAttribute() : base("^.{8,}$")
+            public PasswordAttribute() : base("^.{6,128}$")
             {
-                ErrorMessage = "Пароль должен состоять из минимум 8 символов";
+                ErrorMessage = "Пароль должен быть длиной от 6 до 128 символов";
             }
         }
 
@@ -32,7 +32,7 @@ namespace Logistics.Data.Common
 
         internal class PhoneAttribute : RegularExpressionAttribute
         {
-            public PhoneAttribute() : base("^\\+\\d{11}$")
+            public PhoneAttribute() : base("^\\+\\d \\d{3} \\d{3} \\d{2} \\d{2}$")
             {
                 ErrorMessage = "Телефон должен быть по образцу: +X XXX XXX XX XX";
             }

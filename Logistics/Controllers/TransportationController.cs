@@ -79,5 +79,17 @@ namespace Logistics.Controllers
 
             return await _transportationService.SetTransportationStatus(new Guid(userId), transportationId, status);
         }
+
+        [Authorize]
+        [HttpPost]
+        [Route("/api/transportation/{transportationId}/review")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult> createReview([FromRoute] Guid transportationId, [FromBody] string reviewText)
+        {
+            var userId = User.Claims.ToList()[0].Value;
+
+            return await _transportationService.CreateReview(new Guid(userId), transportationId, reviewText);
+        }
     }
 }

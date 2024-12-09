@@ -27,23 +27,23 @@ namespace Logistics.Data.Transportations.DTOs.Responses
 
         public List<TransportationStatusChangeResponseDTO> statusChangeHistory { get; set; }
 
-        public ShipperTransportationWideResponseDTO(Request request, List<TransportationStatusChangeResponseDTO> statusChangeHistory)
+        public ShipperTransportationWideResponseDTO(Transportation transportation, List<TransportationStatusChangeResponseDTO> statusChangeHistory)
         {
-            id = request.transportation.id;
-            transporter = request.transportation.transporter.company;
+            id = transportation.id;
+            transporter = transportation.transporter.company;
 
-            Truck truck = request.transportation.transporter.truck;
+            Truck truck = transportation.transporter.truck;
             transport = truck.carBrand + " " + truck.model;
 
-            status = request.transportation.status;
+            status = transportation.status;
 
-            loadCity = request.loadCity;
-            loadAddress = request.loadAddress;
-            unloadCity = request.unloadCity;
-            unloadAddress = request.unloadAddress;
+            loadCity = transportation.request.loadCity;
+            loadAddress = transportation.request.loadAddress;
+            unloadCity = transportation.request.unloadCity;
+            unloadAddress = transportation.request.unloadAddress;
 
-            sendingTime = request.sendingTime.ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
-            sendingTimeFrom = ((DateTime)request.sendingTimeFrom).ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
+            sendingTime = transportation.request.sendingTime.ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
+            sendingTimeFrom = ((DateTime)transportation.request.sendingTimeFrom).ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
 
             this.statusChangeHistory = statusChangeHistory;
         }

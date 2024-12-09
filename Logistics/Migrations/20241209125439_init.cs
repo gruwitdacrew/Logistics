@@ -20,8 +20,7 @@ namespace Logistics.Migrations
                     lengthInMeters = table.Column<float>(type: "real", nullable: false),
                     widthInMeters = table.Column<float>(type: "real", nullable: false),
                     heightInMeters = table.Column<float>(type: "real", nullable: false),
-                    weightInTons = table.Column<float>(type: "real", nullable: false),
-                    volumeInCubicMeters = table.Column<float>(type: "real", nullable: false)
+                    weightInTons = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,7 +77,7 @@ namespace Logistics.Migrations
                     number = table.Column<string>(type: "text", nullable: false),
                     issuedBy = table.Column<string>(type: "text", nullable: false),
                     code = table.Column<string>(type: "text", nullable: false),
-                    dateOfIssue = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    dateOfIssue = table.Column<string>(type: "text", nullable: false),
                     scan = table.Column<byte[]>(type: "bytea", nullable: true),
                     userid = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -154,6 +153,44 @@ namespace Logistics.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Requests",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    shipperid = table.Column<Guid>(type: "uuid", nullable: false),
+                    shipmentid = table.Column<Guid>(type: "uuid", nullable: false),
+                    creationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    status = table.Column<int>(type: "integer", nullable: false),
+                    loadCity = table.Column<string>(type: "text", nullable: false),
+                    loadAddress = table.Column<string>(type: "text", nullable: false),
+                    unloadCity = table.Column<string>(type: "text", nullable: false),
+                    unloadAddress = table.Column<string>(type: "text", nullable: false),
+                    receiverFullName = table.Column<string>(type: "text", nullable: true),
+                    receiverContacts = table.Column<string>(type: "text", nullable: true),
+                    sendingTimeFrom = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    sendingTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    truckType = table.Column<int>(type: "integer", nullable: false),
+                    costInRubles = table.Column<float>(type: "real", nullable: false),
+                    additionalCostInRubles = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Requests", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Requests_Shipments_shipmentid",
+                        column: x => x.shipmentid,
+                        principalTable: "Shipments",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Requests_Shippers_shipperid",
+                        column: x => x.shipperid,
+                        principalTable: "Shippers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Licenses",
                 columns: table => new
                 {
@@ -179,12 +216,19 @@ namespace Logistics.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    requestId = table.Column<Guid>(type: "uuid", nullable: false),
                     transporterid = table.Column<Guid>(type: "uuid", nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transportations", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Transportations_Requests_requestId",
+                        column: x => x.requestId,
+                        principalTable: "Requests",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Transportations_Transporters_transporterid",
                         column: x => x.transporterid,
@@ -194,47 +238,29 @@ namespace Logistics.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Requests",
+                name: "Reviews",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    shipperid = table.Column<Guid>(type: "uuid", nullable: false),
-                    shipmentid = table.Column<Guid>(type: "uuid", nullable: false),
-                    transportationid = table.Column<Guid>(type: "uuid", nullable: true),
-                    creationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    status = table.Column<int>(type: "integer", nullable: false),
-                    loadCity = table.Column<string>(type: "text", nullable: false),
-                    loadAddress = table.Column<string>(type: "text", nullable: false),
-                    unloadCity = table.Column<string>(type: "text", nullable: false),
-                    unloadAddress = table.Column<string>(type: "text", nullable: false),
-                    receiverFullName = table.Column<string>(type: "text", nullable: true),
-                    receiverContacts = table.Column<string>(type: "text", nullable: true),
-                    sendingTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    truckType = table.Column<int>(type: "integer", nullable: false),
-                    desiredDeliveryTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    costInRubles = table.Column<float>(type: "real", nullable: false),
-                    additionalCostInRubles = table.Column<float>(type: "real", nullable: false)
+                    transportationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    reviewerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    userId = table.Column<Guid>(type: "uuid", nullable: false),
+                    value = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Requests", x => x.id);
+                    table.PrimaryKey("PK_Reviews", x => new { x.transportationId, x.reviewerId, x.userId });
                     table.ForeignKey(
-                        name: "FK_Requests_Shipments_shipmentid",
-                        column: x => x.shipmentid,
-                        principalTable: "Shipments",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Requests_Shippers_shipperid",
-                        column: x => x.shipperid,
-                        principalTable: "Shippers",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Requests_Transportations_transportationid",
-                        column: x => x.transportationid,
+                        name: "FK_Reviews_Transportations_transportationId",
+                        column: x => x.transportationId,
                         principalTable: "Transportations",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Users_userId",
+                        column: x => x.userId,
+                        principalTable: "Users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -283,9 +309,15 @@ namespace Logistics.Migrations
                 column: "shipperid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Requests_transportationid",
-                table: "Requests",
-                column: "transportationid");
+                name: "IX_Reviews_userId",
+                table: "Reviews",
+                column: "userId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transportations_requestId",
+                table: "Transportations",
+                column: "requestId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transportations_transporterid",
@@ -316,22 +348,25 @@ namespace Logistics.Migrations
                 name: "PendingEmails");
 
             migrationBuilder.DropTable(
-                name: "Requests");
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "TransportationStatusChanges");
+
+            migrationBuilder.DropTable(
+                name: "Transportations");
+
+            migrationBuilder.DropTable(
+                name: "Requests");
+
+            migrationBuilder.DropTable(
+                name: "Transporters");
 
             migrationBuilder.DropTable(
                 name: "Shipments");
 
             migrationBuilder.DropTable(
                 name: "Shippers");
-
-            migrationBuilder.DropTable(
-                name: "Transportations");
-
-            migrationBuilder.DropTable(
-                name: "Transporters");
 
             migrationBuilder.DropTable(
                 name: "Truck");

@@ -27,20 +27,20 @@ namespace Logistics.Data.Transportations.DTOs.Responses
 
         public List<TransportationStatusChangeResponseDTO> statusChangeHistory { get; set; }
 
-        public TransporterTransportationWideResponseDTO(Request request, List<TransportationStatusChangeResponseDTO> statusChangeHistory)
+        public TransporterTransportationWideResponseDTO(Transportation transportation, List<TransportationStatusChangeResponseDTO> statusChangeHistory)
         {
-            id = request.transportation.id;
-            company = request.shipper.company;
-            shipment = new ShipmentResponse(request.shipment);
+            id = transportation.id;
+            company = transportation.request.shipper.company;
+            shipment = new ShipmentResponse(transportation.request.shipment);
 
-            status = request.transportation.status;
+            status = transportation.status;
 
-            loadCity = request.loadCity;
-            loadAddress = request.loadAddress;
-            unloadCity = request.unloadCity;
-            unloadAddress = request.unloadAddress;
-            sendingTime = request.sendingTime.ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
-            sendingTimeFrom = ((DateTime)request.sendingTimeFrom).ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
+            loadCity = transportation.request.loadCity;
+            loadAddress = transportation.request.loadAddress;
+            unloadCity = transportation.request.unloadCity;
+            unloadAddress = transportation.request.unloadAddress;
+            sendingTime = transportation.request.sendingTime.ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
+            sendingTimeFrom = ((DateTime)transportation.request.sendingTimeFrom).ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
             this.statusChangeHistory = statusChangeHistory;
         }
     }
