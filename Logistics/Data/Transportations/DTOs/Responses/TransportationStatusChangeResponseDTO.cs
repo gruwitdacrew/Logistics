@@ -8,12 +8,12 @@ namespace Logistics.Data.Transportations.DTOs.Responses
     {
         public TransportationStatus status { get; set; }
 
-        public string time { get; set; }
+        public DateTime time { get; set; }
 
         public TransportationStatusChangeResponseDTO(TransportationStatusChange statusChange)
         {
             status = statusChange.status;
-            time = statusChange.time.ToString("HH:mm, dd MMMM yyyy", new System.Globalization.CultureInfo("ru-RU"));
+            time = statusChange.time;
         }
     }
 

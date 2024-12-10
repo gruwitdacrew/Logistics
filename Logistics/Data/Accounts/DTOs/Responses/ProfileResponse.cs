@@ -1,4 +1,5 @@
 ﻿using Logistics.Data.Account.Models;
+using Logistics.Data.Requests.Models;
 
 namespace Logistics.Data.Account.AccountDTOs.Responses
 {
@@ -10,12 +11,14 @@ namespace Logistics.Data.Account.AccountDTOs.Responses
 
         public string phone { get; set; }
 
+        public byte[]? photo { get; set; }
 
         public ProfileResponse(User user)
         {
             fullName = user.fullName;
             email = user.email;
             phone = user.phone;
+            photo = user.photo;
         }
     }
 
@@ -29,7 +32,7 @@ namespace Logistics.Data.Account.AccountDTOs.Responses
 
     public class TransporterProfileResponse : ProfileResponse
     {
-        public string permanentResidence { get; set; }
+        public City? permanentResidence { get; set; }
         public TransporterProfileResponse(Transporter transporter) : base(transporter)
         {
             permanentResidence = transporter.permanentResidence;

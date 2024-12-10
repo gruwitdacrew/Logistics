@@ -128,7 +128,7 @@ namespace Logistics.Services
                         {
                             request.additionalCostInRubles += amount.Value;
                         }
-                        else return new BadRequestObjectResult(new ErrorResponse(400, "Предоставьте значение на которое будет увеличена цена"));
+                        else return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Предоставьте значение на которое будет увеличена цена"));
                         break;
                     }
                 case ChangeCost.Reduce:
@@ -138,7 +138,7 @@ namespace Logistics.Services
                             if (request.additionalCostInRubles - amount.Value < 0) return new ConflictObjectResult(new ErrorResponse(409, "Цена не может быть меньше изначальной"));
                             request.additionalCostInRubles -= amount.Value;
                         }
-                        else return new BadRequestObjectResult(new ErrorResponse(400, "Предоставьте значение на которое будет снижена цена"));
+                        else return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Предоставьте значение на которое будет снижена цена"));
                         break;
                     }
                 case ChangeCost.Initial:
@@ -176,6 +176,29 @@ namespace Logistics.Services
             _context.TransportationStatusChanges.Add(transportationStatusChange);
             _context.Requests.Update(request);
             _context.Transportations.Add(transportation);
+            _context.SaveChanges();
+
+            return new OkObjectResult("");
+        }
+
+        public async Task<ActionResult> RejectRequest(Guid requestId, Guid transporterId)
+        {
+            Request? request = _context.Requests.Where(x => x.id == requestId).FirstOrDefault();
+            if (request == null) return new NotFoundObjectResult(new ErrorResponse(404, "Заявки с таким id нет"));
+            if (request.status != RequestStatus.Active) return new ForbidResult();
+
+            City? transporterPermanentResidence = _context.Transporters.Where(x => x.id == transporterId).Select(x => x.permanentResidence).FirstOrDefault();
+            if (request.loadCity != transporterPermanentResidence) return new ForbidResult();
+
+            RejectedRequest? rejectedRequest = _context.RejectedRequests.Where(x => x.requestId == requestId && x.transporterId == transporterId).FirstOrDefault();
+            if (rejectedRequest != null)
+            {
+                return new ObjectResult(new ErrorResponse(403, "Вы уже отклонили эту заявку")) { StatusCode = StatusCodes.Status403Forbidden };
+            }
+
+            rejectedRequest = new RejectedRequest(transporterId, requestId);
+
+            _context.RejectedRequests.Add(rejectedRequest);
             _context.SaveChanges();
 
             return new OkObjectResult("");

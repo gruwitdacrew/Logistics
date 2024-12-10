@@ -1,10 +1,10 @@
 ﻿using Logistics.Data.Account.Models;
+using Logistics.Data.Common.DTOs.Responses;
 using Logistics.Data.Requests.Models;
-using Logistics.Services.Utils;
 
 namespace Logistics.Data.Requests.DTOs.Responses
 {
-    public class ShipperRequestResponse
+    public class RequestResponse
     {
         public Guid id { get; set; }
 
@@ -14,14 +14,15 @@ namespace Logistics.Data.Requests.DTOs.Responses
 
         public string loadAddress { get; set; }
 
-        public string loadCity { get; set; }
+        public City loadCity { get; set; }
 
-        public string unloadCity { get; set; }
+        public City unloadCity { get; set; }
 
         public string unloadAddress { get; set; }
 
-        public string? sendingTimeFrom { get; set; }
-        public string sendingTime { get; set; }
+        public DateTime? sendingTimeFrom { get; set; }
+        public DateTime sendingTime { get; set; }
+        public DateTime? arrivalTime { get; set; }
 
         public TruckType truckType { get; set; }
 
@@ -29,7 +30,7 @@ namespace Logistics.Data.Requests.DTOs.Responses
 
         public float additionalCostInRubles { get; set; }
 
-        public ShipperRequestResponse(Request request)
+        public RequestResponse(Request request)
         {
             id = request.id;
             shipment = new ShipmentResponse(request.shipment);
@@ -38,11 +39,29 @@ namespace Logistics.Data.Requests.DTOs.Responses
             loadCity = request.loadCity;
             unloadAddress = request.unloadAddress;
             unloadCity = request.unloadCity;
-            sendingTime = request.sendingTime.ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
+            sendingTime = request.sendingTime;
             truckType = request.truckType;
-            sendingTimeFrom = ((DateTime)request.sendingTimeFrom).ToString("dd MMMM yyyy, HH:mm", new System.Globalization.CultureInfo("ru-RU"));
+            sendingTimeFrom = request.sendingTimeFrom;
+            arrivalTime = request.arrivalTime;
             costInRubles = request.costInRubles;
             additionalCostInRubles = request.additionalCostInRubles;
+        }
+    }
+
+    public class ShipperRequestResponse : RequestResponse
+    {
+        public ShipperRequestResponse(Request request) : base(request)
+        {
+
+        }
+    }
+    public class TransporterRequestResponse : RequestResponse
+    {
+        public Company company { get; set; }
+
+        public TransporterRequestResponse(Request request) : base(request)
+        {
+            company = request.shipper.company;
         }
     }
 }

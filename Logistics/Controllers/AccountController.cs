@@ -25,9 +25,6 @@ namespace Logistics.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> register(Role role, RegisterRequestDTO registerRequest)
         {
             return await _userService.Register(role, registerRequest);
@@ -35,9 +32,6 @@ namespace Logistics.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
-
         public async Task<ActionResult<TokenResponse>> login(LoginRequestDTO loginRequest)
         {
             return await _userService.Login(loginRequest);
@@ -46,7 +40,6 @@ namespace Logistics.Controllers
         [Authorize(Policy = "RefreshTokenAccess")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> logout()
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -58,7 +51,6 @@ namespace Logistics.Controllers
         [Authorize(Policy = "RefreshTokenAccess")]
         [HttpPost]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<TokenResponse>> refresh()
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -71,7 +63,6 @@ namespace Logistics.Controllers
         [HttpGet]
         [Route("/api/shipper/profile")]
         [ProducesResponseType(typeof(ShipperProfileResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<ShipperProfileResponse>> shipperProfile()
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -84,7 +75,6 @@ namespace Logistics.Controllers
         [HttpGet]
         [Route("/api/transporter/profile")]
         [ProducesResponseType(typeof(TransporterProfileResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<TransporterProfileResponse>> transporterProfile()
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -96,8 +86,6 @@ namespace Logistics.Controllers
         [HttpPatch]
         [Route("/api/shipper/profile")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> profile(EditShipperRequestDTO editRequest)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -109,8 +97,6 @@ namespace Logistics.Controllers
         [HttpPatch]
         [Route("/api/transporter/profile")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> profile(EditTransporterRequestDTO editRequest)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -121,7 +107,6 @@ namespace Logistics.Controllers
         [Route("/api/user/password/reset/request")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> resetPasswordRequest([Required] string email)
         {
             return await _userService.ResetPasswordRequest(email);
@@ -131,7 +116,6 @@ namespace Logistics.Controllers
         [Route("/api/user/password/reset")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> resetPassword()
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -143,8 +127,6 @@ namespace Logistics.Controllers
         [Route("/api/user/password/setAfterReset")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> setPasswordAfterReset(
             [Required]
             [RegularExpression(pattern: "^.{8,}$", ErrorMessage = "Пароль должен состоять из минимум 8 символов")]
@@ -160,8 +142,6 @@ namespace Logistics.Controllers
         [Route("/api/user/password/set")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> setPassword(ChangePasswordRequestDTO changePasswordRequest)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -174,8 +154,6 @@ namespace Logistics.Controllers
         [Route("/api/user/email/approve")]
         [HttpPost]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> approveEmail(bool isEmailOwner)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -187,8 +165,6 @@ namespace Logistics.Controllers
         [Authorize]
         [HttpGet]
         [ProducesResponseType(typeof(Company), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> company()
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -200,13 +176,47 @@ namespace Logistics.Controllers
         [Authorize]
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> company(EditCompanyRequestDTO editShipperRequest)
         {
             var userId = User.Claims.ToList()[0].Value;
 
             return await _userService.EditCompany(new Guid(userId), editShipperRequest);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> photo(IFormFile file)
+        {
+            var userId = User.Claims.ToList()[0].Value;
+
+
+            if (file == null || file.Length == 0)
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл не выбран"));
+
+            if ("image/png" != file.ContentType)
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл должен быть фотографией"));
+
+            byte[] fileData;
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                fileData = memoryStream.ToArray();
+            }
+
+
+            return await _userService.UploadPhoto(new Guid(userId), fileData);
+        }
+
+        [Authorize]
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> photo()
+        {
+            var userId = User.Claims.ToList()[0].Value;
+
+            return await _userService.DeletePhoto(new Guid(userId));
         }
 
 

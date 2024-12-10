@@ -111,6 +111,9 @@ namespace Logistics.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<byte[]>("photo")
+                        .HasColumnType("bytea");
+
                     b.Property<int>("role")
                         .HasColumnType("integer");
 
@@ -199,6 +202,9 @@ namespace Logistics.Migrations
                     b.Property<float>("additionalCostInRubles")
                         .HasColumnType("real");
 
+                    b.Property<DateTime?>("arrivalTime")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<float>("costInRubles")
                         .HasColumnType("real");
 
@@ -209,9 +215,8 @@ namespace Logistics.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("loadCity")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("loadCity")
+                        .HasColumnType("integer");
 
                     b.Property<string>("receiverContacts")
                         .HasColumnType("text");
@@ -241,9 +246,8 @@ namespace Logistics.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("unloadCity")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("unloadCity")
+                        .HasColumnType("integer");
 
                     b.HasKey("id");
 
@@ -360,8 +364,8 @@ namespace Logistics.Migrations
                 {
                     b.HasBaseType("Logistics.Data.Account.Models.User");
 
-                    b.Property<string>("permanentResidence")
-                        .HasColumnType("text");
+                    b.Property<int?>("permanentResidence")
+                        .HasColumnType("integer");
 
                     b.ToTable("Transporters");
                 });

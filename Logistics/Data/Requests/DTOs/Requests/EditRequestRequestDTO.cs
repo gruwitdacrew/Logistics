@@ -1,14 +1,15 @@
 ﻿using Logistics.Data.Account.Models;
+using Logistics.Data.Requests.Models;
 namespace Logistics.Data.Requests.DTOs.Requests
 {
     public class EditRequestRequestDTO
     {
-        public string? loadCity { get; set; }
+        public City? loadCity { get; set; }
         public string? loadAddress { get; set; }
 
         public int? distanceBetweenCitiesInKilometers { get; set; }
 
-        public string? unloadCity { get; set; }
+        public City? unloadCity { get; set; }
         public string? unloadAddress { get; set; }
 
         public DateTime? sendingTimeFrom { get; set; }

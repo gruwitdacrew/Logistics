@@ -35,6 +35,7 @@ namespace Logistics.Migrations
                     fullName = table.Column<string>(type: "text", nullable: false),
                     phone = table.Column<string>(type: "text", nullable: false),
                     email = table.Column<string>(type: "text", nullable: true),
+                    photo = table.Column<byte[]>(type: "bytea", nullable: true),
                     organizationalForm = table.Column<int>(type: "integer", nullable: true),
                     companyName = table.Column<string>(type: "text", nullable: true),
                     INN = table.Column<string>(type: "text", nullable: true),
@@ -112,7 +113,7 @@ namespace Logistics.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    permanentResidence = table.Column<string>(type: "text", nullable: true)
+                    permanentResidence = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -134,14 +135,15 @@ namespace Logistics.Migrations
                     shipmentid = table.Column<Guid>(type: "uuid", nullable: false),
                     creationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false),
-                    loadCity = table.Column<string>(type: "text", nullable: false),
+                    loadCity = table.Column<int>(type: "integer", nullable: false),
                     loadAddress = table.Column<string>(type: "text", nullable: false),
-                    unloadCity = table.Column<string>(type: "text", nullable: false),
+                    unloadCity = table.Column<int>(type: "integer", nullable: false),
                     unloadAddress = table.Column<string>(type: "text", nullable: false),
                     receiverFullName = table.Column<string>(type: "text", nullable: true),
                     receiverContacts = table.Column<string>(type: "text", nullable: true),
                     sendingTimeFrom = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     sendingTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    arrivalTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     truckType = table.Column<int>(type: "integer", nullable: false),
                     costInRubles = table.Column<float>(type: "real", nullable: false),
                     additionalCostInRubles = table.Column<float>(type: "real", nullable: false)

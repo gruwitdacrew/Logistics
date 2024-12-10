@@ -1,4 +1,5 @@
 ﻿using Logistics.Data.Common;
+using Logistics.Data.Requests.Models;
 using System.ComponentModel.DataAnnotations;
 namespace Logistics.Data.Account.AccountDTOs.Requests
 {
@@ -22,6 +23,6 @@ namespace Logistics.Data.Account.AccountDTOs.Requests
 
     public class EditTransporterRequestDTO : EditUserRequestDTO
     {
-        public string? permanentResidence { get; set; } 
+        public City? permanentResidence { get; set; } 
     }
 }

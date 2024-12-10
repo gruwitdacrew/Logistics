@@ -19,10 +19,10 @@ namespace Logistics.Data.Requests.Models
 
         public RequestStatus status { get; set; }
 
-        public string loadCity { get; set; }
+        public City loadCity { get; set; }
         public string loadAddress { get; set; }
 
-        public string unloadCity { get; set; }
+        public City unloadCity { get; set; }
         public string unloadAddress { get; set; }
 
         public string? receiverFullName { get; set; }
@@ -32,6 +32,7 @@ namespace Logistics.Data.Requests.Models
 
         public DateTime? sendingTimeFrom { get; set; }
         public DateTime sendingTime { get; set; }
+        public DateTime? arrivalTime { get; set; }
 
         public TruckType truckType { get; set; }
 
@@ -61,8 +62,8 @@ namespace Logistics.Data.Requests.Models
 
         public void edit(EditRequestRequestDTO editRequest)
         {
-            if (editRequest.unloadCity != null) unloadCity = editRequest.unloadCity;
-            if (editRequest.loadCity != null) loadCity = editRequest.loadCity;
+            if (editRequest.unloadCity != null) unloadCity = (City)editRequest.unloadCity;
+            if (editRequest.loadCity != null) loadCity = (City)editRequest.loadCity;
             if (editRequest.unloadAddress != null) unloadAddress = editRequest.unloadAddress;
             if (editRequest.loadAddress != null) loadAddress = editRequest.loadAddress;
             if (editRequest.sendingTime != null) sendingTime = (DateTime)editRequest.sendingTime;
@@ -87,5 +88,12 @@ namespace Logistics.Data.Requests.Models
         Accepted,
         ArchivedNotAccepted,
         ArchivedTransportationFinished
+    }
+
+    public enum City
+    {
+        Tomsk,
+        Novosibirsk,
+        Kemerovo
     }
 }

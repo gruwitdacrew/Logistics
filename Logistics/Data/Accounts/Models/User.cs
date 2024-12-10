@@ -18,6 +18,8 @@ namespace Logistics.Data.Account.Models
 
         public string? email { get; set; }
 
+        public byte[]? photo { get; set; }
+
         public Company company { get; set; }
 
         public Role role { get; set; }

@@ -23,7 +23,6 @@ namespace Logistics.Controllers
         [Authorize(Roles = "Shipper")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> createRequest(CreateRequestRequestDTO createRequest, bool isDelayed)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -36,7 +35,6 @@ namespace Logistics.Controllers
         [HttpPatch]
         [Route("{requestId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> editRequest([FromRoute] Guid requestId, EditRequestRequestDTO editRequest)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -63,7 +61,7 @@ namespace Logistics.Controllers
         [ProducesResponseType(typeof(List<TransporterRequestResponse>), StatusCodes.Status200OK)]
         public async Task<ActionResult<TransporterRequestResponse>> getTransporterRequests(RequestStatus status)
         {
-            if (status == RequestStatus.Delayed) return new BadRequestObjectResult(new ErrorResponse(400, "Для перевозчика нет такого типа заявки"));
+            if (status == RequestStatus.Delayed) return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Для перевозчика нет такого типа заявки"));
 
             var userId = User.Claims.ToList()[0].Value;
 
@@ -97,7 +95,6 @@ namespace Logistics.Controllers
         [HttpPatch]
         [Route("{requestId}/cost")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> changeCost(Guid requestId, ChangeCost change, float? amount)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -110,7 +107,6 @@ namespace Logistics.Controllers
         [HttpPost]
         [Route("{requestId}/accept")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> acceptRequest(Guid requestId)
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -118,12 +114,22 @@ namespace Logistics.Controllers
             return await _requestService.AcceptRequest(requestId, new Guid(userId));
         }
 
+        [Authorize(Roles = "Transporter")]
+        [HttpPost]
+        [Route("{requestId}/reject")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> rejectRequest(Guid requestId)
+        {
+            var userId = User.Claims.ToList()[0].Value;
+
+            return await _requestService.RejectRequest(requestId, new Guid(userId));
+        }
+
 
         [Authorize(Roles = "Shipper")]
         [HttpPost]
         [Route("delayed/{requestId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> publishDelayed(Guid requestId)
         {
             var userId = User.Claims.ToList()[0].Value;

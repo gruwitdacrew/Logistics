@@ -18,6 +18,7 @@ namespace Logistics.Data
         public DbSet<Shipper> Shippers { get; set; }
 
         public DbSet<Request> Requests{ get; set; }
+        public DbSet<RejectedRequest> RejectedRequests { get; set; }
         public DbSet<Transportation> Transportations { get; set; }
         public DbSet<Shipment> Shipments { get; set; }
 
@@ -44,6 +45,10 @@ namespace Logistics.Data
             modelBuilder.Entity<Request>().HasOne(x => x.shipper);
             modelBuilder.Entity<Request>().HasOne(x => x.shipment);
             modelBuilder.Entity<Request>().HasOne(x => x.transportation).WithOne(x => x.request).HasForeignKey<Transportation>(x => x.requestId);
+
+            modelBuilder.Entity<RejectedRequest>().HasOne<Request>().WithMany().HasForeignKey(x => x.requestId);
+            modelBuilder.Entity<RejectedRequest>().HasOne<Transporter>().WithMany().HasForeignKey(x => x.transporterId);
+            modelBuilder.Entity<RejectedRequest>().HasKey(x => new { x.transporterId, x.requestId});
 
             modelBuilder.Entity<TransportationStatusChange>().HasOne(x => x.transportation);
 

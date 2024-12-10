@@ -76,6 +76,10 @@ namespace Logistics.Services
             {
                 _context.Requests.Where(x => x.transportation == transportation).ExecuteUpdate(x => x.SetProperty(x => x.status, RequestStatus.ArchivedTransportationFinished));
             }
+            else if (status == TransportationStatus.Unloading)
+            {
+                _context.Requests.Where(x => x.transportation == transportation).ExecuteUpdate(x => x.SetProperty(x => x.arrivalTime, DateTime.UtcNow));
+            }
             transportation.status = status;
             TransportationStatusChange newChange = new TransportationStatusChange(transportation, status);
 

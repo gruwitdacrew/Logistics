@@ -6,6 +6,7 @@ using Logistics.Data.Accounts.DTOs.Requests;
 using Logistics.Data.Accounts.DTOs.Responses;
 using Logistics.Data.Common.CommonDTOs.Responses;
 using Logistics.Data.Common.DTOs.Responses;
+using Logistics.Data.Documents.Models;
 using Logistics.Services.Utils.TokenGenerator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -265,11 +266,11 @@ namespace Logistics.Services
 
             if (editRequest.organizationalForm == OrganizationForm.Individual && editRequest.companyName!=null)
             {
-                return new BadRequestObjectResult(new ErrorResponse(400, "У физического лица нет названия компании"));
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "У физического лица нет названия компании"));
             }
             if ((editRequest.INN.Length == 10) == (editRequest.organizationalForm != OrganizationForm.Individual))
             {
-                return new BadRequestObjectResult(new ErrorResponse(400, "Для физ. лица ИНН составляет 12 цифр, для юр. лица - 10"));
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Для физ. лица ИНН составляет 12 цифр, для юр. лица - 10"));
             }
             if (_context.Users.Where(x => x.company.INN == editRequest.INN).FirstOrDefault() != null)
             {
@@ -316,6 +317,31 @@ namespace Logistics.Services
                 return new UnauthorizedObjectResult("");
             }
             return new OkObjectResult(user.company);
+        }
+
+        public async Task<ActionResult> UploadPhoto(Guid userId, byte[] file)
+        {
+            User user = _context.Users.Where(p => p.id == userId).First();
+
+            user.photo = file;
+
+            _context.Users.Update(user);
+            _context.SaveChanges();
+
+            return new OkObjectResult("");
+        }
+
+        public async Task<ActionResult> DeletePhoto(Guid userId)
+        {
+            User user = _context.Users.Where(p => p.id == userId).First();
+            if (user.photo == null) { return new NotFoundObjectResult(new ErrorResponse(404, "Фотографии и так нет")); }
+
+            user.photo = null;
+
+            _context.Users.Update(user);
+            _context.SaveChanges();
+
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> CreateTransporterTruck(Guid transporterId, CreateTruckRequestDTO createRequest)

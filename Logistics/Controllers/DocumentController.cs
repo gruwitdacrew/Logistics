@@ -132,12 +132,11 @@ namespace Logistics.Controllers
         {
             var userId = User.Claims.ToList()[0].Value;
 
-
             if (file == null || file.Length == 0)
-                return new BadRequestObjectResult(new ErrorResponse(400, "Файл не выбран"));
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл не выбран"));
 
             if (file.ContentType != "application/pdf")
-                return new BadRequestObjectResult(new ErrorResponse(400, "Файл должен быть в формате pdf"));
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл должен быть в формате pdf"));
 
             byte[] pdfFileData;
             using (var memoryStream = new MemoryStream())
@@ -198,10 +197,10 @@ namespace Logistics.Controllers
 
 
             if (file == null || file.Length == 0)
-                return new BadRequestObjectResult(new ErrorResponse(400, "Файл не выбран"));
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл не выбран"));
 
             if (file.ContentType != "application/pdf")
-                return new BadRequestObjectResult(new ErrorResponse(400, "Файл должен быть в формате pdf"));
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл должен быть в формате pdf"));
 
             byte[] pdfFileData;
             using (var memoryStream = new MemoryStream())
