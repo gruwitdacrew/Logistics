@@ -1,5 +1,6 @@
 using Logistics.Data;
 using Logistics.Services;
+using Logistics.Services.Utils;
 using Logistics.Services.Utils.TokenGenerator;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -129,6 +130,8 @@ app.UseCors("AllowAllOrigins");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.MapControllers();
 

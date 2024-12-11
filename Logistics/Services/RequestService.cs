@@ -11,6 +11,7 @@ using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Logistics.Data.Documents.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Logistics.Data.Common;
 
 namespace Logistics.Services
 {
@@ -22,12 +23,57 @@ namespace Logistics.Services
             _context = context;
         }
 
+        private Shipper getShipperById(Guid shipperId)
+        {
+            Shipper? shipper = _context.Shippers.Where(x => x.id == shipperId).FirstOrDefault();
+            if (shipper == null)
+            {
+                throw new CustomException(404, "Грузоотправитель с таким id не найден");
+            }
+            return shipper;
+        }
+
+        private Transporter getTransporterById(Guid transporterId)
+        {
+            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
+            if (transporter == null)
+            {
+                throw new CustomException(404, "Перевозчик с таким id не найден");
+            }
+            return transporter;
+        }
+
+        private Request getRequestById(Guid requestId)
+        {
+            Request? request = _context.Requests.Include(x => x.shipment).Where(x => x.id == requestId).FirstOrDefault();
+            if (request == null)
+            {
+                throw new CustomException(404, "Заявка не найдена");
+            }
+            return request;
+        }
+
+        private Request getRequestByIdAndShipperId(Guid requestId, Guid shipperId)
+        {
+            Request? request = _context.Requests.Include(x => x.shipment).Where(x => x.id == requestId).FirstOrDefault();
+            Guid requestShipperId = _context.Requests.Where(x => x.id == requestId).Select(x => x.shipper.id).FirstOrDefault();
+
+            if (request == null)
+            {
+                throw new CustomException(404, "Заявка не найдена");
+            }
+            else if (requestShipperId != shipperId)
+            {
+                throw new CustomException(403, "Заявка не принадлежит вам");
+            }
+            return request;
+        }
+
+
         public async Task<ActionResult> CreateRequest(Guid shipperId, CreateRequestRequestDTO createRequest, bool isDelayed)
         {
-            Shipper shipper = _context.Shippers.Where(x => x.id == shipperId).FirstOrDefault();
-            if (shipper == null) {
-                return new UnauthorizedObjectResult("");
-            }
+            Shipper shipper = getShipperById(shipperId);
+
             Passport passport = _context.Passports.Where(x => x.user.id == shipperId).FirstOrDefault();
 
             if (!(shipper.haveFilledInCompany() && passport != null && passport.haveScan())) return new ObjectResult(new ErrorResponse(403, "Необходимо заполнить разделы 'О компании' и 'Документы' в профиле")) { StatusCode = StatusCodes.Status403Forbidden };
@@ -53,10 +99,28 @@ namespace Logistics.Services
         {
             List<Request> requests;
 
-            Transporter transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
+            Transporter transporter = getTransporterById(transporterId);
 
-            if (status == RequestStatus.Active) requests = _context.Requests.Where(x => x.status == RequestStatus.Active && x.loadCity == transporter.permanentResidence).Include(x => x.shipment).Include(x => x.shipper).ToList();
-            else requests = _context.Requests.Include(x => x.transportation).Where(x => x.transportation.transporter.id == transporterId && x.status == status).Include(x => x.shipment).Include(x => x.shipper).ToList();
+            List<Guid> rejectedRequestIds = _context.RejectedRequests.Where(x => x.transporterId == transporterId).Select(x => x.requestId).ToList();
+            var query = _context.Requests.Include(x => x.shipment).Include(x => x.shipper).AsQueryable();
+
+            if (status != RequestStatus.Active && status != RequestStatus.Rejected)
+            {
+                requests = query.Where(x => x.transportation.transporter.id == transporterId && x.status == status).ToList();
+            }
+            else
+            {
+                query = query.Where(x => x.status == RequestStatus.Active && x.loadCity == transporter.permanentResidence);
+
+                if (status == RequestStatus.Active)
+                {
+                    requests = query.Where(x => !rejectedRequestIds.Contains(x.id)).ToList();
+                }
+                else
+                {
+                    requests = query.Where(x => rejectedRequestIds.Contains(x.id)).ToList();
+                }
+            }
 
             var response = requests.Select(x => new TransporterRequestResponse(x)).ToList();
 
@@ -65,17 +129,8 @@ namespace Logistics.Services
 
         public async Task<ActionResult> EditRequest(Guid requestId, Guid shipperId, EditRequestRequestDTO editRequest)
         {
-            Request request = _context.Requests.Include(x => x.shipment).Where(x => x.id == requestId).FirstOrDefault();
-            Guid requestShipperId = _context.Requests.Where(x => x.id == requestId).Select(x => x.shipper.id).FirstOrDefault();
+            Request request = getRequestByIdAndShipperId(requestId, shipperId);
 
-            if (request == null)
-            {
-                return new NotFoundObjectResult(null);
-            }
-            else if (requestShipperId != shipperId)
-            {
-                return new ForbidResult();
-            }
             if (request.status != RequestStatus.Active && request.status != RequestStatus.Delayed) return new ObjectResult(new ErrorResponse(403, "Редактировать можно только активные и отложенные заявки")) { StatusCode = StatusCodes.Status403Forbidden };
 
             request.edit(editRequest);
@@ -88,17 +143,8 @@ namespace Logistics.Services
 
         public async Task<ActionResult> DeleteRequest(Guid requestId, Guid shipperId)
         {
-            Request request = _context.Requests.Where(x => x.id == requestId).FirstOrDefault();
-            Guid requestShipperId = _context.Requests.Where(x => x.id == requestId).Select(x => x.shipper.id).FirstOrDefault();
+            Request request = getRequestByIdAndShipperId(requestId, shipperId);
 
-            if (request == null)
-            {
-                return new NotFoundObjectResult(null);
-            }
-            else if (requestShipperId != shipperId)
-            {
-                return new ForbidResult();
-            }
             if (request.status != RequestStatus.Active && request.status != RequestStatus.Delayed) return new ObjectResult(new ErrorResponse(403, "Удалять можно только активные и отложенные заявки")) { StatusCode = StatusCodes.Status403Forbidden };
 
             _context.Requests.Remove(request);
@@ -109,15 +155,8 @@ namespace Logistics.Services
 
         public async Task<ActionResult> ChangeRequestCost(Guid requestId, Guid shipperId, ChangeCost change, float? amount)
         {
-            Request request = _context.Requests.Where(x => x.id == requestId).FirstOrDefault();
-            Guid requestShipperId = _context.Requests.Where(x => x.id == requestId).Select(x => x.shipper.id).FirstOrDefault();
+            Request request = getRequestByIdAndShipperId(requestId, shipperId);
 
-            if (request == null) {
-                return new NotFoundObjectResult(null);
-            }
-            else if (requestShipperId != shipperId) {
-                return new ForbidResult();
-            }
             if (request.status != RequestStatus.Active && request.status != RequestStatus.Delayed) return new ObjectResult(new ErrorResponse(403, "Изменять стоимость можно только у активных и отложенных заявок")) { StatusCode = StatusCodes.Status403Forbidden };
 
             switch (change)
@@ -156,18 +195,19 @@ namespace Logistics.Services
 
         public async Task<ActionResult> AcceptRequest(Guid requestId, Guid transporterId)
         {
-            Request? request = _context.Requests.Where(x => x.id == requestId).FirstOrDefault();
-            if (request == null) return new NotFoundObjectResult(new ErrorResponse(404, "Заявки с таким id нет"));
+            Request request = getRequestById(requestId);
             if (request.status != RequestStatus.Active) return new ForbidResult();
 
             Transporter transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault()!;
 
             Request? acceptedRequest = _context.Requests.Where(x => x.transportation.transporter.id == transporterId && x.status == RequestStatus.Accepted).FirstOrDefault();
             if (acceptedRequest != null) return new ObjectResult(new ErrorResponse(403, "Вы не можете одновременно принять больше одной заявки")) { StatusCode = StatusCodes.Status403Forbidden };
+
             if (request.loadCity != transporter.permanentResidence) return new ForbidResult();
 
-            Transportation transportation = new Transportation(transporter);
+            _context.RejectedRequests.Where(x => x.requestId == requestId).ExecuteDelete();
 
+            Transportation transportation = new Transportation(transporter);
             TransportationStatusChange transportationStatusChange = new TransportationStatusChange(transportation, TransportationStatus.WaitingForStart);
 
             request.status = RequestStatus.Accepted;
@@ -183,8 +223,8 @@ namespace Logistics.Services
 
         public async Task<ActionResult> RejectRequest(Guid requestId, Guid transporterId)
         {
-            Request? request = _context.Requests.Where(x => x.id == requestId).FirstOrDefault();
-            if (request == null) return new NotFoundObjectResult(new ErrorResponse(404, "Заявки с таким id нет"));
+            Request request = getRequestById(requestId);
+
             if (request.status != RequestStatus.Active) return new ForbidResult();
 
             City? transporterPermanentResidence = _context.Transporters.Where(x => x.id == transporterId).Select(x => x.permanentResidence).FirstOrDefault();
@@ -206,16 +246,8 @@ namespace Logistics.Services
 
         public async Task<ActionResult> PublishDelayedRequest(Guid requestId, Guid shipperId)
         {
-            Request request = _context.Requests.Where(x => x.id == requestId).Include(x => x.shipper).FirstOrDefault();
+            Request request = getRequestByIdAndShipperId(requestId, shipperId);
 
-            if (request == null)
-            {
-                return new NotFoundObjectResult(null);
-            }
-            else if (request.shipper.id != shipperId)
-            {
-                return new ForbidResult();
-            }
             if (request.status != RequestStatus.Delayed) return new NotFoundObjectResult(new ErrorResponse(404, "Нет отложенной заявки с таким id"));
 
             Passport passport = _context.Passports.Where(x => x.user.id == shipperId).FirstOrDefault();

@@ -86,6 +86,7 @@ namespace Logistics.Data.Requests.Models
         Active,
         Delayed,
         Accepted,
+        Rejected,
         ArchivedNotAccepted,
         ArchivedTransportationFinished
     }

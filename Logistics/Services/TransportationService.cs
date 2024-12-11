@@ -7,6 +7,8 @@ using Logistics.Data.Transportations.Models;
 using Microsoft.EntityFrameworkCore;
 using Logistics.Data.Common.CommonDTOs.Responses;
 using Logistics.Data.Account.Models;
+using System.Globalization;
+using Logistics.Data.Common;
 
 namespace Logistics.Services
 {
@@ -29,6 +31,23 @@ namespace Logistics.Services
             };
         }
 
+        private Transportation getTransportationByIdAndTransporterId(Guid transportationId, Guid transporterId)
+        {
+            Transportation? transportation = _context.Transportations.Where(x => x.id == transportationId).Include(x => x.request).Include(x => x.request.shipper).Include(x => x.request.shipment).FirstOrDefault();
+            Guid transportationTransporterId = _context.Transportations.Where(x => x.id == transportationId).Select(x => x.transporter.id).FirstOrDefault();
+
+            if (transportation == null)
+            {
+                throw new CustomException(404, "Нет перевозки с таким id");
+            }
+            if (transportationTransporterId != transporterId)
+            {
+                throw new CustomException(403, "У вас нет доступа к этой перевозке");
+            }
+
+            return transportation;
+        }
+
         public async Task<ActionResult> GetTransporterTransportations(Guid transporterId)
         {
             List<Transportation> transportations = _context.Transportations.Where(x => x.transporter.id == transporterId).Include(x => x.request).Include(x => x.request.shipper).Include(x => x.request.shipment).ToList();
@@ -40,17 +59,7 @@ namespace Logistics.Services
 
         public async Task<ActionResult> GetTransporterTransportation(Guid transporterId, Guid transportationId)
         {
-            Transportation? transportation = _context.Transportations.Where(x => x.id == transportationId).Include(x => x.request).Include(x => x.request.shipper).Include(x => x.request.shipment).FirstOrDefault();
-            Guid transportationTransporterId = _context.Transportations.Where(x => x.id == transportationId).Select(x => x.transporter.id).FirstOrDefault();
-
-            if (transportation == null)
-            {
-                return new NotFoundObjectResult(new ErrorResponse(404, "Нет перевозки с таким id"));
-            }
-            if (transportationTransporterId != transporterId)
-            {
-                return new ObjectResult(new ErrorResponse(403, "У вас нет доступа к этой перевозке")) { StatusCode = StatusCodes.Status403Forbidden };
-            }
+            Transportation transportation = getTransportationByIdAndTransporterId(transportationId, transporterId);
 
             List<TransportationStatusChangeResponseDTO> statusChangeHistory = _context.TransportationStatusChanges.Where(x => x.transportation.id == transportationId).Select(x => new TransportationStatusChangeResponseDTO(x)).ToList();
 
@@ -59,19 +68,10 @@ namespace Logistics.Services
 
         public async Task<ActionResult> SetTransportationStatus(Guid transporterId, Guid transportationId, TransportationStatus status)
         {
-            Transportation? transportation = _context.Transportations.Where(x => x.id == transportationId).FirstOrDefault();
-            Guid transportationTransporterId = _context.Transportations.Where(x => x.id == transportationId).Select(x => x.transporter.id).FirstOrDefault();
-
-            if (transportation == null)
-            {
-                return new NotFoundObjectResult(new ErrorResponse(404, "Нет перевозки с таким id"));
-            }
-            if (transportationTransporterId != transporterId)
-            {
-                return new ObjectResult(new ErrorResponse(403, "У вас нет доступа к этой перевозке")) { StatusCode = StatusCodes.Status403Forbidden };
-            }
+            Transportation transportation = getTransportationByIdAndTransporterId(transportationId, transporterId);
 
             if (!possibleTransportationStatusChange[transportation.status].Contains(status)) return new ObjectResult(new ErrorResponse(403, "Невозможно присвоить данный статус в данный момент")) { StatusCode = StatusCodes.Status403Forbidden };
+
             if (status == TransportationStatus.Finished)
             {
                 _context.Requests.Where(x => x.transportation == transportation).ExecuteUpdate(x => x.SetProperty(x => x.status, RequestStatus.ArchivedTransportationFinished));
@@ -80,6 +80,7 @@ namespace Logistics.Services
             {
                 _context.Requests.Where(x => x.transportation == transportation).ExecuteUpdate(x => x.SetProperty(x => x.arrivalTime, DateTime.UtcNow));
             }
+
             transportation.status = status;
             TransportationStatusChange newChange = new TransportationStatusChange(transportation, status);
 

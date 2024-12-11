@@ -4,6 +4,7 @@ using Logistics.Data.Account.AccountDTOs.Responses;
 using Logistics.Data.Account.Models;
 using Logistics.Data.Accounts.DTOs.Requests;
 using Logistics.Data.Accounts.DTOs.Responses;
+using Logistics.Data.Common;
 using Logistics.Data.Common.CommonDTOs.Responses;
 using Logistics.Data.Common.DTOs.Responses;
 using Logistics.Data.Documents.Models;
@@ -28,44 +29,72 @@ namespace Logistics.Services
             _emailService = emailService;
         }
 
-        public async Task<ActionResult> Logout(Guid userId, string refreshToken)
+        private User getUserById(Guid userId)
         {
             User? user = _context.Users.Where(x => x.id == userId).FirstOrDefault();
-            if (user != null && user.token == refreshToken)
+            if (user == null)
             {
-                user.token = null;
-
-                _context.Update(user);
-                _context.SaveChanges();
-
-                return new OkObjectResult("");
+                throw new CustomException(404, "Пользователь с таким id не найден");
             }
-            return new UnauthorizedObjectResult("");
+            return user;
+        }
+
+        private Shipper getShipperById(Guid shipperId)
+        {
+            Shipper? shipper = _context.Shippers.Where(x => x.id == shipperId).FirstOrDefault();
+            if (shipper == null)
+            {
+                throw new CustomException(404, "Грузоотправитель с таким id не найден");
+            }
+            return shipper;
+        }
+
+        private Transporter getTransporterById(Guid transporterId)
+        {
+            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
+            if (transporter == null)
+            {
+                throw new CustomException(404, "Перевозчик с таким id не найден");
+            }
+            return transporter;
+        }
+
+
+
+        public async Task<ActionResult> Logout(Guid userId, string refreshToken)
+        {
+            User user = getUserById(userId);
+
+            if (user.token != refreshToken) return new UnauthorizedObjectResult("");
+
+            user.token = null;
+
+            _context.Update(user);
+            _context.SaveChanges();
+
+            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> Refresh(Guid userId, string lastRefreshToken)
         {
-            User? user = _context.Users.Where(x => x.id == userId).FirstOrDefault();
-            if (user != null && user.token == lastRefreshToken)
-            {
-                var refreshToken = _tokenGenerator.GenerateToken(user, Token.Refresh);
-                var accessToken = _tokenGenerator.GenerateAccessToken(user, user.role);
+            User user = getUserById(userId);
 
-                user.token = refreshToken;
+            if (user.token != lastRefreshToken) return new UnauthorizedObjectResult("");
 
-                _context.Update(user);
-                _context.SaveChanges();
+            var refreshToken = _tokenGenerator.GenerateToken(user, Token.Refresh);
+            var accessToken = _tokenGenerator.GenerateAccessToken(user, user.role);
 
-                return new OkObjectResult(new TokenResponse(accessToken, refreshToken));
-            }
-            return new UnauthorizedObjectResult("");
+            user.token = refreshToken;
+
+            _context.Update(user);
+            _context.SaveChanges();
+
+            return new OkObjectResult(new TokenResponse(accessToken, refreshToken));
         }
 
         public async Task<ActionResult> SetNewPassword(Guid userId, string? oldPassword, string password)
         {
-            User? user = _context.Users.Where(x => x.id == userId).FirstOrDefault();
-
-            if (user == null) return new UnauthorizedObjectResult("");
+            User user = getUserById(userId);
 
             if ((user.password == null) != (oldPassword == null)) return new ConflictObjectResult(new ErrorResponse(409, "Старый пароль передается - если не сброшен, не передается - если сброшен"));
 
@@ -92,8 +121,7 @@ namespace Logistics.Services
 
         public async Task<ActionResult> ResetPassword(Guid userId)
         {
-            User? user = _context.Users.Where(x => x.id == userId).FirstOrDefault();
-            if (user == null) return new UnauthorizedObjectResult("");
+            User user = getUserById(userId);
 
             user.password = null;
             user.token = null;
@@ -106,15 +134,13 @@ namespace Logistics.Services
 
         public async Task<ActionResult> ApproveEmail(Guid userId, bool isEmailOwner)
         {
-            User user = _context.Users.Where(x => x.id == userId).FirstOrDefault();
+            User user = getUserById(userId);
             PendingEmail? email = _context.PendingEmails.Where(x => x.user == user).FirstOrDefault();
 
             if (email == null) return new ConflictObjectResult(new ErrorResponse(409, "Эл. почта не может быть подтверждена: либо на нее не регистрировались, либо ее подтвердил другой пользователь."));
 
             if (isEmailOwner)
             {
-                if (user == null) return new UnauthorizedObjectResult("");
-
                 user.email = email.value;
 
                 var refreshToken = _tokenGenerator.GenerateToken(user, Token.Refresh);
@@ -193,15 +219,15 @@ namespace Logistics.Services
             return new OkObjectResult(new TokenResponse(accessToken, refreshToken));
         }
 
-        private ActionResult EditUser(User user, EditUserRequestDTO editUserRequest)
+        private void EditUser(User user, EditUserRequestDTO editUserRequest)
         {
             if (editUserRequest.email != null && _context.Users.Where(x => x.email == editUserRequest.email).FirstOrDefault() != null)
             {
-                return new ConflictObjectResult(new ErrorResponse(409, "На эту электронную почту уже зарегистрирован пользователь"));
+                throw new CustomException(409, "На эту электронную почту уже зарегистрирован пользователь");
             }
             if (editUserRequest.phone != null && _context.Users.Where(x => x.phone == editUserRequest.phone).FirstOrDefault() != null)
             {
-                return new ConflictObjectResult(new ErrorResponse(409, "Пользователь с таким телефоном уже зарегистрирован"));
+                throw new CustomException(409, "Пользователь с таким телефоном уже зарегистрирован");
             }
 
             user.edit(editUserRequest);
@@ -216,20 +242,13 @@ namespace Logistics.Services
             }
 
             _context.Users.Update(user);
-
-            return new OkObjectResult("");
         }
 
         public async Task<ActionResult> EditShipper(Guid shipperId, EditShipperRequestDTO editRequest)
         {
-            Shipper? shipper = _context.Shippers.Where(x => x.id == shipperId).FirstOrDefault();
-            if (shipper == null)
-            {
-                return new UnauthorizedObjectResult("");
-            }
+            Shipper shipper = getShipperById(shipperId);
 
-            ActionResult response = EditUser(shipper, editRequest);
-            if (response is not OkObjectResult) return response;
+            EditUser(shipper, editRequest);
 
             _context.Shippers.Update(shipper);
             _context.SaveChanges();
@@ -239,14 +258,9 @@ namespace Logistics.Services
 
         public async Task<ActionResult> EditTransporter(Guid transporterId, EditTransporterRequestDTO editRequest)
         {
-            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
-            if (transporter == null)
-            {
-                return new UnauthorizedObjectResult("");
-            }
+            Transporter transporter = getTransporterById(transporterId);
 
-            ActionResult response = EditUser(transporter, editRequest);
-            if (response is not OkObjectResult) return response;
+            EditUser(transporter, editRequest);
 
             if (editRequest.permanentResidence != null) transporter.permanentResidence = editRequest.permanentResidence;
 
@@ -258,11 +272,7 @@ namespace Logistics.Services
 
         public async Task<ActionResult> EditCompany(Guid userId, EditCompanyRequestDTO editRequest)
         {
-            User? user = _context.Users.Where(x => x.id == userId).FirstOrDefault();
-            if (user == null)
-            {
-                return new UnauthorizedObjectResult("");
-            }
+            User user = getUserById(userId);
 
             if (editRequest.organizationalForm == OrganizationForm.Individual && editRequest.companyName!=null)
             {
@@ -277,9 +287,7 @@ namespace Logistics.Services
                 return new ConflictObjectResult(new ErrorResponse(409, "Этот ИНН уже есть в системе"));
             }
 
-            user.company.organizationalForm = editRequest.organizationalForm;
-            if (editRequest.companyName != null) user.company.companyName = editRequest.companyName;
-            user.company.INN = editRequest.INN;
+            user.company.edit(editRequest);
 
             _context.Users.Update(user);
             _context.SaveChanges();
@@ -289,39 +297,28 @@ namespace Logistics.Services
 
         public async Task<ActionResult> ShipperProfile(Guid shipperId)
         {
-            Shipper? shipper = _context.Shippers.Where(x => x.id == shipperId).FirstOrDefault();
-            if (shipper == null)
-            {
-                return new UnauthorizedObjectResult("");
-            }
+            Shipper shipper = getShipperById(shipperId);
 
             return new OkObjectResult(new ShipperProfileResponse(shipper));
         }
 
         public async Task<ActionResult> TransporterProfile(Guid transporterId)
         {
-            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
-            if (transporter == null)
-            {
-                return new UnauthorizedObjectResult("");
-            }
+            Transporter transporter = getTransporterById(transporterId);
 
             return new OkObjectResult(new TransporterProfileResponse(transporter));
         }
 
         public async Task<ActionResult> AboutCompany(Guid userId)
         {
-            User? user = _context.Users.Where(x => x.id == userId).FirstOrDefault();
-            if (user == null)
-            {
-                return new UnauthorizedObjectResult("");
-            }
+            User user = getUserById(userId);
+
             return new OkObjectResult(user.company);
         }
 
         public async Task<ActionResult> UploadPhoto(Guid userId, byte[] file)
         {
-            User user = _context.Users.Where(p => p.id == userId).First();
+            User user = getUserById(userId);
 
             user.photo = file;
 
@@ -333,7 +330,8 @@ namespace Logistics.Services
 
         public async Task<ActionResult> DeletePhoto(Guid userId)
         {
-            User user = _context.Users.Where(p => p.id == userId).First();
+            User user = getUserById(userId);
+
             if (user.photo == null) { return new NotFoundObjectResult(new ErrorResponse(404, "Фотографии и так нет")); }
 
             user.photo = null;
@@ -346,11 +344,8 @@ namespace Logistics.Services
 
         public async Task<ActionResult> CreateTransporterTruck(Guid transporterId, CreateTruckRequestDTO createRequest)
         {
-            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
-            if (transporter == null)
-            {
-                return new UnauthorizedObjectResult("");
-            }
+            Transporter transporter = getTransporterById(transporterId);
+
             Truck truck = _context.Trucks.Where(x => x.transporterId == transporterId).FirstOrDefault();
             if (truck != null) return new ConflictObjectResult(new ErrorResponse(409, "У вас уже указан транспорт"));
 
