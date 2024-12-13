@@ -34,7 +34,7 @@ namespace Logistics.Services
             User? user = _context.Users.Where(x => x.id == userId).FirstOrDefault();
             if (user == null)
             {
-                throw new CustomException(404, "Пользователь с таким id не найден");
+                throw new ErrorException(404, "Пользователь с таким id не найден");
             }
             return user;
         }
@@ -44,7 +44,7 @@ namespace Logistics.Services
             Shipper? shipper = _context.Shippers.Where(x => x.id == shipperId).FirstOrDefault();
             if (shipper == null)
             {
-                throw new CustomException(404, "Грузоотправитель с таким id не найден");
+                throw new ErrorException(404, "Грузоотправитель с таким id не найден");
             }
             return shipper;
         }
@@ -54,7 +54,7 @@ namespace Logistics.Services
             Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
             if (transporter == null)
             {
-                throw new CustomException(404, "Перевозчик с таким id не найден");
+                throw new ErrorException(404, "Перевозчик с таким id не найден");
             }
             return transporter;
         }
@@ -166,14 +166,17 @@ namespace Logistics.Services
         {
             User user;
 
+            ErrorProblemDetails problemDetails = new ErrorProblemDetails(400);
+
             if (_context.Users.Where(x => x.email == registerRequest.email).FirstOrDefault() != null)
             {
-                return new ConflictObjectResult(new ErrorResponse(409, "На эту электронную почту уже зарегистрирован пользователь"));
+                problemDetails.addError("На эту электронную почту уже зарегистрирован пользователь");
             }
-            else if (_context.Users.Where(x => x.phone == registerRequest.phone).FirstOrDefault() != null)
+            if (_context.Users.Where(x => x.phone == registerRequest.phone).FirstOrDefault() != null)
             {
-                return new ConflictObjectResult(new ErrorResponse(409, "Пользователь с таким телефоном уже зарегистрирован"));
+                problemDetails.addError("Пользователь с таким телефоном уже зарегистрирован");
             }
+            if (problemDetails.errors.Count > 0) return new BadRequestObjectResult(problemDetails);
 
             if (role == Role.Shipper)
             {
@@ -199,6 +202,9 @@ namespace Logistics.Services
         public async Task<ActionResult> Login(LoginRequestDTO loginRequest)
         {
             User? user = _context.Users.Where(x => x.email == loginRequest.email).FirstOrDefault();
+
+            ErrorProblemDetails problemDetails = new ErrorProblemDetails(400);
+
             if (user == null)
             {
                 return new NotFoundObjectResult(new ErrorResponse(404, "Пользователь с таким email не найден"));
@@ -221,14 +227,17 @@ namespace Logistics.Services
 
         private void EditUser(User user, EditUserRequestDTO editUserRequest)
         {
+            ErrorProblemDetails errorProblemDetails = new ErrorProblemDetails(400);
+
             if (editUserRequest.email != null && _context.Users.Where(x => x.email == editUserRequest.email).FirstOrDefault() != null)
             {
-                throw new CustomException(409, "На эту электронную почту уже зарегистрирован пользователь");
+                errorProblemDetails.addError("На эту электронную почту уже зарегистрирован пользователь");
             }
             if (editUserRequest.phone != null && _context.Users.Where(x => x.phone == editUserRequest.phone).FirstOrDefault() != null)
             {
-                throw new CustomException(409, "Пользователь с таким телефоном уже зарегистрирован");
+                errorProblemDetails.addError("Пользователь с таким телефоном уже зарегистрирован");
             }
+            if (errorProblemDetails.errors.Count > 0) throw new ErrorCollectionException(errorProblemDetails.status, errorProblemDetails.errors);
 
             user.edit(editUserRequest);
 
@@ -274,18 +283,25 @@ namespace Logistics.Services
         {
             User user = getUserById(userId);
 
+            ErrorProblemDetails problemDetails = new ErrorProblemDetails(400);
+
             if (editRequest.organizationalForm == OrganizationForm.Individual && editRequest.companyName!=null)
             {
-                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "У физического лица нет названия компании"));
+                problemDetails.addError("У физического лица нет названия компании");
             }
-            if ((editRequest.INN.Length == 10) == (editRequest.organizationalForm != OrganizationForm.Individual))
+            else if (editRequest.organizationalForm != OrganizationForm.Individual && editRequest.companyName == null)
             {
-                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Для физ. лица ИНН составляет 12 цифр, для юр. лица - 10"));
+                problemDetails.addError("Укажите название компании");
+            }
+            if ((editRequest.INN.Length == 10) != (editRequest.organizationalForm != OrganizationForm.Individual))
+            {
+                problemDetails.addError("Для физ. лица ИНН составляет 12 цифр, для юр. лица - 10");
             }
             if (_context.Users.Where(x => x.company.INN == editRequest.INN).FirstOrDefault() != null)
             {
-                return new ConflictObjectResult(new ErrorResponse(409, "Этот ИНН уже есть в системе"));
+                problemDetails.addError("Этот ИНН уже есть в системе");
             }
+            if (problemDetails.errors.Count > 0) throw new ErrorCollectionException(problemDetails.status, problemDetails.errors);
 
             user.company.edit(editRequest);
 

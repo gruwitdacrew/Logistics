@@ -19,18 +19,31 @@ namespace Logistics.Services.Utils
             {
                 await _next(context);
             }
-            catch (CustomException exception)
+            catch (ErrorException exception)
+            {
+                await HandleExceptionAsync(context, exception);
+            }
+            catch (ErrorCollectionException exception)
             {
                 await HandleExceptionAsync(context, exception);
             }
         }
 
-        private Task HandleExceptionAsync(HttpContext context, CustomException exception)
+        private Task HandleExceptionAsync(HttpContext context, ErrorException exception)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = exception.status;
 
             var result = JsonSerializer.Serialize(new ErrorResponse(exception.status, exception.message));
+            return context.Response.WriteAsync(result);
+        }
+
+        private Task HandleExceptionAsync(HttpContext context, ErrorCollectionException exception)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = exception.status;
+
+            var result = JsonSerializer.Serialize(new ErrorProblemDetails(exception.status, exception.errors));
             return context.Response.WriteAsync(result);
         }
     }

@@ -6,7 +6,6 @@ using Logistics.Data.Accounts.DTOs.Responses;
 using Logistics.Data.Common.CommonDTOs.Responses;
 using Logistics.Data.Common.DTOs.Responses;
 using Logistics.Services;
-using Logistics.Services.Utils.TokenGenerator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -59,7 +58,7 @@ namespace Logistics.Controllers
             return await _userService.Refresh(new Guid(userId), token);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Shipper")]
         [HttpGet]
         [Route("/api/shipper/profile")]
         [ProducesResponseType(typeof(ShipperProfileResponse), StatusCodes.Status200OK)]
@@ -71,7 +70,7 @@ namespace Logistics.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "Transporter")]
         [HttpGet]
         [Route("/api/transporter/profile")]
         [ProducesResponseType(typeof(TransporterProfileResponse), StatusCodes.Status200OK)]
@@ -130,7 +129,7 @@ namespace Logistics.Controllers
         public async Task<IActionResult> setPasswordAfterReset(
             [Required]
             [RegularExpression(pattern: "^.{8,}$", ErrorMessage = "Пароль должен состоять из минимум 8 символов")]
-            string password
+            [FromBody] string password
             )
         {
             var userId = User.Claims.ToList()[0].Value;
@@ -224,7 +223,7 @@ namespace Logistics.Controllers
         [HttpPost]
         [Route("/api/transporter/transport")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> createTransport(CreateTruckRequestDTO createRequest)
         {
@@ -238,7 +237,7 @@ namespace Logistics.Controllers
         [HttpGet]
         [Route("/api/transporter/transport")]
         [ProducesResponseType(typeof(TruckResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> getTransport()
         {
@@ -252,7 +251,7 @@ namespace Logistics.Controllers
         [HttpPatch]
         [Route("/api/transporter/transport")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> editTransport(EditTruckRequestDTO editRequest)
         {

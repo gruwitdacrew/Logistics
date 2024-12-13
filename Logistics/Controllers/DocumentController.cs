@@ -22,7 +22,7 @@ namespace Logistics.Controllers
         [HttpPost]
         [Route("passport")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> passport(CreatePassportDTO createPassport)
         {
@@ -35,7 +35,7 @@ namespace Logistics.Controllers
         [HttpPatch]
         [Route("passport")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> passport(EditPassportDTO editPassport)
         {
@@ -75,7 +75,7 @@ namespace Logistics.Controllers
         [HttpPost]
         [Route("license")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> license(CreateDriverLicenseRequestDTO createLicense)
         {
@@ -88,7 +88,7 @@ namespace Logistics.Controllers
         [HttpPatch]
         [Route("license")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(CustomProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(void), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult> license(EditDriverLicenseDTO editLicense)
         {

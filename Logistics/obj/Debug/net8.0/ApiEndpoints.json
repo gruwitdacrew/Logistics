@@ -20,7 +20,7 @@
         "StatusCode": 200
       },
       {
-        "Type": "Logistics.Data.Common.CommonDTOs.Responses.CustomProblemDetails",
+        "Type": "Logistics.Data.Common.CommonDTOs.Responses.ErrorProblemDetails",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -56,7 +56,7 @@
         "StatusCode": 200
       },
       {
-        "Type": "Logistics.Data.Common.CommonDTOs.Responses.CustomProblemDetails",
+        "Type": "Logistics.Data.Common.CommonDTOs.Responses.ErrorProblemDetails",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -211,7 +211,7 @@
         "StatusCode": 200
       },
       {
-        "Type": "Logistics.Data.Common.CommonDTOs.Responses.CustomProblemDetails",
+        "Type": "Logistics.Data.Common.CommonDTOs.Responses.ErrorProblemDetails",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -247,7 +247,7 @@
         "StatusCode": 200
       },
       {
-        "Type": "Logistics.Data.Common.CommonDTOs.Responses.CustomProblemDetails",
+        "Type": "Logistics.Data.Common.CommonDTOs.Responses.ErrorProblemDetails",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -838,7 +838,7 @@
         "StatusCode": 200
       },
       {
-        "Type": "Logistics.Data.Common.CommonDTOs.Responses.CustomProblemDetails",
+        "Type": "Logistics.Data.Common.CommonDTOs.Responses.ErrorProblemDetails",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -872,7 +872,7 @@
         "StatusCode": 200
       },
       {
-        "Type": "Logistics.Data.Common.CommonDTOs.Responses.CustomProblemDetails",
+        "Type": "Logistics.Data.Common.CommonDTOs.Responses.ErrorProblemDetails",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -908,7 +908,7 @@
         "StatusCode": 200
       },
       {
-        "Type": "Logistics.Data.Common.CommonDTOs.Responses.CustomProblemDetails",
+        "Type": "Logistics.Data.Common.CommonDTOs.Responses.ErrorProblemDetails",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1150,7 +1150,7 @@
       {
         "Name": "password",
         "Type": "System.String",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [

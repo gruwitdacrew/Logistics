@@ -88,9 +88,9 @@ namespace Logistics.Data.Common
 
         internal class CarNumberAttribute : RegularExpressionAttribute
         {
-            public CarNumberAttribute() : base("^[А-Я]{2}\\d{3}[А-Я]$")
+            public CarNumberAttribute() : base("^[АВЕКМНОРСТУХ][0-9]{3}[АВЕКМНОРСТУХ]{2}$")
             {
-                ErrorMessage = "Автомобильный номер имеет маску АА000А";
+                ErrorMessage = "Автомобильный номер имеет маску A000AA (буквы английские)";
             }
         }
 

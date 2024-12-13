@@ -6,6 +6,8 @@ namespace Logistics.Data.Requests.Models
     {
         public Guid id { get; set; }
 
+        public Guid requestId { get; set; }
+
         public ShipmentType type { get; set; }
 
         public float lengthInMeters { get; set; }
@@ -19,9 +21,10 @@ namespace Logistics.Data.Requests.Models
 
         public Shipment() { }
 
-        public Shipment(CreateShipmentRequestDTO createShipment)
+        public Shipment(CreateShipmentRequestDTO createShipment, Guid requestId)
         {
             id = Guid.NewGuid();
+            this.requestId = requestId;
             type = createShipment.type;
             lengthInMeters = createShipment.lengthInMeters;
             widthInMeters = createShipment.widthInMeters;

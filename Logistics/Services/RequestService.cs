@@ -28,7 +28,7 @@ namespace Logistics.Services
             Shipper? shipper = _context.Shippers.Where(x => x.id == shipperId).FirstOrDefault();
             if (shipper == null)
             {
-                throw new CustomException(404, "Грузоотправитель с таким id не найден");
+                throw new ErrorException(404, "Грузоотправитель с таким id не найден");
             }
             return shipper;
         }
@@ -38,7 +38,7 @@ namespace Logistics.Services
             Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
             if (transporter == null)
             {
-                throw new CustomException(404, "Перевозчик с таким id не найден");
+                throw new ErrorException(404, "Перевозчик с таким id не найден");
             }
             return transporter;
         }
@@ -48,7 +48,7 @@ namespace Logistics.Services
             Request? request = _context.Requests.Include(x => x.shipment).Where(x => x.id == requestId).FirstOrDefault();
             if (request == null)
             {
-                throw new CustomException(404, "Заявка не найдена");
+                throw new ErrorException(404, "Заявка не найдена");
             }
             return request;
         }
@@ -60,11 +60,11 @@ namespace Logistics.Services
 
             if (request == null)
             {
-                throw new CustomException(404, "Заявка не найдена");
+                throw new ErrorException(404, "Заявка не найдена");
             }
             else if (requestShipperId != shipperId)
             {
-                throw new CustomException(403, "Заявка не принадлежит вам");
+                throw new ErrorException(403, "Заявка не принадлежит вам");
             }
             return request;
         }

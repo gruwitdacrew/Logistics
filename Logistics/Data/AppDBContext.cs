@@ -43,7 +43,7 @@ namespace Logistics.Data
             modelBuilder.Entity<DriverLicense>().HasOne(x => x.transporter);
 
             modelBuilder.Entity<Request>().HasOne(x => x.shipper);
-            modelBuilder.Entity<Request>().HasOne(x => x.shipment);
+            modelBuilder.Entity<Request>().HasOne(x => x.shipment).WithOne().HasForeignKey<Shipment>(x => x.requestId);
             modelBuilder.Entity<Request>().HasOne(x => x.transportation).WithOne(x => x.request).HasForeignKey<Transportation>(x => x.requestId);
 
             modelBuilder.Entity<RejectedRequest>().HasOne<Request>().WithMany().HasForeignKey(x => x.requestId);

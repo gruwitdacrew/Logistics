@@ -3,6 +3,7 @@ using System;
 using Logistics.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Logistics.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241212101333_shipmentChange")]
+    partial class shipmentChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,7 +42,7 @@ namespace Logistics.Migrations
 
                     b.HasIndex("userid");
 
-                    b.ToTable("PendingEmails", (string)null);
+                    b.ToTable("PendingEmails");
                 });
 
             modelBuilder.Entity("Logistics.Data.Account.Models.Truck", b =>
@@ -88,7 +91,7 @@ namespace Logistics.Migrations
                     b.HasIndex("transporterId")
                         .IsUnique();
 
-                    b.ToTable("Trucks", (string)null);
+                    b.ToTable("Trucks");
                 });
 
             modelBuilder.Entity("Logistics.Data.Account.Models.User", b =>
@@ -122,7 +125,7 @@ namespace Logistics.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.UseTptMappingStrategy();
                 });
@@ -151,7 +154,7 @@ namespace Logistics.Migrations
 
                     b.HasIndex("transporterid");
 
-                    b.ToTable("Licenses", (string)null);
+                    b.ToTable("Licenses");
                 });
 
             modelBuilder.Entity("Logistics.Data.Documents.Models.Passport", b =>
@@ -190,7 +193,7 @@ namespace Logistics.Migrations
 
                     b.HasIndex("userid");
 
-                    b.ToTable("Passports", (string)null);
+                    b.ToTable("Passports");
                 });
 
             modelBuilder.Entity("Logistics.Data.Requests.Models.RejectedRequest", b =>
@@ -205,7 +208,7 @@ namespace Logistics.Migrations
 
                     b.HasIndex("requestId");
 
-                    b.ToTable("RejectedRequests", (string)null);
+                    b.ToTable("RejectedRequests");
                 });
 
             modelBuilder.Entity("Logistics.Data.Requests.Models.Request", b =>
@@ -265,7 +268,7 @@ namespace Logistics.Migrations
 
                     b.HasIndex("shipperid");
 
-                    b.ToTable("Requests", (string)null);
+                    b.ToTable("Requests");
                 });
 
             modelBuilder.Entity("Logistics.Data.Requests.Models.Shipment", b =>
@@ -297,7 +300,7 @@ namespace Logistics.Migrations
                     b.HasIndex("requestId")
                         .IsUnique();
 
-                    b.ToTable("Shipments", (string)null);
+                    b.ToTable("Shipments");
                 });
 
             modelBuilder.Entity("Logistics.Data.Transportations.Models.Review", b =>
@@ -319,7 +322,7 @@ namespace Logistics.Migrations
 
                     b.HasIndex("userId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Logistics.Data.Transportations.Models.Transportation", b =>
@@ -344,7 +347,7 @@ namespace Logistics.Migrations
 
                     b.HasIndex("transporterid");
 
-                    b.ToTable("Transportations", (string)null);
+                    b.ToTable("Transportations");
                 });
 
             modelBuilder.Entity("Logistics.Data.Transportations.Models.TransportationStatusChange", b =>
@@ -366,14 +369,14 @@ namespace Logistics.Migrations
 
                     b.HasIndex("transportationid");
 
-                    b.ToTable("TransportationStatusChanges", (string)null);
+                    b.ToTable("TransportationStatusChanges");
                 });
 
             modelBuilder.Entity("Logistics.Data.Account.Models.Shipper", b =>
                 {
                     b.HasBaseType("Logistics.Data.Account.Models.User");
 
-                    b.ToTable("Shippers", (string)null);
+                    b.ToTable("Shippers");
                 });
 
             modelBuilder.Entity("Logistics.Data.Account.Models.Transporter", b =>
@@ -383,7 +386,7 @@ namespace Logistics.Migrations
                     b.Property<int?>("permanentResidence")
                         .HasColumnType("integer");
 
-                    b.ToTable("Transporters", (string)null);
+                    b.ToTable("Transporters");
                 });
 
             modelBuilder.Entity("Logistics.Data.Account.Models.PendingEmail", b =>
@@ -408,7 +411,7 @@ namespace Logistics.Migrations
 
             modelBuilder.Entity("Logistics.Data.Account.Models.User", b =>
                 {
-                    b.OwnsOne("Logistics.Data.Account.Models.User.company#Logistics.Data.Common.DTOs.Responses.Company", "company", b1 =>
+                    b.OwnsOne("Logistics.Data.Common.DTOs.Responses.Company", "company", b1 =>
                         {
                             b1.Property<Guid>("Userid")
                                 .HasColumnType("uuid");
@@ -427,7 +430,7 @@ namespace Logistics.Migrations
 
                             b1.HasKey("Userid");
 
-                            b1.ToTable("Users", (string)null);
+                            b1.ToTable("Users");
 
                             b1.WithOwner()
                                 .HasForeignKey("Userid");

@@ -46,7 +46,7 @@ namespace Logistics.Data.Requests.Models
         {
             id = Guid.NewGuid();
             this.shipper = shipper;
-            shipment = new Shipment(createRequest.shipment);
+            shipment = new Shipment(createRequest.shipment, id);
             creationTime = DateTime.UtcNow;
             status = isDelayed ? RequestStatus.Delayed : RequestStatus.Active;
             loadCity = createRequest.loadCity;

@@ -38,11 +38,11 @@ namespace Logistics.Services
 
             if (transportation == null)
             {
-                throw new CustomException(404, "Нет перевозки с таким id");
+                throw new ErrorException(404, "Нет перевозки с таким id");
             }
             if (transportationTransporterId != transporterId)
             {
-                throw new CustomException(403, "У вас нет доступа к этой перевозке");
+                throw new ErrorException(403, "У вас нет доступа к этой перевозке");
             }
 
             return transportation;

@@ -7,18 +7,19 @@ namespace Logistics.Data
     {
         public static IActionResult MakeValidationResponse(ActionContext context)
         {
-            var problemDetails = new ValidationProblemDetails(context.ModelState)
+            var validationProblemDetails = new ValidationProblemDetails(context.ModelState)
             {
                 Status = StatusCodes.Status400BadRequest,
             };
-            // My app calls Chat, so, that's why I called this var as chatProblemDetails
-            var chatProblemDetails = new CustomProblemDetails
-            {
-                status = problemDetails.Status,
-                errors = problemDetails.Errors,
-            };
 
-            var result = new BadRequestObjectResult(chatProblemDetails);
+            var problemDetails = new ErrorProblemDetails((int)validationProblemDetails.Status);
+
+            foreach (var error in validationProblemDetails.Errors)
+            {
+                problemDetails.addError(error.Value.First());
+            }
+
+            var result = new BadRequestObjectResult(problemDetails);
 
             result.ContentTypes.Add("application/problem+json");
 
