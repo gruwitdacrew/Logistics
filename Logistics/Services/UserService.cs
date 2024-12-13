@@ -89,7 +89,7 @@ namespace Logistics.Services
             _context.Update(user);
             _context.SaveChanges();
 
-            return new OkObjectResult(new TokenResponse(accessToken, refreshToken));
+            return new OkObjectResult(new TokenResponse(user, accessToken, refreshToken));
         }
 
         public async Task<ActionResult> SetNewPassword(Guid userId, string? oldPassword, string password)
@@ -152,7 +152,7 @@ namespace Logistics.Services
                 _context.Update(user);
                 _context.SaveChanges();
 
-                return new OkObjectResult(new TokenResponse(accessToken, refreshToken));
+                return new OkObjectResult(new TokenResponse(user, accessToken, refreshToken));
             }
             else
             {
@@ -222,7 +222,7 @@ namespace Logistics.Services
             _context.Users.Update(user);
             _context.SaveChanges();
 
-            return new OkObjectResult(new TokenResponse(accessToken, refreshToken));
+            return new OkObjectResult(new TokenResponse(user, accessToken, refreshToken));
         }
 
         private void EditUser(User user, EditUserRequestDTO editUserRequest)
