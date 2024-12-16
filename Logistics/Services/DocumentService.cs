@@ -135,12 +135,26 @@ namespace Logistics.Services
         }
 
 
-        public async Task<ActionResult> UploadPassportScan(Guid userId, byte[] file)
+        public async Task<ActionResult> UploadPassportScan(Guid userId, IFormFile file)
         {
             Passport passport = _context.Passports.Where(p => p.user.id == userId).FirstOrDefault();
 
             if (passport == null) return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали паспорт"));
-            passport.scan = file;
+
+            if (file == null || file.Length == 0)
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл не выбран"));
+
+            if (file.ContentType != "application/pdf")
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл должен быть в формате pdf"));
+
+            byte[] pdfFileData;
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                pdfFileData = memoryStream.ToArray();
+            }
+
+            passport.scan = pdfFileData;
 
             _context.Passports.Update(passport);
             _context.SaveChanges();
@@ -174,12 +188,26 @@ namespace Logistics.Services
         }
 
 
-        public async Task<ActionResult> UploadLicenseScan(Guid transporterId, byte[] file)
+        public async Task<ActionResult> UploadLicenseScan(Guid transporterId, IFormFile file)
         {
             DriverLicense license = _context.Licenses.Where(p => p.transporter.id == transporterId).FirstOrDefault();
 
             if (license == null) return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали водительское удостоверение"));
-            license.scan = file;
+
+            if (file == null || file.Length == 0)
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл не выбран"));
+
+            if (file.ContentType != "application/pdf")
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл должен быть в формате pdf"));
+
+            byte[] pdfFileData;
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                pdfFileData = memoryStream.ToArray();
+            }
+
+            license.scan = pdfFileData;
 
             _context.Licenses.Update(license);
             _context.SaveChanges();

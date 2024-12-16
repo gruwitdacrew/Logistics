@@ -36,7 +36,7 @@ namespace Logistics.Controllers
             return await _userService.Login(loginRequest);
         }
 
-        [Authorize(Policy = "RefreshTokenAccess")]
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> logout()
@@ -44,7 +44,7 @@ namespace Logistics.Controllers
             var userId = User.Claims.ToList()[0].Value;
             var token = Request.Headers.Authorization.ToString().Substring(7);
 
-            return await _userService.Logout(new Guid(userId), token);
+            return await _userService.Logout(new Guid(userId));
         }
 
         [Authorize(Policy = "RefreshTokenAccess")]
@@ -190,22 +190,18 @@ namespace Logistics.Controllers
         {
             var userId = User.Claims.ToList()[0].Value;
 
+            return await _userService.UploadPhoto(new Guid(userId), file);
+        }
 
-            if (file == null || file.Length == 0)
-                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл не выбран"));
+        [Authorize]
+        [HttpGet]
+        [Route("/api/user/photo")]
+        [ProducesResponseType(typeof(byte[]), StatusCodes.Status200OK)]
+        public async Task<ActionResult> getPhoto()
+        {
+            var userId = User.Claims.ToList()[0].Value;
 
-            if ("image/png" != file.ContentType)
-                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл должен быть фотографией"));
-
-            byte[] fileData;
-            using (var memoryStream = new MemoryStream())
-            {
-                await file.CopyToAsync(memoryStream);
-                fileData = memoryStream.ToArray();
-            }
-
-
-            return await _userService.UploadPhoto(new Guid(userId), fileData);
+            return await _userService.GetPhoto(new Guid(userId));
         }
 
         [Authorize]

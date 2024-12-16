@@ -132,21 +132,7 @@ namespace Logistics.Controllers
         {
             var userId = User.Claims.ToList()[0].Value;
 
-            if (file == null || file.Length == 0)
-                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл не выбран"));
-
-            if (file.ContentType != "application/pdf")
-                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл должен быть в формате pdf"));
-
-            byte[] pdfFileData;
-            using (var memoryStream = new MemoryStream())
-            {
-                await file.CopyToAsync(memoryStream);
-                pdfFileData = memoryStream.ToArray();
-            }
-
-
-            return await _documentService.UploadPassportScan(new Guid(userId), pdfFileData);
+            return await _documentService.UploadPassportScan(new Guid(userId), file);
         }
 
 
@@ -195,22 +181,7 @@ namespace Logistics.Controllers
         {
             var userId = User.Claims.ToList()[0].Value;
 
-
-            if (file == null || file.Length == 0)
-                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл не выбран"));
-
-            if (file.ContentType != "application/pdf")
-                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл должен быть в формате pdf"));
-
-            byte[] pdfFileData;
-            using (var memoryStream = new MemoryStream())
-            {
-                await file.CopyToAsync(memoryStream);
-                pdfFileData = memoryStream.ToArray();
-            }
-
-
-            return await _documentService.UploadLicenseScan(new Guid(userId), pdfFileData);
+            return await _documentService.UploadLicenseScan(new Guid(userId), file);
         }
 
 

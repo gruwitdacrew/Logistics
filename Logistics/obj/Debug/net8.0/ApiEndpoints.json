@@ -1185,6 +1185,26 @@
   },
   {
     "ContainingType": "Logistics.Controllers.AccountController",
+    "Method": "getPhoto",
+    "RelativePath": "api/user/photo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Byte[]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Logistics.Controllers.AccountController",
     "Method": "photo",
     "RelativePath": "api/user/photo",
     "HttpMethod": "DELETE",

@@ -61,11 +61,9 @@ namespace Logistics.Services
 
 
 
-        public async Task<ActionResult> Logout(Guid userId, string refreshToken)
+        public async Task<ActionResult> Logout(Guid userId)
         {
             User user = getUserById(userId);
-
-            if (user.token != refreshToken) return new UnauthorizedObjectResult("");
 
             user.token = null;
 
@@ -332,11 +330,24 @@ namespace Logistics.Services
             return new OkObjectResult(user.company);
         }
 
-        public async Task<ActionResult> UploadPhoto(Guid userId, byte[] file)
+        public async Task<ActionResult> UploadPhoto(Guid userId, IFormFile file)
         {
             User user = getUserById(userId);
 
-            user.photo = file;
+            if (file == null || file.Length == 0)
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл не выбран"));
+
+            if ("image/png" != file.ContentType)
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл должен быть фотографией png"));
+
+            byte[] fileData;
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                fileData = memoryStream.ToArray();
+            }
+
+            user.photo = fileData;
 
             _context.Users.Update(user);
             _context.SaveChanges();
@@ -344,11 +355,20 @@ namespace Logistics.Services
             return new OkObjectResult("");
         }
 
+        public async Task<ActionResult> GetPhoto(Guid userId)
+        {
+            User user = getUserById(userId);
+
+            if (user.photo == null) { return new NotFoundObjectResult(new ErrorResponse(404, "Фотография не указана")); }
+
+            return new OkObjectResult(user.photo);
+        }
+
         public async Task<ActionResult> DeletePhoto(Guid userId)
         {
             User user = getUserById(userId);
 
-            if (user.photo == null) { return new NotFoundObjectResult(new ErrorResponse(404, "Фотографии и так нет")); }
+            if (user.photo == null) { return new NotFoundObjectResult(new ErrorResponse(404, "Фотография не указана")); }
 
             user.photo = null;
 
