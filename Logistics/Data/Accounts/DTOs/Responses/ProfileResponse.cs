@@ -11,14 +11,11 @@ namespace Logistics.Data.Account.AccountDTOs.Responses
 
         public string phone { get; set; }
 
-        public byte[]? photo { get; set; }
-
         public ProfileResponse(User user)
         {
             fullName = user.fullName;
             email = user.email;
             phone = user.phone;
-            photo = user.photo;
         }
     }
 
