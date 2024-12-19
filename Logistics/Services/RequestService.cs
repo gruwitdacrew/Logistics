@@ -69,14 +69,42 @@ namespace Logistics.Services
             return request;
         }
 
+        private void CheckIfCanInteractWithRequest(User user, in ErrorProblemDetails missingSections)
+        {
+            Passport? passport = _context.Passports.Where(x => x.user.id == user.id).FirstOrDefault();
+
+            if (!user.haveFilledInCompany()) missingSections.errors.Add("Необходимо заполнить раздел 'О компании'");
+            if (passport == null) missingSections.errors.Add("Необходимо указать паспорт в разделе 'Документы'");
+            else if (!passport.haveScan()) missingSections.errors.Add("Необходимо добавить скан паспорта");
+        }
+
+        public void CheckIfCanInteractWithRequest(Shipper shipper)
+        {
+            ErrorProblemDetails missingSections = new ErrorProblemDetails(403);
+            CheckIfCanInteractWithRequest(shipper, in missingSections);
+
+            throw new ErrorCollectionException(missingSections.status, missingSections.errors);
+        }
+
+        public void CheckIfCanInteractWithRequest(Transporter transporter)
+        {
+            ErrorProblemDetails missingSections = new ErrorProblemDetails(403);
+            CheckIfCanInteractWithRequest(transporter, missingSections);
+
+            DriverLicense? driverLicense = _context.Licenses.Where(x => x.transporter.id == transporter.id).FirstOrDefault();
+
+            if (driverLicense == null) missingSections.errors.Add("Необходимо указать водительское удостоверение в разделе 'Документы'");
+            else if (!driverLicense.haveScan()) missingSections.errors.Add("Необходимо добавить скан водительского удостоверения");
+
+            throw new ErrorCollectionException(missingSections.status, missingSections.errors);
+        }
+
 
         public async Task<ActionResult> CreateRequest(Guid shipperId, CreateRequestRequestDTO createRequest, bool isDelayed)
         {
             Shipper shipper = getShipperById(shipperId);
 
-            Passport passport = _context.Passports.Where(x => x.user.id == shipperId).FirstOrDefault();
-
-            if (!(shipper.haveFilledInCompany() && passport != null && passport.haveScan())) return new ObjectResult(new ErrorResponse(403, "Необходимо заполнить разделы 'О компании' и 'Документы' в профиле")) { StatusCode = StatusCodes.Status403Forbidden };
+            CheckIfCanInteractWithRequest(shipper);
 
             Request newRequest = new Request(createRequest, shipper, isDelayed);
 
@@ -88,6 +116,8 @@ namespace Logistics.Services
 
         public async Task<ActionResult> GetShipperRequests(Guid shipperId, RequestStatus[] statuses)
         {
+            if (statuses.Contains(RequestStatus.Rejected)) return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Для грузоотправителя нет типа заявки 'Отклоненная'"));
+
             List<Request> requests = _context.Requests.Where(x => x.shipper.id == shipperId && statuses.Contains(x.status)).Include(x => x.shipment).ToList();
 
             var response = requests.Select(x => new ShipperRequestResponse(x)).ToList();
@@ -97,20 +127,23 @@ namespace Logistics.Services
 
         public async Task<ActionResult> GetTransporterRequests(Guid transporterId, RequestStatus status)
         {
-            List<Request> requests;
+            if (status == RequestStatus.Delayed || status == RequestStatus.ArchivedNotAccepted) return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Для перевозчика нет такого типа заявки"));
 
             Transporter transporter = getTransporterById(transporterId);
 
-            List<Guid> rejectedRequestIds = _context.RejectedRequests.Where(x => x.transporterId == transporterId).Select(x => x.requestId).ToList();
             var query = _context.Requests.Include(x => x.shipment).Include(x => x.shipper).AsQueryable();
 
+            List<Request> requests;
             if (status != RequestStatus.Active && status != RequestStatus.Rejected)
             {
                 requests = query.Where(x => x.transportation.transporter.id == transporterId && x.status == status).ToList();
             }
             else
             {
+                CheckIfCanInteractWithRequest(transporter);
+
                 query = query.Where(x => x.status == RequestStatus.Active && x.loadCity == transporter.permanentResidence);
+                List<Guid> rejectedRequestIds = _context.RejectedRequests.Where(x => x.transporterId == transporterId).Select(x => x.requestId).ToList();
 
                 if (status == RequestStatus.Active)
                 {
@@ -196,9 +229,11 @@ namespace Logistics.Services
         public async Task<ActionResult> AcceptRequest(Guid requestId, Guid transporterId)
         {
             Request request = getRequestById(requestId);
-            if (request.status != RequestStatus.Active) return new ForbidResult();
+            if (request.status != RequestStatus.Active || request.status != RequestStatus.Rejected) return new ForbidResult();
 
-            Transporter transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault()!;
+            Transporter transporter = getTransporterById(transporterId);
+
+            CheckIfCanInteractWithRequest(transporter);
 
             Request? acceptedRequest = _context.Requests.Where(x => x.transportation.transporter.id == transporterId && x.status == RequestStatus.Accepted).FirstOrDefault();
             if (acceptedRequest != null) return new ObjectResult(new ErrorResponse(403, "Вы не можете одновременно принять больше одной заявки")) { StatusCode = StatusCodes.Status403Forbidden };
@@ -224,6 +259,9 @@ namespace Logistics.Services
         public async Task<ActionResult> RejectRequest(Guid requestId, Guid transporterId)
         {
             Request request = getRequestById(requestId);
+            Transporter transporter = getTransporterById(transporterId);
+
+            CheckIfCanInteractWithRequest(transporter);
 
             if (request.status != RequestStatus.Active) return new ForbidResult();
 
@@ -247,6 +285,9 @@ namespace Logistics.Services
         public async Task<ActionResult> PublishDelayedRequest(Guid requestId, Guid shipperId)
         {
             Request request = getRequestByIdAndShipperId(requestId, shipperId);
+            Shipper shipper = getShipperById(shipperId);
+
+            CheckIfCanInteractWithRequest(shipper);
 
             if (request.status != RequestStatus.Delayed) return new NotFoundObjectResult(new ErrorResponse(404, "Нет отложенной заявки с таким id"));
 

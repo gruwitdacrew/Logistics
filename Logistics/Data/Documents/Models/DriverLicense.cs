@@ -30,5 +30,10 @@ namespace Logistics.Data.Documents.Models
             if (editLicense.series != null) series = editLicense.series;
             if (editLicense.number != null) number = editLicense.number;
         }
+
+        public bool haveScan()
+        {
+            return scan != null;
+        }
     }
 }

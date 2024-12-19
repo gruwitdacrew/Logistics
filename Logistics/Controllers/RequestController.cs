@@ -51,8 +51,6 @@ namespace Logistics.Controllers
         {
             var userId = User.Claims.ToList()[0].Value;
 
-            if (statuses.Contains(RequestStatus.Rejected)) return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Для грузоотправителя нет типа заявки 'Отклоненная'"));
-
             return await _requestService.GetShipperRequests(new Guid(userId), statuses);
         }
 
@@ -63,8 +61,6 @@ namespace Logistics.Controllers
         [ProducesResponseType(typeof(List<TransporterRequestResponse>), StatusCodes.Status200OK)]
         public async Task<ActionResult<TransporterRequestResponse>> getTransporterRequests(RequestStatus status)
         {
-            if (status == RequestStatus.Delayed || status == RequestStatus.ArchivedNotAccepted) return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Для перевозчика нет такого типа заявки"));
-
             var userId = User.Claims.ToList()[0].Value;
 
             return await _requestService.GetTransporterRequests(new Guid(userId), status);

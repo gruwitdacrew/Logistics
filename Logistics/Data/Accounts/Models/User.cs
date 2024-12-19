@@ -43,6 +43,14 @@ namespace Logistics.Data.Account.Models
             if (editUserRequest.fullName != null) fullName = editUserRequest.fullName;
             if (editUserRequest.phone != null) phone = editUserRequest.phone;
         }
+
+        public bool haveFilledInCompany()
+        {
+            if (company.INN == null) return false;
+            if (company.organizationalForm == null) return false;
+            if (company.companyName == null && company.organizationalForm != OrganizationForm.Individual) return false;
+            return true;
+        }
     }
     public enum Role
     {
