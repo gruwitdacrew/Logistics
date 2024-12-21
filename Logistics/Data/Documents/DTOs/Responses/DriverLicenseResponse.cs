@@ -8,13 +8,13 @@ namespace Logistics.Data.Documents.DTOs.Responses
 
         public string number { get; set; }
 
-        public bool scan { get; set; }
+        public string? scanFileName { get; set; }
 
         public DriverLicenseResponse(DriverLicense license)
         {
             series = license.series;
             number = license.number;
-            scan = license.scan != null;
+            scanFileName = license.scan?.fileName;
         }
     }
 }

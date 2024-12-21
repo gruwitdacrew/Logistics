@@ -7,11 +7,13 @@ namespace Logistics.Data.Documents.Models
     {
         public Guid id { get; set; }
 
+        public Guid transporterId { get; set; }
+
         public string series { get; set; }
 
         public string number { get; set; }
 
-        public byte[]? scan { get; set; }
+        public Scan? scan { get; set; }
 
         public Transporter transporter { get; set; }
 

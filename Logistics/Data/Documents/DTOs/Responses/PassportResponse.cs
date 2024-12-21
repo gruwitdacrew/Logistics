@@ -14,7 +14,7 @@ namespace Logistics.Data.Documents.DTOs.Responses
 
         public string dateOfIssue { get; set; }
 
-        public bool scan { get; set; }
+        public string? scanFileName { get; set; }
 
         public PassportResponse(Passport passport)
         {
@@ -23,7 +23,7 @@ namespace Logistics.Data.Documents.DTOs.Responses
             issuedBy = passport.issuedBy;
             code = passport.code;
             dateOfIssue = passport.dateOfIssue;
-            scan = passport.scan != null;
+            scanFileName = passport.scan?.fileName;
         }
     }
 }

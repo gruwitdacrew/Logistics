@@ -1930,8 +1930,9 @@
             "type": "string",
             "nullable": true
           },
-          "scan": {
-            "type": "boolean"
+          "scanFileName": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2235,8 +2236,9 @@
             "type": "string",
             "nullable": true
           },
-          "scan": {
-            "type": "boolean"
+          "scanFileName": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

@@ -9,6 +9,8 @@ namespace Logistics.Data.Requests.Models
     {
         public Guid id { get; set; }
 
+        public Guid shipperId { get; set; }
+
         public Shipper shipper { get; set; }
 
         public Shipment shipment { get; set; }

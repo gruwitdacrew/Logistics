@@ -4,6 +4,8 @@
     {
         public Guid id { get; set; }
 
+        public Guid transportationId { get; set; }
+
         public Transportation transportation { get; set; }
 
         public TransportationStatus status { get; set; }

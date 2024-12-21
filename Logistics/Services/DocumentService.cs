@@ -154,7 +154,7 @@ namespace Logistics.Services
                 pdfFileData = memoryStream.ToArray();
             }
 
-            passport.scan = pdfFileData;
+            passport.scan = new Scan(file.FileName, pdfFileData);
 
             _context.Passports.Update(passport);
             _context.SaveChanges();
@@ -207,7 +207,7 @@ namespace Logistics.Services
                 pdfFileData = memoryStream.ToArray();
             }
 
-            license.scan = pdfFileData;
+            license.scan = new Scan(file.FileName, pdfFileData);
 
             _context.Licenses.Update(license);
             _context.SaveChanges();

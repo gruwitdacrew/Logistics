@@ -1,12 +1,13 @@
 ﻿using Logistics.Data.Account.Models;
 using Logistics.Data.Documents.DTOs.Requests;
-using System.Globalization;
 
 namespace Logistics.Data.Documents.Models
 {
     public class Passport
     {
         public Guid id { get; set; }
+
+        public Guid userId { get; set; }
 
         public string series { get; set; }
 
@@ -18,7 +19,7 @@ namespace Logistics.Data.Documents.Models
 
         public string dateOfIssue { get; set; }
 
-        public byte[]? scan { get; set; }
+        public Scan? scan { get; set; }
 
         public User user { get; set; }
 

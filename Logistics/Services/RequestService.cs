@@ -83,7 +83,7 @@ namespace Logistics.Services
             ErrorProblemDetails missingSections = new ErrorProblemDetails(403);
             CheckIfCanInteractWithRequest(shipper, in missingSections);
 
-            throw new ErrorCollectionException(missingSections.status, missingSections.errors);
+            if (missingSections.errors.Count > 0) throw new ErrorCollectionException(missingSections.status, missingSections.errors);
         }
 
         public void CheckIfCanInteractWithRequest(Transporter transporter)
@@ -96,7 +96,7 @@ namespace Logistics.Services
             if (driverLicense == null) missingSections.errors.Add("Необходимо указать водительское удостоверение в разделе 'Документы'");
             else if (!driverLicense.haveScan()) missingSections.errors.Add("Необходимо добавить скан водительского удостоверения");
 
-            throw new ErrorCollectionException(missingSections.status, missingSections.errors);
+            if (missingSections.errors.Count > 0) throw new ErrorCollectionException(missingSections.status, missingSections.errors);
         }
 
 
