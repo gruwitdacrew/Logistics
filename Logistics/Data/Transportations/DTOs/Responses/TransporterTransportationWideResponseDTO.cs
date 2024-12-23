@@ -14,11 +14,11 @@ namespace Logistics.Data.Transportations.DTOs.Responses
         public TransportationStatus status { get; set; }
 
         public City loadCity { get; set; }
-        public DateTime loadDate { get; set; }
+        public DateTime? loadDate { get; set; }
         public string loadAddress { get; set; }
 
         public City unloadCity { get; set; }
-        public DateTime unloadDate { get; set; }
+        public DateTime? unloadDate { get; set; }
         public string unloadAddress { get; set; }
 
         public DateTime? sendingTimeFrom { get; set; }
@@ -34,11 +34,11 @@ namespace Logistics.Data.Transportations.DTOs.Responses
             status = transportation.status;
 
             loadCity = transportation.request.loadCity;
-            loadDate = statusChangeHistory.Where(x => x.status == TransportationStatus.Loading).Select(x => x.time).First();
+            loadDate = statusChangeHistory.Where(x => x.status == TransportationStatus.Loading).Select(x => x.time).FirstOrDefault();
             loadAddress = transportation.request.loadAddress;
 
             unloadCity = transportation.request.unloadCity;
-            unloadDate = statusChangeHistory.Where(x => x.status == TransportationStatus.Unloading).Select(x => x.time).First();
+            unloadDate = statusChangeHistory.Where(x => x.status == TransportationStatus.Unloading).Select(x => x.time).FirstOrDefault();
             unloadAddress = transportation.request.unloadAddress;
 
             sendingTime = transportation.request.sendingTime;

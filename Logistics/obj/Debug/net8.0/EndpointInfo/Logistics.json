@@ -134,6 +134,35 @@
         }
       }
     },
+    "/api/user/role": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/shipper/profile": {
       "get": {
         "tags": [
@@ -2462,7 +2491,8 @@
           },
           "loadDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "loadAddress": {
             "type": "string",
@@ -2473,7 +2503,8 @@
           },
           "unloadDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "unloadAddress": {
             "type": "string",
@@ -2689,7 +2720,8 @@
           },
           "loadDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "loadAddress": {
             "type": "string",
@@ -2700,7 +2732,8 @@
           },
           "unloadDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "unloadAddress": {
             "type": "string",

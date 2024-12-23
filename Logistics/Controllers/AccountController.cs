@@ -58,6 +58,15 @@ namespace Logistics.Controllers
             return await _userService.Refresh(new Guid(userId), token);
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("/api/user/role")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<ActionResult<string>> getRole()
+        {
+            return User.Claims.ToList()[2].Value;
+        }
+
         [Authorize(Roles = "Shipper")]
         [HttpGet]
         [Route("/api/shipper/profile")]

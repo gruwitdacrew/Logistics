@@ -149,11 +149,15 @@ namespace Logistics.Controllers
 
             if (response is OkObjectResult okResult)
             {
-                FileContentResult file = new FileContentResult((byte[])okResult.Value, "application/pdf")
+                if (okResult.Value is Scan scan)
                 {
-                    FileDownloadName = "passport.pdf"
-                };
-                return file;
+                    FileContentResult file = new FileContentResult(scan.data, "application/pdf")
+                    {
+                        FileDownloadName = scan.fileName,
+                    };
+                    return file;
+                }
+                else return response;
             }
             else return response;
         }
@@ -198,11 +202,15 @@ namespace Logistics.Controllers
 
             if (response is OkObjectResult okResult)
             {
-                FileContentResult file = new FileContentResult((byte[])okResult.Value, "application/pdf")
+                if (okResult.Value is Scan scan)
                 {
-                    FileDownloadName = "license.pdf"
-                };
-                return file;
+                    FileContentResult file = new FileContentResult(scan.data, "application/pdf")
+                    {
+                        FileDownloadName = scan.fileName,
+                    };
+                    return file;
+                }
+                else return response;
             }
             else return response;
         }

@@ -222,7 +222,7 @@ namespace Logistics.Services
             if (license == null) return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали водительское удостоверение"));
             if (license.scan == null) return new NotFoundObjectResult(new ErrorResponse(404, "У вас нет прикрепленного скана водительского удостоверения"));
 
-            return new OkObjectResult(license.scan);
+            return new OkObjectResult(license.scan.data);
         }
 
         public async Task<ActionResult> DeleteLicenseScan(Guid transporterId)

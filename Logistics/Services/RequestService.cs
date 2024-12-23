@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Logistics.Data.Documents.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Logistics.Data.Common;
+using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace Logistics.Services
 {
@@ -33,9 +35,9 @@ namespace Logistics.Services
             return shipper;
         }
 
-        private Transporter getTransporterById(Guid transporterId)
+        private Transporter getTransporterWithTruckById(Guid transporterId)
         {
-            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).FirstOrDefault();
+            Transporter? transporter = _context.Transporters.Where(x => x.id == transporterId).Include(x => x.truck).FirstOrDefault();
             if (transporter == null)
             {
                 throw new ErrorException(404, "Перевозчик с таким id не найден");
@@ -78,7 +80,7 @@ namespace Logistics.Services
             else if (!passport.haveScan()) missingSections.errors.Add("Необходимо добавить скан паспорта");
         }
 
-        public void CheckIfCanInteractWithRequest(Shipper shipper)
+        private void CheckIfCanInteractWithRequest(Shipper shipper)
         {
             ErrorProblemDetails missingSections = new ErrorProblemDetails(403);
             CheckIfCanInteractWithRequest(shipper, in missingSections);
@@ -86,7 +88,7 @@ namespace Logistics.Services
             if (missingSections.errors.Count > 0) throw new ErrorCollectionException(missingSections.status, missingSections.errors);
         }
 
-        public void CheckIfCanInteractWithRequest(Transporter transporter)
+        private void CheckIfCanInteractWithRequest(Transporter transporter)
         {
             ErrorProblemDetails missingSections = new ErrorProblemDetails(403);
             CheckIfCanInteractWithRequest(transporter, missingSections);
@@ -100,11 +102,32 @@ namespace Logistics.Services
         }
 
 
+        private static bool TransporterSuitableForRequest(Request request, Transporter transporter)
+        {
+            if (request.status != RequestStatus.Active) return false;
+            if (request.loadCity != transporter.permanentResidence) return false;
+            if (request.shipment.weightInTons > transporter.truck.loadCapacityInTons) return false;
+            if (request.truckType != transporter.truck.truckType) return false;
+            return true;
+        }
+
+        private static Expression<Func<Request, bool>> TransporterSuitableForRequestExpression(Transporter transporter)
+        {
+            return request =>
+                request.status == RequestStatus.Active &&
+                request.loadCity == transporter.permanentResidence &&
+                request.shipment.weightInTons <= transporter.truck.loadCapacityInTons &&
+                request.truckType == transporter.truck.truckType;
+        }
+
+
         public async Task<ActionResult> CreateRequest(Guid shipperId, CreateRequestRequestDTO createRequest, bool isDelayed)
         {
             Shipper shipper = getShipperById(shipperId);
 
             CheckIfCanInteractWithRequest(shipper);
+
+            if (createRequest.sendingTime <= createRequest.sendingTimeFrom) return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Дата с должна быть меньше даты по"));
 
             Request newRequest = new Request(createRequest, shipper, isDelayed);
 
@@ -129,7 +152,7 @@ namespace Logistics.Services
         {
             if (status == RequestStatus.Delayed || status == RequestStatus.ArchivedNotAccepted) return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Для перевозчика нет такого типа заявки"));
 
-            Transporter transporter = getTransporterById(transporterId);
+            Transporter transporter = getTransporterWithTruckById(transporterId);
 
             var query = _context.Requests.Include(x => x.shipment).Include(x => x.shipper).AsQueryable();
 
@@ -142,7 +165,7 @@ namespace Logistics.Services
             {
                 CheckIfCanInteractWithRequest(transporter);
 
-                query = query.Where(x => x.status == RequestStatus.Active && x.loadCity == transporter.permanentResidence);
+                query = query.Where(TransporterSuitableForRequestExpression(transporter));
                 List<Guid> rejectedRequestIds = _context.RejectedRequests.Where(x => x.transporterId == transporterId).Select(x => x.requestId).ToList();
 
                 if (status == RequestStatus.Active)
@@ -165,6 +188,8 @@ namespace Logistics.Services
             Request request = getRequestByIdAndShipperId(requestId, shipperId);
 
             if (request.status != RequestStatus.Active && request.status != RequestStatus.Delayed) return new ObjectResult(new ErrorResponse(403, "Редактировать можно только активные и отложенные заявки")) { StatusCode = StatusCodes.Status403Forbidden };
+
+            if (editRequest.sendingTime <= editRequest.sendingTimeFrom) return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Дата с должна быть меньше даты по"));
 
             request.edit(editRequest);
 
@@ -229,16 +254,11 @@ namespace Logistics.Services
         public async Task<ActionResult> AcceptRequest(Guid requestId, Guid transporterId)
         {
             Request request = getRequestById(requestId);
-            if (request.status != RequestStatus.Active || request.status != RequestStatus.Rejected) return new ForbidResult();
+            Transporter transporter = getTransporterWithTruckById(transporterId);
 
-            Transporter transporter = getTransporterById(transporterId);
+            if (!TransporterSuitableForRequest(request, transporter)) return new ForbidResult();
 
             CheckIfCanInteractWithRequest(transporter);
-
-            Request? acceptedRequest = _context.Requests.Where(x => x.transportation.transporter.id == transporterId && x.status == RequestStatus.Accepted).FirstOrDefault();
-            if (acceptedRequest != null) return new ObjectResult(new ErrorResponse(403, "Вы не можете одновременно принять больше одной заявки")) { StatusCode = StatusCodes.Status403Forbidden };
-
-            if (request.loadCity != transporter.permanentResidence) return new ForbidResult();
 
             _context.RejectedRequests.Where(x => x.requestId == requestId).ExecuteDelete();
 
@@ -259,14 +279,11 @@ namespace Logistics.Services
         public async Task<ActionResult> RejectRequest(Guid requestId, Guid transporterId)
         {
             Request request = getRequestById(requestId);
-            Transporter transporter = getTransporterById(transporterId);
+            Transporter transporter = getTransporterWithTruckById(transporterId);
+            
+            if (!TransporterSuitableForRequest(request, transporter)) return new ForbidResult();
 
             CheckIfCanInteractWithRequest(transporter);
-
-            if (request.status != RequestStatus.Active) return new ForbidResult();
-
-            City? transporterPermanentResidence = _context.Transporters.Where(x => x.id == transporterId).Select(x => x.permanentResidence).FirstOrDefault();
-            if (request.loadCity != transporterPermanentResidence) return new ForbidResult();
 
             RejectedRequest? rejectedRequest = _context.RejectedRequests.Where(x => x.requestId == requestId && x.transporterId == transporterId).FirstOrDefault();
             if (rejectedRequest != null)
