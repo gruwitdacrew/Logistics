@@ -75,9 +75,9 @@ namespace Logistics.Services
         {
             Passport? passport = _context.Passports.Where(x => x.user.id == user.id).FirstOrDefault();
 
-            if (!user.haveFilledInCompany()) missingSections.errors.Add("Необходимо заполнить раздел 'О компании'");
-            if (passport == null) missingSections.errors.Add("Необходимо указать паспорт в разделе 'Документы'");
-            else if (!passport.haveScan()) missingSections.errors.Add("Необходимо добавить скан паспорта");
+            if (!user.haveFilledInCompany()) missingSections.errors.Add("company", "Необходимо заполнить раздел 'О компании'");
+            if (passport == null) missingSections.errors.Add("pasport", "Необходимо указать паспорт в разделе 'Документы'");
+            else if (!passport.haveScan()) missingSections.errors.Add("pasport_scan", "Необходимо добавить скан паспорта");
         }
 
         private void CheckIfCanInteractWithRequest(Shipper shipper)
@@ -95,8 +95,8 @@ namespace Logistics.Services
 
             DriverLicense? driverLicense = _context.Licenses.Where(x => x.transporter.id == transporter.id).FirstOrDefault();
 
-            if (driverLicense == null) missingSections.errors.Add("Необходимо указать водительское удостоверение в разделе 'Документы'");
-            else if (!driverLicense.haveScan()) missingSections.errors.Add("Необходимо добавить скан водительского удостоверения");
+            if (driverLicense == null) missingSections.errors.Add("license", "Необходимо указать водительское удостоверение в разделе 'Документы'");
+            else if (!driverLicense.haveScan()) missingSections.errors.Add("license_scan", "Необходимо добавить скан водительского удостоверения");
 
             if (missingSections.errors.Count > 0) throw new ErrorCollectionException(missingSections.status, missingSections.errors);
         }

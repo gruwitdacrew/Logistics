@@ -38,11 +38,11 @@ namespace Logistics.Data.Documents.Models
 
         public void edit(EditPassportDTO editPassport)
         {
-            if (editPassport.series != null) series = editPassport.series;
-            if (editPassport.number != null) number = editPassport.number;
-            if (editPassport.issuedBy != null) issuedBy = editPassport.issuedBy;
-            if (editPassport.code != null) code = editPassport.code;
-            if (editPassport.dateOfIssue != null) dateOfIssue = editPassport.dateOfIssue;
+            series = editPassport.series;
+            number = editPassport.number;
+            issuedBy = editPassport.issuedBy;
+            code = editPassport.code;
+            dateOfIssue = editPassport.dateOfIssue;
         }
 
         public bool haveScan()

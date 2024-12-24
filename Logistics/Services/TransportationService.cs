@@ -61,7 +61,7 @@ namespace Logistics.Services
         {
             Transportation transportation = getTransportationByIdAndTransporterId(transportationId, transporterId);
 
-            List<TransportationStatusChangeResponseDTO> statusChangeHistory = _context.TransportationStatusChanges.Where(x => x.transportation.id == transportationId).Select(x => new TransportationStatusChangeResponseDTO(x)).ToList();
+            List<TransportationStatusChangeResponseDTO> statusChangeHistory = _context.TransportationStatusChanges.Where(x => x.transportation.id == transportationId).OrderBy(x => x.time).Select(x => new TransportationStatusChangeResponseDTO(x)).ToList();
 
             return new OkObjectResult(new TransporterTransportationWideResponseDTO(transportation, statusChangeHistory));
         }
@@ -114,7 +114,7 @@ namespace Logistics.Services
                 return new ObjectResult(new ErrorResponse(403, "У вас нет доступа к этой перевозке")) { StatusCode = StatusCodes.Status403Forbidden };
             }
 
-            List<TransportationStatusChangeResponseDTO> statusChangeHistory = _context.TransportationStatusChanges.Where(x => x.transportation.id == transportationId).Select(x => new TransportationStatusChangeResponseDTO(x)).ToList();
+            List<TransportationStatusChangeResponseDTO> statusChangeHistory = _context.TransportationStatusChanges.Where(x => x.transportation.id == transportationId).OrderBy(x => x.time).Select(x => new TransportationStatusChangeResponseDTO(x)).ToList();
 
             return new OkObjectResult(new ShipperTransportationWideResponseDTO(transportation, statusChangeHistory));
         }

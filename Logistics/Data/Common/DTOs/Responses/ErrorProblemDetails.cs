@@ -3,21 +3,21 @@
     public class ErrorProblemDetails
     {
         public int status { get; set; }
-        public List<string> errors { get; set; }
+        public Dictionary<string, string> errors { get; set; }
 
         public ErrorProblemDetails(int status) {
             this.status = status;
-            this.errors = new List<string>();
+            this.errors = new Dictionary<string, string>();
         }
-        public ErrorProblemDetails(int status, List<string> errors)
+        public ErrorProblemDetails(int status, Dictionary<string, string> errors)
         {
             this.status = status;
             this.errors = errors;
         }
 
-        public void addError(string error)
+        public void addError(string key, string error)
         {
-            errors.Add(error);
+            errors.Add(key, error);
         }
     }
 }

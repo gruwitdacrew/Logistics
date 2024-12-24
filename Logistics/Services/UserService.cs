@@ -168,11 +168,11 @@ namespace Logistics.Services
 
             if (_context.Users.Where(x => x.email == registerRequest.email).FirstOrDefault() != null)
             {
-                problemDetails.addError("На эту электронную почту уже зарегистрирован пользователь");
+                problemDetails.addError("email", "На эту электронную почту уже зарегистрирован пользователь");
             }
             if (_context.Users.Where(x => x.phone == registerRequest.phone).FirstOrDefault() != null)
             {
-                problemDetails.addError("Пользователь с таким телефоном уже зарегистрирован");
+                problemDetails.addError("phone", "Пользователь с таким телефоном уже зарегистрирован");
             }
             if (problemDetails.errors.Count > 0) return new BadRequestObjectResult(problemDetails);
 
@@ -227,19 +227,19 @@ namespace Logistics.Services
         {
             ErrorProblemDetails errorProblemDetails = new ErrorProblemDetails(400);
 
-            if (editUserRequest.email != null && _context.Users.Where(x => x.email == editUserRequest.email).FirstOrDefault() != null)
+            if (editUserRequest.email != user.email && _context.Users.Where(x => x.email == editUserRequest.email).FirstOrDefault() != null)
             {
-                errorProblemDetails.addError("На эту электронную почту уже зарегистрирован пользователь");
+                errorProblemDetails.addError("email", "На эту электронную почту уже зарегистрирован пользователь");
             }
-            if (editUserRequest.phone != null && _context.Users.Where(x => x.phone == editUserRequest.phone).FirstOrDefault() != null)
+            if (editUserRequest.phone != user.phone && _context.Users.Where(x => x.phone == editUserRequest.phone).FirstOrDefault() != null)
             {
-                errorProblemDetails.addError("Пользователь с таким телефоном уже зарегистрирован");
+                errorProblemDetails.addError("phone", "Пользователь с таким телефоном уже зарегистрирован");
             }
             if (errorProblemDetails.errors.Count > 0) throw new ErrorCollectionException(errorProblemDetails.status, errorProblemDetails.errors);
 
             user.edit(editUserRequest);
 
-            if (editUserRequest.email != null)
+            if (editUserRequest.email != user.email)
             {
                 PendingEmail email = new PendingEmail(user, editUserRequest.email);
                 _context.PendingEmails.Add(email);
@@ -269,7 +269,7 @@ namespace Logistics.Services
 
             EditUser(transporter, editRequest);
 
-            if (editRequest.permanentResidence != null) transporter.permanentResidence = editRequest.permanentResidence;
+            transporter.permanentResidence = editRequest.permanentResidence;
 
             _context.Transporters.Update(transporter);
             _context.SaveChanges();
@@ -285,19 +285,19 @@ namespace Logistics.Services
 
             if (editRequest.organizationalForm == OrganizationForm.Individual && editRequest.companyName!=null)
             {
-                problemDetails.addError("У физического лица нет названия компании");
+                problemDetails.addError("companyName", "У физического лица нет названия компании");
             }
             else if (editRequest.organizationalForm != OrganizationForm.Individual && editRequest.companyName == null)
             {
-                problemDetails.addError("Укажите название компании");
+                problemDetails.addError("companyName", "Укажите название компании");
             }
             if ((editRequest.INN.Length == 10) != (editRequest.organizationalForm != OrganizationForm.Individual))
             {
-                problemDetails.addError("Для физ. лица ИНН составляет 12 цифр, для юр. лица - 10");
+                problemDetails.addError("INN", "Для физ. лица ИНН составляет 12 цифр, для юр. лица - 10");
             }
-            if (_context.Users.Where(x => x.company.INN == editRequest.INN).FirstOrDefault() != null)
+            else if (_context.Users.Where(x => x.company.INN == editRequest.INN).FirstOrDefault() != null)
             {
-                problemDetails.addError("Этот ИНН уже есть в системе");
+                problemDetails.addError("INN", "Этот ИНН уже есть в системе");
             }
             if (problemDetails.errors.Count > 0) throw new ErrorCollectionException(problemDetails.status, problemDetails.errors);
 

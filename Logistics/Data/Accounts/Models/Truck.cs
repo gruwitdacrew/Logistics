@@ -47,15 +47,15 @@ namespace Logistics.Data.Account.Models
 
         public void edit(EditTruckRequestDTO editRequest)
         {
-            if (editRequest.truckBrand != null) truckBrand = editRequest.truckBrand;
-            if (editRequest.model != null) model = editRequest.model;
-            if (editRequest.truckType != null) truckType = (TruckType)editRequest.truckType;
-            if (editRequest.loadCapacityInTons != null) loadCapacityInTons = (int)editRequest.loadCapacityInTons;
-            if (editRequest.yearOfProduction != null) yearOfProduction = (int)editRequest.yearOfProduction;
-            if (editRequest.regionCode != null) regionCode = (int)editRequest.regionCode;
-            if (editRequest.lengthInMeters != null) lengthInMeters = (float)editRequest.lengthInMeters;
-            if (editRequest.widthInMeters != null) widthInMeters = (float)editRequest.widthInMeters;
-            if (editRequest.heightInMeters != null) heightInMeters = (float)editRequest.heightInMeters;
+            truckBrand = editRequest.truckBrand;
+            model = editRequest.model;
+            truckType = editRequest.truckType;
+            loadCapacityInTons = editRequest.loadCapacityInTons;
+            yearOfProduction = editRequest.yearOfProduction;
+            regionCode = editRequest.regionCode;
+            lengthInMeters = editRequest.lengthInMeters;
+            widthInMeters = editRequest.widthInMeters;
+            heightInMeters = editRequest.heightInMeters;
 
         }
     }

@@ -1,5 +1,4 @@
-﻿using Logistics.Data.Account.Models;
-using Logistics.Data.Common.DTOs.Responses;
+﻿using Logistics.Data.Common.DTOs.Responses;
 using Logistics.Data.Requests.DTOs.Responses;
 using Logistics.Data.Requests.Models;
 using Logistics.Data.Transportations.Models;
@@ -34,11 +33,12 @@ namespace Logistics.Data.Transportations.DTOs.Responses
             status = transportation.status;
 
             loadCity = transportation.request.loadCity;
-            loadDate = statusChangeHistory.Where(x => x.status == TransportationStatus.Loading).Select(x => x.time).FirstOrDefault();
+            loadDate = statusChangeHistory.Where(x => x.status == TransportationStatus.Loading).Select(x => (DateTime?)x.time).FirstOrDefault();
             loadAddress = transportation.request.loadAddress;
 
             unloadCity = transportation.request.unloadCity;
-            unloadDate = statusChangeHistory.Where(x => x.status == TransportationStatus.Unloading).Select(x => x.time).FirstOrDefault();
+            unloadDate = statusChangeHistory.Where(x => x.status == TransportationStatus.Unloading).Select(x => (DateTime?)x.time).FirstOrDefault(defaultValue: null);
+            unloadDate = null;
             unloadAddress = transportation.request.unloadAddress;
 
             sendingTime = transportation.request.sendingTime;

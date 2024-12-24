@@ -191,7 +191,7 @@
           }
         }
       },
-      "patch": {
+      "put": {
         "tags": [
           "Account"
         ],
@@ -249,7 +249,7 @@
           }
         }
       },
-      "patch": {
+      "put": {
         "tags": [
           "Account"
         ],
@@ -445,7 +445,7 @@
           }
         }
       },
-      "patch": {
+      "put": {
         "tags": [
           "Account"
         ],
@@ -650,7 +650,7 @@
           }
         }
       },
-      "patch": {
+      "put": {
         "tags": [
           "Account"
         ],
@@ -756,7 +756,7 @@
           }
         }
       },
-      "patch": {
+      "put": {
         "tags": [
           "Document"
         ],
@@ -905,7 +905,7 @@
           }
         }
       },
-      "patch": {
+      "put": {
         "tags": [
           "Document"
         ],
@@ -1204,7 +1204,7 @@
       }
     },
     "/api/request/{requestId}": {
-      "patch": {
+      "put": {
         "tags": [
           "Request"
         ],
@@ -1406,7 +1406,7 @@
       }
     },
     "/api/request/{requestId}/cost": {
-      "patch": {
+      "put": {
         "tags": [
           "Request"
         ],
@@ -1669,7 +1669,7 @@
       }
     },
     "/api/transportation/{transportationId}/status": {
-      "patch": {
+      "put": {
         "tags": [
           "Transportation"
         ],
@@ -2045,8 +2045,7 @@
           },
           "distanceBetweenCitiesInKilometers": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "unloadCity": {
             "$ref": "#/components/schemas/City"
@@ -2057,13 +2056,11 @@
           },
           "sendingTimeFrom": {
             "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "format": "date-time"
           },
           "sendingTime": {
             "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "format": "date-time"
           },
           "shipment": {
             "$ref": "#/components/schemas/EditShipmentRequestDTO"
@@ -2082,25 +2079,21 @@
           },
           "lengthInMeters": {
             "type": "number",
-            "format": "float",
-            "nullable": true
+            "format": "float"
           },
           "widthInMeters": {
             "type": "number",
-            "format": "float",
-            "nullable": true
+            "format": "float"
           },
           "heightInMeters": {
             "type": "number",
-            "format": "float",
-            "nullable": true
+            "format": "float"
           },
           "weightInTons": {
             "maximum": 20,
             "minimum": 0,
             "type": "number",
-            "format": "float",
-            "nullable": true
+            "format": "float"
           }
         },
         "additionalProperties": false
@@ -2167,13 +2160,11 @@
           },
           "loadCapacityInTons": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "yearOfProduction": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "number": {
             "pattern": "^[АВЕКМНОРСТУХ][0-9]{3}[АВЕКМНОРСТУХ]{2}$",
@@ -2182,23 +2173,19 @@
           },
           "regionCode": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "lengthInMeters": {
             "type": "number",
-            "format": "float",
-            "nullable": true
+            "format": "float"
           },
           "widthInMeters": {
             "type": "number",
-            "format": "float",
-            "nullable": true
+            "format": "float"
           },
           "heightInMeters": {
             "type": "number",
-            "format": "float",
-            "nullable": true
+            "format": "float"
           }
         },
         "additionalProperties": false
@@ -2211,8 +2198,8 @@
             "format": "int32"
           },
           "errors": {
-            "type": "array",
-            "items": {
+            "type": "object",
+            "additionalProperties": {
               "type": "string"
             },
             "nullable": true

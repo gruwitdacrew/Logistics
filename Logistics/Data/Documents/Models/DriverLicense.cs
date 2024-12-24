@@ -29,8 +29,8 @@ namespace Logistics.Data.Documents.Models
 
         public void edit(EditDriverLicenseDTO editLicense)
         {
-            if (editLicense.series != null) series = editLicense.series;
-            if (editLicense.number != null) number = editLicense.number;
+            series = editLicense.series;
+            number = editLicense.number;
         }
 
         public bool haveScan()

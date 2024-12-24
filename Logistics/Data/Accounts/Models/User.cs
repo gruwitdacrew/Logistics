@@ -40,8 +40,8 @@ namespace Logistics.Data.Account.Models
 
         public void edit(EditUserRequestDTO editUserRequest)
         {
-            if (editUserRequest.fullName != null) fullName = editUserRequest.fullName;
-            if (editUserRequest.phone != null) phone = editUserRequest.phone;
+            fullName = editUserRequest.fullName;
+            phone = editUserRequest.phone;
         }
 
         public bool haveFilledInCompany()

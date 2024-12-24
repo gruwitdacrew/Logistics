@@ -16,7 +16,7 @@ namespace Logistics.Data
 
             foreach (var error in validationProblemDetails.Errors)
             {
-                problemDetails.addError(error.Value.First());
+                problemDetails.addError(error.Key, error.Value.First());
             }
 
             var result = new BadRequestObjectResult(problemDetails);

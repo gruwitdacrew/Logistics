@@ -32,7 +32,7 @@ namespace Logistics.Controllers
         }
 
         [Authorize]
-        [HttpPatch]
+        [HttpPut]
         [Route("passport")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorProblemDetails), StatusCodes.Status400BadRequest)]
@@ -85,7 +85,7 @@ namespace Logistics.Controllers
         }
 
         [Authorize(Roles = "Transporter")]
-        [HttpPatch]
+        [HttpPut]
         [Route("license")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorProblemDetails), StatusCodes.Status400BadRequest)]

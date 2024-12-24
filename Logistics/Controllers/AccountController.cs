@@ -91,7 +91,7 @@ namespace Logistics.Controllers
         }
 
         [Authorize(Roles = "Shipper")]
-        [HttpPatch]
+        [HttpPut]
         [Route("/api/shipper/profile")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> profile(EditShipperRequestDTO editRequest)
@@ -102,7 +102,7 @@ namespace Logistics.Controllers
         }
 
         [Authorize(Roles = "Transporter")]
-        [HttpPatch]
+        [HttpPut]
         [Route("/api/transporter/profile")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> profile(EditTransporterRequestDTO editRequest)
@@ -182,7 +182,7 @@ namespace Logistics.Controllers
 
 
         [Authorize]
-        [HttpPatch]
+        [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> company(EditCompanyRequestDTO editShipperRequest)
         {
@@ -253,7 +253,7 @@ namespace Logistics.Controllers
 
 
         [Authorize(Roles = "Transporter")]
-        [HttpPatch]
+        [HttpPut]
         [Route("/api/transporter/transport")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorProblemDetails), StatusCodes.Status400BadRequest)]

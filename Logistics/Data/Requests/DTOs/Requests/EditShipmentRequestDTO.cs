@@ -6,15 +6,15 @@ namespace Logistics.Data.Requests.DTOs.Requests
 {
     public class EditShipmentRequestDTO
     {
-        public ShipmentType? type { get; set; }
+        public ShipmentType type { get; set; }
 
-        public float? lengthInMeters { get; set; }
+        public float lengthInMeters { get; set; }
 
-        public float? widthInMeters { get; set; }
+        public float widthInMeters { get; set; }
 
-        public float? heightInMeters { get; set; }
+        public float heightInMeters { get; set; }
 
         [Annotations.WeightInTons]
-        public float? weightInTons { get; set; }
+        public float weightInTons { get; set; }
     }
 }

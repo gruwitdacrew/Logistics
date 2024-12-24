@@ -8,23 +8,23 @@ namespace Logistics.Data.Accounts.DTOs.Requests
     {
         public TruckBrand truckBrand { get; set; }
 
-        public string? model { get; set; }
+        public string model { get; set; }
 
-        public TruckType? truckType { get; set; }
+        public TruckType truckType { get; set; }
 
-        public int? loadCapacityInTons { get; set; }
+        public int loadCapacityInTons { get; set; }
 
-        public int? yearOfProduction { get; set; }
+        public int yearOfProduction { get; set; }
 
         [Annotations.CarNumber]
-        public string? number { get; set; }
+        public string number { get; set; }
 
-        public int? regionCode { get; set; }
+        public int regionCode { get; set; }
 
-        public float? lengthInMeters { get; set; }
+        public float lengthInMeters { get; set; }
 
-        public float? widthInMeters { get; set; }
+        public float widthInMeters { get; set; }
 
-        public float? heightInMeters { get; set; }
+        public float heightInMeters { get; set; }
     }
 }

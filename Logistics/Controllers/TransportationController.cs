@@ -61,7 +61,7 @@ namespace Logistics.Controllers
         }
 
         [Authorize(Roles = "Transporter")]
-        [HttpPatch]
+        [HttpPut]
         [Route("/api/transportation/{transportationId}/status")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> setTransportationStatus([FromRoute] Guid transportationId, TransportationStatus status)

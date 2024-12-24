@@ -39,7 +39,7 @@
     "ContainingType": "Logistics.Controllers.DocumentController",
     "Method": "license",
     "RelativePath": "api/document/license",
-    "HttpMethod": "PATCH",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -230,7 +230,7 @@
     "ContainingType": "Logistics.Controllers.DocumentController",
     "Method": "passport",
     "RelativePath": "api/document/passport",
-    "HttpMethod": "PATCH",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -412,7 +412,7 @@
     "ContainingType": "Logistics.Controllers.RequestController",
     "Method": "editRequest",
     "RelativePath": "api/request/{requestId}",
-    "HttpMethod": "PATCH",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -483,7 +483,7 @@
     "ContainingType": "Logistics.Controllers.RequestController",
     "Method": "changeCost",
     "RelativePath": "api/request/{requestId}/cost",
-    "HttpMethod": "PATCH",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -605,7 +605,7 @@
     "ContainingType": "Logistics.Controllers.AccountController",
     "Method": "profile",
     "RelativePath": "api/shipper/profile",
-    "HttpMethod": "PATCH",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -726,7 +726,7 @@
     "ContainingType": "Logistics.Controllers.TransportationController",
     "Method": "setTransportationStatus",
     "RelativePath": "api/transportation/{transportationId}/status",
-    "HttpMethod": "PATCH",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -773,7 +773,7 @@
     "ContainingType": "Logistics.Controllers.AccountController",
     "Method": "profile",
     "RelativePath": "api/transporter/profile",
-    "HttpMethod": "PATCH",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -891,7 +891,7 @@
     "ContainingType": "Logistics.Controllers.AccountController",
     "Method": "editTransport",
     "RelativePath": "api/transporter/transport",
-    "HttpMethod": "PATCH",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -993,7 +993,7 @@
     "ContainingType": "Logistics.Controllers.AccountController",
     "Method": "company",
     "RelativePath": "api/user/company",
-    "HttpMethod": "PATCH",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [

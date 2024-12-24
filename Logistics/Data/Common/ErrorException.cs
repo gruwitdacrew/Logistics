@@ -17,9 +17,9 @@
     {
         public int status { get; set; }
 
-        public List<string> errors { get; set; }
+        public Dictionary<string, string> errors { get; set; }
 
-        public ErrorCollectionException(int status, List<string> errors)
+        public ErrorCollectionException(int status, Dictionary<string, string> errors)
         {
             this.status = status;
             this.errors = errors;

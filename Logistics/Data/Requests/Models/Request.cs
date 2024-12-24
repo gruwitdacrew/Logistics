@@ -64,23 +64,20 @@ namespace Logistics.Data.Requests.Models
 
         public void edit(EditRequestRequestDTO editRequest)
         {
-            if (editRequest.unloadCity != null) unloadCity = (City)editRequest.unloadCity;
-            if (editRequest.loadCity != null) loadCity = (City)editRequest.loadCity;
-            if (editRequest.unloadAddress != null) unloadAddress = editRequest.unloadAddress;
-            if (editRequest.loadAddress != null) loadAddress = editRequest.loadAddress;
-            if (editRequest.sendingTime != null) sendingTime = (DateTime)editRequest.sendingTime;
-            if (editRequest.sendingTimeFrom != null) sendingTimeFrom = editRequest.sendingTimeFrom;
-            if (editRequest.truckType != null) truckType = (TruckType)editRequest.truckType;
-            if (editRequest.distanceBetweenCitiesInKilometers != null) costInRubles = CostCalculator.calculateCostInRubles((int)editRequest.distanceBetweenCitiesInKilometers);
+            unloadCity = editRequest.unloadCity;
+            loadCity = editRequest.loadCity;
+            unloadAddress = editRequest.unloadAddress;
+            loadAddress = editRequest.loadAddress;
+            sendingTime = editRequest.sendingTime;
+            sendingTimeFrom = editRequest.sendingTimeFrom;
+            truckType = editRequest.truckType;
+            costInRubles = CostCalculator.calculateCostInRubles(editRequest.distanceBetweenCitiesInKilometers);
 
-            if (editRequest.shipment != null)
-            {
-                if (editRequest.shipment.type != null) shipment.type = (ShipmentType)editRequest.shipment.type;
-                if (editRequest.shipment.lengthInMeters != null) shipment.lengthInMeters = (float)editRequest.shipment.lengthInMeters;
-                if (editRequest.shipment.widthInMeters != null) shipment.widthInMeters = (float)editRequest.shipment.widthInMeters;
-                if (editRequest.shipment.heightInMeters != null) shipment.heightInMeters = (float)editRequest.shipment.heightInMeters;
-                if (editRequest.shipment.weightInTons != null) shipment.weightInTons = (float)editRequest.shipment.weightInTons;
-            }
+            shipment.type = editRequest.shipment.type;
+            shipment.lengthInMeters = editRequest.shipment.lengthInMeters;
+            shipment.widthInMeters = editRequest.shipment.widthInMeters;
+            shipment.heightInMeters = editRequest.shipment.heightInMeters;
+            shipment.weightInTons = editRequest.shipment.weightInTons;
         }
     }
     public enum RequestStatus

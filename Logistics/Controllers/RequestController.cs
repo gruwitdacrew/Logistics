@@ -32,7 +32,7 @@ namespace Logistics.Controllers
 
 
         [Authorize(Roles = "Shipper")]
-        [HttpPatch]
+        [HttpPut]
         [Route("{requestId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> editRequest([FromRoute] Guid requestId, EditRequestRequestDTO editRequest)
@@ -90,7 +90,7 @@ namespace Logistics.Controllers
 
 
         [Authorize(Roles = "Shipper")]
-        [HttpPatch]
+        [HttpPut]
         [Route("{requestId}/cost")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> changeCost(Guid requestId, ChangeCost change, float? amount)
