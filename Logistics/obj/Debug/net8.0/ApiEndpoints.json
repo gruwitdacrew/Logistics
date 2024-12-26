@@ -391,7 +391,7 @@
     "Parameters": [
       {
         "Name": "createRequest",
-        "Type": "Logistics.Data.Requests.DTOs.Requests.CreateRequestRequestDTO",
+        "Type": "Logistics.Data.Requests.DTOs.Requests.RequestDTO",
         "IsRequired": true
       },
       {
@@ -423,7 +423,7 @@
       },
       {
         "Name": "editRequest",
-        "Type": "Logistics.Data.Requests.DTOs.Requests.EditRequestRequestDTO",
+        "Type": "Logistics.Data.Requests.DTOs.Requests.RequestDTO",
         "IsRequired": true
       }
     ],

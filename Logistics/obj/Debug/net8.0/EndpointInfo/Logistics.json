@@ -1181,17 +1181,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateRequestRequestDTO"
+                "$ref": "#/components/schemas/RequestDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateRequestRequestDTO"
+                "$ref": "#/components/schemas/RequestDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateRequestRequestDTO"
+                "$ref": "#/components/schemas/RequestDTO"
               }
             }
           }
@@ -1223,17 +1223,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EditRequestRequestDTO"
+                "$ref": "#/components/schemas/RequestDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/EditRequestRequestDTO"
+                "$ref": "#/components/schemas/RequestDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/EditRequestRequestDTO"
+                "$ref": "#/components/schemas/RequestDTO"
               }
             }
           }
@@ -1837,72 +1837,6 @@
         },
         "additionalProperties": false
       },
-      "CreateRequestRequestDTO": {
-        "type": "object",
-        "properties": {
-          "loadCity": {
-            "$ref": "#/components/schemas/City"
-          },
-          "loadAddress": {
-            "type": "string",
-            "nullable": true
-          },
-          "distanceBetweenCitiesInKilometers": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unloadCity": {
-            "$ref": "#/components/schemas/City"
-          },
-          "unloadAddress": {
-            "type": "string",
-            "nullable": true
-          },
-          "sendingTimeFrom": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "sendingTime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "shipment": {
-            "$ref": "#/components/schemas/CreateShipmentRequestDTO"
-          },
-          "truckType": {
-            "$ref": "#/components/schemas/TruckType"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateShipmentRequestDTO": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/ShipmentType"
-          },
-          "lengthInMeters": {
-            "type": "number",
-            "format": "float"
-          },
-          "widthInMeters": {
-            "type": "number",
-            "format": "float"
-          },
-          "heightInMeters": {
-            "type": "number",
-            "format": "float"
-          },
-          "weightInTons": {
-            "maximum": 20,
-            "minimum": 0,
-            "type": "number",
-            "format": "float"
-          }
-        },
-        "additionalProperties": false
-      },
       "CreateTruckRequestDTO": {
         "type": "object",
         "properties": {
@@ -2029,71 +1963,6 @@
             "pattern": "^(0[1-9]|[12][0-9]|3[01])\\.(0[1-9]|1[0-2])\\.(19|20)\\d{2}$",
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "EditRequestRequestDTO": {
-        "type": "object",
-        "properties": {
-          "loadCity": {
-            "$ref": "#/components/schemas/City"
-          },
-          "loadAddress": {
-            "type": "string",
-            "nullable": true
-          },
-          "distanceBetweenCitiesInKilometers": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unloadCity": {
-            "$ref": "#/components/schemas/City"
-          },
-          "unloadAddress": {
-            "type": "string",
-            "nullable": true
-          },
-          "sendingTimeFrom": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "sendingTime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "shipment": {
-            "$ref": "#/components/schemas/EditShipmentRequestDTO"
-          },
-          "truckType": {
-            "$ref": "#/components/schemas/TruckType"
-          }
-        },
-        "additionalProperties": false
-      },
-      "EditShipmentRequestDTO": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/ShipmentType"
-          },
-          "lengthInMeters": {
-            "type": "number",
-            "format": "float"
-          },
-          "widthInMeters": {
-            "type": "number",
-            "format": "float"
-          },
-          "heightInMeters": {
-            "type": "number",
-            "format": "float"
-          },
-          "weightInTons": {
-            "maximum": 20,
-            "minimum": 0,
-            "type": "number",
-            "format": "float"
           }
         },
         "additionalProperties": false
@@ -2286,6 +2155,45 @@
         },
         "additionalProperties": false
       },
+      "RequestDTO": {
+        "type": "object",
+        "properties": {
+          "loadCity": {
+            "$ref": "#/components/schemas/City"
+          },
+          "loadAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "distanceBetweenCitiesInKilometers": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unloadCity": {
+            "$ref": "#/components/schemas/City"
+          },
+          "unloadAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "sendingTimeFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "sendingTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "shipment": {
+            "$ref": "#/components/schemas/ShipmentDTO"
+          },
+          "truckType": {
+            "$ref": "#/components/schemas/TruckType"
+          }
+        },
+        "additionalProperties": false
+      },
       "RequestStatus": {
         "enum": [
           "Active",
@@ -2303,6 +2211,33 @@
           "Transporter"
         ],
         "type": "string"
+      },
+      "ShipmentDTO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ShipmentType"
+          },
+          "lengthInMeters": {
+            "type": "number",
+            "format": "float"
+          },
+          "widthInMeters": {
+            "type": "number",
+            "format": "float"
+          },
+          "heightInMeters": {
+            "type": "number",
+            "format": "float"
+          },
+          "weightInTons": {
+            "maximum": 20,
+            "minimum": 0,
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "additionalProperties": false
       },
       "ShipmentResponse": {
         "type": "object",

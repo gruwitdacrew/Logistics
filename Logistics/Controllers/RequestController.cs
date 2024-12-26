@@ -23,7 +23,7 @@ namespace Logistics.Controllers
         [Authorize(Roles = "Shipper")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> createRequest(CreateRequestRequestDTO createRequest, bool isDelayed)
+        public async Task<ActionResult> createRequest(RequestDTO createRequest, bool isDelayed)
         {
             var userId = User.Claims.ToList()[0].Value;
 
@@ -35,7 +35,7 @@ namespace Logistics.Controllers
         [HttpPut]
         [Route("{requestId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> editRequest([FromRoute] Guid requestId, EditRequestRequestDTO editRequest)
+        public async Task<ActionResult> editRequest([FromRoute] Guid requestId, RequestDTO editRequest)
         {
             var userId = User.Claims.ToList()[0].Value;
 

@@ -205,12 +205,13 @@ namespace Logistics.Services
 
             if (user == null)
             {
-                return new NotFoundObjectResult(new ErrorResponse(404, "Пользователь с таким email не найден"));
+                problemDetails.addError("email", "Пользователь с таким email не найден");
             }
             else if (user.password != Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(loginRequest.password))))
             {
-                return new UnauthorizedObjectResult(new ErrorResponse(401, "Неправильный пароль"));
+                problemDetails.addError("password", "Неправильный пароль");
             }
+            if (problemDetails.errors.Count > 0) return new BadRequestObjectResult(problemDetails);
 
             var refreshToken = _tokenGenerator.GenerateToken(user, Token.Refresh);
             var accessToken = _tokenGenerator.GenerateAccessToken(user, user.role);

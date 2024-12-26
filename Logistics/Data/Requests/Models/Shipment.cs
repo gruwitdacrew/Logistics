@@ -21,7 +21,7 @@ namespace Logistics.Data.Requests.Models
 
         public Shipment() { }
 
-        public Shipment(CreateShipmentRequestDTO createShipment, Guid requestId)
+        public Shipment(ShipmentDTO createShipment, Guid requestId)
         {
             id = Guid.NewGuid();
             this.requestId = requestId;

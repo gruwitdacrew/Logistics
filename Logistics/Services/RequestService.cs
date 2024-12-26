@@ -10,9 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Logistics.Data.Documents.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Logistics.Data.Common;
-using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace Logistics.Services
@@ -71,34 +69,47 @@ namespace Logistics.Services
             return request;
         }
 
-        private void CheckIfCanInteractWithRequest(User user, in ErrorProblemDetails missingSections)
+        private void CheckIfCanInteractWithRequest(User user, out List<string> error)
         {
             Passport? passport = _context.Passports.Where(x => x.user.id == user.id).FirstOrDefault();
+            error = new List<string>() { "Необходимо заполнить и указать: " };
 
-            if (!user.haveFilledInCompany()) missingSections.errors.Add("company", "Необходимо заполнить раздел 'О компании'");
-            if (passport == null) missingSections.errors.Add("pasport", "Необходимо указать паспорт в разделе 'Документы'");
-            else if (!passport.haveScan()) missingSections.errors.Add("pasport_scan", "Необходимо добавить скан паспорта");
+            if (!user.haveFilledInCompany()) error.Add("раздел 'О компании', ");
+            if (passport == null) error.Add("паспорт в разделе 'Документы', ");
+            else if (!passport.haveScan()) error.Add("скан паспорта, ");
         }
 
         private void CheckIfCanInteractWithRequest(Shipper shipper)
         {
-            ErrorProblemDetails missingSections = new ErrorProblemDetails(403);
-            CheckIfCanInteractWithRequest(shipper, in missingSections);
+            List<string> error;
 
-            if (missingSections.errors.Count > 0) throw new ErrorCollectionException(missingSections.status, missingSections.errors);
+            CheckIfCanInteractWithRequest(shipper, out error);
+
+            if (error.Count > 1)
+            {
+                int lastCommaIndex = error.LastIndexOf(",");
+                string s = String.Join("", error);
+                throw new ErrorException(400, s.Substring(0, s.Length - 2) + ".");
+            }
         }
 
         private void CheckIfCanInteractWithRequest(Transporter transporter)
         {
-            ErrorProblemDetails missingSections = new ErrorProblemDetails(403);
-            CheckIfCanInteractWithRequest(transporter, missingSections);
+            List<string> error;
+
+            CheckIfCanInteractWithRequest(transporter, out error);
 
             DriverLicense? driverLicense = _context.Licenses.Where(x => x.transporter.id == transporter.id).FirstOrDefault();
 
-            if (driverLicense == null) missingSections.errors.Add("license", "Необходимо указать водительское удостоверение в разделе 'Документы'");
-            else if (!driverLicense.haveScan()) missingSections.errors.Add("license_scan", "Необходимо добавить скан водительского удостоверения");
+            if (driverLicense == null) error.Add("водительское удостоверение в разделе 'Документы', ");
+            else if (!driverLicense.haveScan()) error.Add("скан водительского удостоверения, ");
 
-            if (missingSections.errors.Count > 0) throw new ErrorCollectionException(missingSections.status, missingSections.errors);
+            if (error.Count > 1)
+            {
+                int lastCommaIndex = error.LastIndexOf(",");
+                string s = String.Join("", error);
+                throw new ErrorException(400, s.Substring(0, s.Length - 2) + ".");
+            }
         }
 
 
@@ -121,13 +132,13 @@ namespace Logistics.Services
         }
 
 
-        public async Task<ActionResult> CreateRequest(Guid shipperId, CreateRequestRequestDTO createRequest, bool isDelayed)
+        public async Task<ActionResult> CreateRequest(Guid shipperId, RequestDTO createRequest, bool isDelayed)
         {
             Shipper shipper = getShipperById(shipperId);
 
-            CheckIfCanInteractWithRequest(shipper);
+            createRequest.validate();
 
-            if (createRequest.sendingTime <= createRequest.sendingTimeFrom) return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Дата с должна быть меньше даты по"));
+            CheckIfCanInteractWithRequest(shipper);
 
             Request newRequest = new Request(createRequest, shipper, isDelayed);
 
@@ -183,13 +194,13 @@ namespace Logistics.Services
             return new OkObjectResult(response);
         }
 
-        public async Task<ActionResult> EditRequest(Guid requestId, Guid shipperId, EditRequestRequestDTO editRequest)
+        public async Task<ActionResult> EditRequest(Guid requestId, Guid shipperId, RequestDTO editRequest)
         {
             Request request = getRequestByIdAndShipperId(requestId, shipperId);
 
             if (request.status != RequestStatus.Active && request.status != RequestStatus.Delayed) return new ObjectResult(new ErrorResponse(403, "Редактировать можно только активные и отложенные заявки")) { StatusCode = StatusCodes.Status403Forbidden };
 
-            if (editRequest.sendingTime <= editRequest.sendingTimeFrom) return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Дата с должна быть меньше даты по"));
+            editRequest.validate();
 
             request.edit(editRequest);
 

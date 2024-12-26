@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Logistics.Data.Requests.DTOs.Requests
 {
-    public class EditShipmentRequestDTO
+    public class ShipmentDTO
     {
         public ShipmentType type { get; set; }
 

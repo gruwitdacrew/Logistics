@@ -44,7 +44,7 @@ namespace Logistics.Data.Requests.Models
 
         public Request() { }
 
-        public Request(CreateRequestRequestDTO createRequest, Shipper shipper, bool isDelayed)
+        public Request(RequestDTO createRequest, Shipper shipper, bool isDelayed)
         {
             id = Guid.NewGuid();
             this.shipper = shipper;
@@ -62,7 +62,7 @@ namespace Logistics.Data.Requests.Models
             additionalCostInRubles = 0;
         }
 
-        public void edit(EditRequestRequestDTO editRequest)
+        public void edit(RequestDTO editRequest)
         {
             unloadCity = editRequest.unloadCity;
             loadCity = editRequest.loadCity;

@@ -5,6 +5,7 @@ using Logistics.Data.Accounts.DTOs.Requests;
 using Logistics.Data.Accounts.DTOs.Responses;
 using Logistics.Data.Common.CommonDTOs.Responses;
 using Logistics.Data.Common.DTOs.Responses;
+using Logistics.Data.Documents.Models;
 using Logistics.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -210,7 +211,21 @@ namespace Logistics.Controllers
         {
             var userId = User.Claims.ToList()[0].Value;
 
-            return await _userService.GetPhoto(new Guid(userId));
+            var response = await _userService.GetPhoto(new Guid(userId));
+
+            if (response is OkObjectResult okResult)
+            {
+                if (okResult.Value is byte[] photo)
+                {
+                    FileContentResult file = new FileContentResult(photo, "image/png")
+                    {
+                        FileDownloadName = "avatar",
+                    };
+                    return file;
+                }
+                else return response;
+            }
+            else return response;
         }
 
         [Authorize]
