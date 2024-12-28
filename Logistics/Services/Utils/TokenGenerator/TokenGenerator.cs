@@ -25,7 +25,7 @@ namespace Logistics.Services.Utils.TokenGenerator
 
             DateTime expires = DateTime.UtcNow.AddSeconds(_configuration.AccessTokenExpirationSeconds);
 
-            SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.AccessTokenSecret));
+            SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("ACCESS_TOKEN_SECRET")));
             SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             JwtSecurityToken token = new JwtSecurityToken(
