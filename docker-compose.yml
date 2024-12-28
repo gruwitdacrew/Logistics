@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile
     environment:  
       ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET}
+      MAILING_EMAIL: ${MAILING_EMAIL}
+      MAILING_EMAIL_PASSWORD: ${MAILING_EMAIL_PASSWORD}
       DATABASE_CONNECTION_STRING: Server=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
     ports:  
       - "8080:8080"
