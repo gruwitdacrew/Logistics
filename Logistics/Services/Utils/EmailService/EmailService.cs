@@ -13,7 +13,7 @@ namespace Logistics.Services
         private string smtpAddress = "smtp.yandex.ru";
         private bool enableSSL = true;
 
-        private EmailServiceConfiguration emailServiceConfiguration;
+        private EmailServiceConfiguration emailServiceConfiguration = new EmailServiceConfiguration();
 
         public EmailService(IConfiguration configuration)
         {
