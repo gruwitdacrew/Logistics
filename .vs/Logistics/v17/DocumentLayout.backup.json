@@ -294,12 +294,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 6,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{0174dea2-fdbe-4ef1-8f99-c0beae78880f}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 6,
@@ -310,8 +306,7 @@
               "RelativeToolTip": "Logistics\\Data\\Requests\\Models\\Request.cs",
               "ViewState": "AgIAAEUAAAAAAAAAAAAcwDIAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T12:03:25.471Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-02T12:03:25.471Z"
             },
             {
               "$type": "Document",
@@ -323,8 +318,7 @@
               "RelativeToolTip": "Logistics\\Data\\Common\\DTOs\\Responses\\ErrorProblemDetails.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAIAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-10T07:38:33.824Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-10T07:38:33.824Z"
             },
             {
               "$type": "Document",
@@ -336,8 +330,7 @@
               "RelativeToolTip": "Logistics\\Data\\Requests\\DTOs\\Requests\\ShipmentDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-03T04:30:01.705Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-03T04:30:01.705Z"
             },
             {
               "$type": "Document",
@@ -349,8 +342,7 @@
               "RelativeToolTip": "Logistics\\Controllers\\RequestController.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAYwCYAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-28T10:39:57.536Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-28T10:39:57.536Z"
             },
             {
               "$type": "Document",
@@ -362,8 +354,7 @@
               "RelativeToolTip": "Logistics\\Services\\UserService.cs",
               "ViewState": "AgIAADoBAAAAAAAAAAAewFQBAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T12:47:44.148Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-29T12:47:44.148Z"
             },
             {
               "$type": "Document",
@@ -375,8 +366,7 @@
               "RelativeToolTip": "Logistics\\Data\\Requests\\Models\\Shipment.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAwwBcAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-03T04:29:22.927Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-03T04:29:22.927Z"
             },
             {
               "$type": "Document",
@@ -386,7 +376,7 @@
               "RelativeDocumentMoniker": "Logistics\\appsettings.json",
               "ToolTip": "D:\\\u0421\u0438\u0441\u0442\u0435\u043C\u043D\u044B\u0435\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\appsettings.json",
               "RelativeToolTip": "Logistics\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2024-11-28T10:30:19.263Z",
               "EditorCaption": ""
@@ -401,8 +391,7 @@
               "RelativeToolTip": "Logistics\\Controllers\\AccountController.cs",
               "ViewState": "AgIAAMYAAAAAAAAAAAAYwN0AAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T12:35:07.929Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-29T12:35:07.929Z"
             },
             {
               "$type": "Document",
@@ -414,8 +403,7 @@
               "RelativeToolTip": "Logistics\\Controllers\\DocumentController.cs",
               "ViewState": "AgIAAGUAAAAAAAAAAAArwGAAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T10:55:17.134Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-02T10:55:17.134Z"
             },
             {
               "$type": "Document",
@@ -427,8 +415,7 @@
               "RelativeToolTip": "Logistics\\Logistics.http",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2024-12-23T11:38:06.814Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-23T11:38:06.814Z"
             },
             {
               "$type": "Document",
@@ -440,8 +427,7 @@
               "RelativeToolTip": "Logistics\\Data\\Common\\ErrorException.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-11T13:42:38.17Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-11T13:42:38.17Z"
             },
             {
               "$type": "Document",
@@ -453,8 +439,7 @@
               "RelativeToolTip": "Logistics\\Data\\InvalidModelStateResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-10T07:57:05.807Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-10T07:57:05.807Z"
             },
             {
               "$type": "Document",
@@ -466,8 +451,7 @@
               "RelativeToolTip": "Logistics\\Data\\Requests\\DTOs\\Requests\\RequestDTO.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAhwBkAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-03T04:26:43.942Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-03T04:26:43.942Z"
             },
             {
               "$type": "Document",
@@ -479,8 +463,7 @@
               "RelativeToolTip": "Logistics\\Services\\RequestService.cs",
               "ViewState": "AgIAAG0AAAAAAAAAAADwv2sAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T08:40:01.996Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-02T08:40:01.996Z"
             },
             {
               "$type": "Document",
@@ -492,8 +475,7 @@
               "RelativeToolTip": "Logistics\\Data\\Accounts\\DTOs\\Requests\\LoginRequestDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-05T13:06:16.587Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-05T13:06:16.587Z"
             },
             {
               "$type": "Document",
@@ -505,8 +487,7 @@
               "RelativeToolTip": "Logistics\\Program.cs",
               "ViewState": "AgIAAFgAAAAAAAAAAAAAAFwAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T12:08:10.779Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-02T12:08:10.779Z"
             },
             {
               "$type": "Document",
