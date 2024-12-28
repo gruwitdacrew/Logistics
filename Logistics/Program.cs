@@ -1,6 +1,7 @@
 using Logistics.Data;
 using Logistics.Services;
 using Logistics.Services.Utils;
+using Logistics.Services.Utils.EmailService;
 using Logistics.Services.Utils.TokenGenerator;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -58,7 +59,8 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddDbContext<AppDBContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DataBase")));
+
+builder.Services.AddDbContext<AppDBContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DataBase") != null ? builder.Configuration.GetConnectionString("DataBase") : Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING")));
 
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TokenGenerator>();

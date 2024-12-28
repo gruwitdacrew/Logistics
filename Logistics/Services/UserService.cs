@@ -8,6 +8,7 @@ using Logistics.Data.Common;
 using Logistics.Data.Common.CommonDTOs.Responses;
 using Logistics.Data.Common.DTOs.Responses;
 using Logistics.Data.Documents.Models;
+using Logistics.Services.Utils.EmailService;
 using Logistics.Services.Utils.TokenGenerator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
