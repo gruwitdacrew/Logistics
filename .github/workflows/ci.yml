@@ -18,3 +18,8 @@ jobs:
           docker-compose up -d --build
         env:
           ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+          MAILING_EMAIL: ${{ vars.MAILING_EMAIL }}
+          MAILING_EMAIL_PASSWORD: ${{ secrets.MAILING_EMAIL_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}

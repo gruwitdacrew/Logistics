@@ -4,7 +4,10 @@ services:
   web:    
     build:  
       context: . 
-      dockerfile: Dockerfile   
+      dockerfile: Dockerfile
+    environment:  
+      ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET}
+      DATABASE_CONNECTION_STRING: Server=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
     ports:  
       - "8080:8080"
     networks:  
@@ -18,9 +21,9 @@ services:
     expose: 
       - "5432" 
     environment:  
-      POSTGRES_DB: Logistics 
-      POSTGRES_USER: postgres 
-      POSTGRES_PASSWORD: admin    
+      POSTGRES_DB: ${POSTGRES_DB} 
+      POSTGRES_USER: ${POSTGRES_USER} 
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}    
     volumes:  
       - pgdata:/var/lib/postgresql/data # Персистентное хранилище для данных базы
     networks:  
@@ -31,7 +34,7 @@ services:
     restart: always  
     environment:  
       PGADMIN_DEFAULT_EMAIL: admin@example.com  
-      PGADMIN_DEFAULT_PASSWORD: admin  
+      PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_PASSWORD}  
     ports:  
       - "1234:80"
     networks:  
