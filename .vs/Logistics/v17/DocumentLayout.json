@@ -39,8 +39,7 @@
               "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
               "ViewState": "AgIAALIUAAAAAAAAAAAnwMkUAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2024-12-28T12:03:39.118Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-28T12:03:39.118Z"
             },
             {
               "$type": "Document",
@@ -63,7 +62,7 @@
               "RelativeDocumentMoniker": "Logistics\\appsettings.json",
               "ToolTip": "D:\\\u0421\u0438\u0441\u0442\u0435\u043C\u043D\u044B\u0435\\\u0420\u0430\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u043E\u043B\\Logistics\\Logistics\\appsettings.json",
               "RelativeToolTip": "Logistics\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2024-12-28T11:44:58.12Z",
               "EditorCaption": ""
@@ -78,8 +77,7 @@
               "RelativeToolTip": "Logistics\\Services\\Utils\\TokenGenerator\\TokenGeneratorConfiguration.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-28T11:41:11.761Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-28T11:41:11.761Z"
             },
             {
               "$type": "Document",
@@ -91,8 +89,7 @@
               "RelativeToolTip": "Logistics\\Services\\Utils\\TokenGenerator\\TokenGenerator.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAQwC4AAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-28T11:37:45.053Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-28T11:37:45.053Z"
             }
           ]
         }
