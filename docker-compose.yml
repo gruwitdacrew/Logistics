@@ -4,7 +4,9 @@ services:
   web:    
     build:  
       context: . 
-      dockerfile: Dockerfile   
+      dockerfile: Dockerfile
+    environment:  
+      - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
     ports:  
       - "8080:8080"
     networks:  
