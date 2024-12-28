@@ -251,7 +251,6 @@ D:\Рабочий стол\Logistics\Logistics\obj\Debug\net8.0\refint\Logistics
 D:\Рабочий стол\Logistics\Logistics\obj\Debug\net8.0\Logistics.pdb
 D:\Рабочий стол\Logistics\Logistics\obj\Debug\net8.0\Logistics.genruntimeconfig.cache
 D:\Рабочий стол\Logistics\Logistics\obj\Debug\net8.0\ref\Logistics.dll
-D:\Системные\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\appsettings.Development.json
 D:\Системные\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\appsettings.json
 D:\Системные\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\Logistics.staticwebassets.endpoints.json
 D:\Системные\Рабочий стол\Logistics\Logistics\bin\Debug\net8.0\Logistics.exe
@@ -375,7 +374,6 @@ D:\Системные\Рабочий стол\Logistics\Logistics\obj\Debug\net8
 D:\Системные\Рабочий стол\Logistics\Logistics\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Logistics.props
 D:\Системные\Рабочий стол\Logistics\Logistics\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Logistics.props
 D:\Системные\Рабочий стол\Logistics\Logistics\obj\Debug\net8.0\staticwebassets.pack.json
-D:\Системные\Рабочий стол\Logistics\Logistics\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\Системные\Рабочий стол\Logistics\Logistics\obj\Debug\net8.0\Logistics.csproj.Up2Date
 D:\Системные\Рабочий стол\Logistics\Logistics\obj\Debug\net8.0\Logistics.dll
 D:\Системные\Рабочий стол\Logistics\Logistics\obj\Debug\net8.0\refint\Logistics.dll

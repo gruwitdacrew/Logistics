@@ -2,7 +2,7 @@
 {
     public class TokenGeneratorConfiguration
     {
-        public string AccessTokenSecret { get; set; }
+        public string AccessTokenSecret { get; set; } = Environment.GetEnvironmentVariable("ACCESS_TOKEN_SECRET");
         public int AccessTokenExpirationSeconds { get; set; }
         public int RefreshTokenExpirationHours { get; set; }
         public int ApproveEmailTokenExpirationMinutes { get; set; }
