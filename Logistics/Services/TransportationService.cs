@@ -28,6 +28,7 @@ namespace Logistics.Services
                 { TransportationStatus.OnWayToUnloading, new List<TransportationStatus>{ TransportationStatus.Unloading, TransportationStatus.Repairing } },
                 { TransportationStatus.Repairing, new List<TransportationStatus>{ TransportationStatus.OnWayToLoading, TransportationStatus.OnWayToUnloading } },
                 { TransportationStatus.Unloading, new List<TransportationStatus>{ TransportationStatus.Finished } },
+                { TransportationStatus.Finished, new List<TransportationStatus>{  } },
             };
         }
 
