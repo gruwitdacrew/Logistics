@@ -10,6 +10,9 @@ services:
       MAILING_EMAIL: ${MAILING_EMAIL}
       MAILING_EMAIL_PASSWORD: ${MAILING_EMAIL_PASSWORD}
       DATABASE_CONNECTION_STRING: Server=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT} 
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}  
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
     ports:  
       - "8080:8080"
     networks:  
@@ -43,6 +46,8 @@ services:
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}  
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}  
     command: server /data --console-address ":9001"
+    networks:  
+      - network
 
   pgadmin:  
     image: dpage/pgadmin4  
