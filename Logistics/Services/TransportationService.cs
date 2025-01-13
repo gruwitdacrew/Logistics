@@ -49,9 +49,9 @@ namespace Logistics.Services
             return transportation;
         }
 
-        public async Task<ActionResult> GetTransporterTransportations(Guid transporterId)
+        public async Task<ActionResult> GetTransporterTransportations(Guid transporterId, bool isFinished)
         {
-            List<Transportation> transportations = _context.Transportations.Where(x => x.transporter.id == transporterId).Include(x => x.request).Include(x => x.request.shipper).Include(x => x.request.shipment).ToList();
+            List<Transportation> transportations = _context.Transportations.Where(x => (isFinished ? x.status == TransportationStatus.Finished : x.status != TransportationStatus.Finished) && x.transporter.id == transporterId).Include(x => x.request).Include(x => x.request.shipper).Include(x => x.request.shipment).ToList();
 
             var response = transportations.Select(x => new TransporterTransportationResponseDTO(x)).ToList();
 
@@ -92,9 +92,9 @@ namespace Logistics.Services
             return new OkObjectResult("");
         }
 
-        public async Task<ActionResult> GetShipperTransportations(Guid shipperId)
+        public async Task<ActionResult> GetShipperTransportations(Guid shipperId, bool isFinished)
         {
-            List<Transportation> transportations = _context.Transportations.Where(x => x.request.shipper.id == shipperId).Include(x => x.transporter).Include(x => x.transporter.truck).ToList();
+            List<Transportation> transportations = _context.Transportations.Where(x => (isFinished ? x.status == TransportationStatus.Finished : x.status != TransportationStatus.Finished) && x.request.shipper.id == shipperId).Include(x => x.transporter).Include(x => x.transporter.truck).ToList();
 
             var response = transportations.Select(x => new ShipperTransportationResponseDTO(x)).ToList();
 

@@ -145,21 +145,7 @@ namespace Logistics.Controllers
         {
             var userId = User.Claims.ToList()[0].Value;
 
-            var response = await _documentService.GetPassportScan(new Guid(userId));
-
-            if (response is OkObjectResult okResult)
-            {
-                if (okResult.Value is Scan scan)
-                {
-                    FileContentResult file = new FileContentResult(scan.data, "application/pdf")
-                    {
-                        FileDownloadName = scan.fileName,
-                    };
-                    return file;
-                }
-                else return response;
-            }
-            else return response;
+            return await _documentService.GetPassportScan(new Guid(userId));
         }
 
         [Authorize]
@@ -198,21 +184,7 @@ namespace Logistics.Controllers
         {
             var userId = User.Claims.ToList()[0].Value;
 
-            var response = await _documentService.GetLicenseScan(new Guid(userId));
-
-            if (response is OkObjectResult okResult)
-            {
-                if (okResult.Value is Scan scan)
-                {
-                    FileContentResult file = new FileContentResult(scan.data, "application/pdf")
-                    {
-                        FileDownloadName = scan.fileName,
-                    };
-                    return file;
-                }
-                else return response;
-            }
-            else return response;
+            return await _documentService.GetLicenseScan(new Guid(userId));
         }
 
         [Authorize(Roles = "Transporter")]

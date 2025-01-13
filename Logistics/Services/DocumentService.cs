@@ -12,9 +12,11 @@ namespace Logistics.Services
     public class DocumentService
     {
         AppDBContext _context;
-        public DocumentService(AppDBContext context)
+        FileService _fileService;
+        public DocumentService(AppDBContext context, FileService fileService)
         {
             _context = context;
+            _fileService = fileService;
         }
 
         public async Task<ActionResult> CreatePassport(Guid userId, CreatePassportDTO createPassport)
@@ -147,14 +149,11 @@ namespace Logistics.Services
             if (file.ContentType != "application/pdf")
                 return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл должен быть в формате pdf"));
 
-            byte[] pdfFileData;
-            using (var memoryStream = new MemoryStream())
-            {
-                await file.CopyToAsync(memoryStream);
-                pdfFileData = memoryStream.ToArray();
-            }
+            if (passport.scan != null) await _fileService.delete(FileType.passport, passport.scan.fileId);
 
-            passport.scan = new Scan(file.FileName, pdfFileData);
+            Guid fileId = Guid.NewGuid();
+            passport.scan = new Scan(file.FileName, fileId);
+            await _fileService.put(file, FileType.passport, fileId);
 
             _context.Passports.Update(passport);
             _context.SaveChanges();
@@ -169,7 +168,7 @@ namespace Logistics.Services
             if (passport == null) return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали паспорт"));
             if (passport.scan == null) return new NotFoundObjectResult(new ErrorResponse(404, "У вас нет прикрепленного скана паспорта"));
 
-            return new OkObjectResult(passport.scan);
+            return await _fileService.get(FileType.passport, passport.scan.fileId);
         }
 
         public async Task<ActionResult> DeletePassportScan(Guid userId)
@@ -178,6 +177,8 @@ namespace Logistics.Services
 
             if (passport == null) return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали паспорт"));
             if (passport.scan == null) return new NotFoundObjectResult(new ErrorResponse(404, "У вас нет прикрепленного скана паспорта"));
+
+            await _fileService.delete(FileType.passport, passport.scan.fileId);
 
             passport.scan = null;
 
@@ -200,14 +201,11 @@ namespace Logistics.Services
             if (file.ContentType != "application/pdf")
                 return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл должен быть в формате pdf"));
 
-            byte[] pdfFileData;
-            using (var memoryStream = new MemoryStream())
-            {
-                await file.CopyToAsync(memoryStream);
-                pdfFileData = memoryStream.ToArray();
-            }
+            if (license.scan != null) await _fileService.delete(FileType.license, license.scan.fileId);
 
-            license.scan = new Scan(file.FileName, pdfFileData);
+            Guid fileId = Guid.NewGuid();
+            license.scan = new Scan(file.FileName, fileId);
+            await _fileService.put(file, FileType.license, fileId);
 
             _context.Licenses.Update(license);
             _context.SaveChanges();
@@ -222,7 +220,7 @@ namespace Logistics.Services
             if (license == null) return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали водительское удостоверение"));
             if (license.scan == null) return new NotFoundObjectResult(new ErrorResponse(404, "У вас нет прикрепленного скана водительского удостоверения"));
 
-            return new OkObjectResult(license.scan.data);
+            return await _fileService.get(FileType.license, license.scan.fileId);
         }
 
         public async Task<ActionResult> DeleteLicenseScan(Guid transporterId)
@@ -231,6 +229,8 @@ namespace Logistics.Services
 
             if (license == null) return new NotFoundObjectResult(new ErrorResponse(404, "Вы не указывали водительское удостоверение"));
             if (license.scan == null) return new NotFoundObjectResult(new ErrorResponse(404, "У вас нет прикрепленного скана водительского удостоверения"));
+
+            await _fileService.delete(FileType.license, license.scan.fileId);
 
             license.scan = null;
 

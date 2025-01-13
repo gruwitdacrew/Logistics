@@ -66,6 +66,8 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TokenGenerator>();
 builder.Services.AddSingleton<EmailService>();
 
+builder.Services.AddSingleton<FileService>();
+
 builder.Services.AddHostedService<RequestArchiverService>();
 builder.Services.AddScoped<RequestService>();
 

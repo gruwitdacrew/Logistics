@@ -12,9 +12,12 @@ using Logistics.Services.Utils.EmailService;
 using Logistics.Services.Utils.TokenGenerator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Minio.DataModel.Args;
+using Minio;
 using System.Data;
 using System.Security.Cryptography;
 using System.Text;
+using System.IO;
 
 namespace Logistics.Services
 {
@@ -23,11 +26,13 @@ namespace Logistics.Services
         AppDBContext _context;
         TokenGenerator _tokenGenerator;
         EmailService _emailService;
-        public UserService(AppDBContext context, TokenGenerator tokenGenerator, EmailService emailService)
+        FileService _fileService;
+        public UserService(AppDBContext context, TokenGenerator tokenGenerator, EmailService emailService, FileService fileService)
         {
             _context = context;
             _tokenGenerator = tokenGenerator;
             _emailService = emailService;
+            _fileService = fileService;
         }
 
         private User getUserById(Guid userId)
@@ -339,17 +344,14 @@ namespace Logistics.Services
             if (file == null || file.Length == 0)
                 return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл не выбран"));
 
-            if ("image/png" != file.ContentType)
-                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл должен быть фотографией png"));
+            if (!new List<string>() { "image/png", "image/jpeg", "image/gif" }.Contains(file.ContentType))
+                return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл должен быть картинкой"));
 
-            byte[] fileData;
-            using (var memoryStream = new MemoryStream())
-            {
-                await file.CopyToAsync(memoryStream);
-                fileData = memoryStream.ToArray();
-            }
+            await _fileService.delete(FileType.photo, user.photoId);
 
-            user.photo = fileData;
+            Guid fileId = Guid.NewGuid();
+            await _fileService.put(file, FileType.photo, fileId);
+            user.photoId = fileId;
 
             _context.Users.Update(user);
             _context.SaveChanges();
@@ -361,18 +363,20 @@ namespace Logistics.Services
         {
             User user = getUserById(userId);
 
-            if (user.photo == null) { return new NotFoundObjectResult(new ErrorResponse(404, "Фотография не указана")); }
+            if (user.photoId == null) { return new NotFoundObjectResult(new ErrorResponse(404, "Файл не указан")); }
 
-            return new OkObjectResult(user.photo);
+            return await _fileService.get(FileType.photo, user.photoId);
         }
 
         public async Task<ActionResult> DeletePhoto(Guid userId)
         {
             User user = getUserById(userId);
 
-            if (user.photo == null) { return new NotFoundObjectResult(new ErrorResponse(404, "Фотография не указана")); }
+            if (user.photoId == null) { return new NotFoundObjectResult(new ErrorResponse(404, "Файл не указан")); }
 
-            user.photo = null;
+            await _fileService.delete(FileType.photo, user.photoId);
+
+            user.photoId = null;
 
             _context.Users.Update(user);
             _context.SaveChanges();

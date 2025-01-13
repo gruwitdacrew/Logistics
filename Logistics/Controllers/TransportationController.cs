@@ -20,11 +20,11 @@ namespace Logistics.Controllers
         [HttpGet]
         [Route("/api/shipper/transportations")]
         [ProducesResponseType(typeof(List<ShipperTransportationResponseDTO>), StatusCodes.Status200OK)]
-        public async Task<ActionResult> getShipperTransportations()
+        public async Task<ActionResult> getShipperTransportations(bool isFinished)
         {
             var userId = User.Claims.ToList()[0].Value;
 
-            return await _transportationService.GetShipperTransportations(new Guid(userId));
+            return await _transportationService.GetShipperTransportations(new Guid(userId), isFinished);
         }
 
         [Authorize(Roles = "Shipper")]
@@ -42,11 +42,11 @@ namespace Logistics.Controllers
         [HttpGet]
         [Route("/api/transporter/transportations")]
         [ProducesResponseType(typeof(List<TransporterTransportationResponseDTO>), StatusCodes.Status200OK)]
-        public async Task<ActionResult> getTransporterTransportations()
+        public async Task<ActionResult> getTransporterTransportations(bool isFinished)
         {
             var userId = User.Claims.ToList()[0].Value;
 
-            return await _transportationService.GetTransporterTransportations(new Guid(userId));
+            return await _transportationService.GetTransporterTransportations(new Guid(userId), isFinished);
         }
 
         [Authorize(Roles = "Transporter")]

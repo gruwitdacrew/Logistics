@@ -18,7 +18,7 @@ namespace Logistics.Data.Account.Models
 
         public string? email { get; set; }
 
-        public byte[]? photo { get; set; }
+        public Guid? photoId { get; set; }
 
         public Company company { get; set; }
 

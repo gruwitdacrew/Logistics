@@ -211,21 +211,7 @@ namespace Logistics.Controllers
         {
             var userId = User.Claims.ToList()[0].Value;
 
-            var response = await _userService.GetPhoto(new Guid(userId));
-
-            if (response is OkObjectResult okResult)
-            {
-                if (okResult.Value is byte[] photo)
-                {
-                    FileContentResult file = new FileContentResult(photo, "image/png")
-                    {
-                        FileDownloadName = "avatar",
-                    };
-                    return file;
-                }
-                else return response;
-            }
-            else return response;
+            return await _userService.GetPhoto(new Guid(userId));
         }
 
         [Authorize]

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Logistics.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20250109082929_init")]
+    [Migration("20250113130700_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -96,14 +96,14 @@ namespace Logistics.Migrations
                     b.HasData(
                         new
                         {
-                            id = new Guid("d4d8fd86-a0dc-4850-85ab-59ac23fc86b4"),
+                            id = new Guid("1ce9a0cc-3292-47a7-b0b4-e5365dfaa603"),
                             heightInMeters = 3f,
                             lengthInMeters = 10f,
                             loadCapacityInTons = 20,
                             model = "5Sjp",
                             number = "A000AA",
                             regionCode = 70,
-                            transporterId = new Guid("ad00bd02-91cf-49b5-9519-0f75aa6feb19"),
+                            transporterId = new Guid("551ea8b1-747e-46fd-9a34-6e6f74f721bb"),
                             truckBrand = 0,
                             truckType = 1,
                             widthInMeters = 2.5f,
@@ -131,8 +131,8 @@ namespace Logistics.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<byte[]>("photo")
-                        .HasColumnType("bytea");
+                    b.Property<Guid?>("photoId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("role")
                         .HasColumnType("integer");
@@ -173,10 +173,10 @@ namespace Logistics.Migrations
                     b.HasData(
                         new
                         {
-                            id = new Guid("a823874d-9a95-47a2-8db5-95dbdc679a45"),
+                            id = new Guid("1420aab3-6c76-437b-a5c3-333aaa639af3"),
                             number = "540964",
                             series = "5305",
-                            transporterId = new Guid("ad00bd02-91cf-49b5-9519-0f75aa6feb19")
+                            transporterId = new Guid("551ea8b1-747e-46fd-9a34-6e6f74f721bb")
                         });
                 });
 
@@ -218,23 +218,23 @@ namespace Logistics.Migrations
                     b.HasData(
                         new
                         {
-                            id = new Guid("ab72c67d-67b9-4c2a-955c-062cf4b7ccc3"),
+                            id = new Guid("0ff49b4a-daff-4202-a3e8-5a3e8f23fd6b"),
                             code = "540-345",
                             dateOfIssue = "21.08.2000",
                             issuedBy = "УМВД РОССИИ ПО ТОМСКОЙ ОБЛАСТИ",
                             number = "540964",
                             series = "5305",
-                            userId = new Guid("ad00bd02-91cf-49b5-9519-0f75aa6feb19")
+                            userId = new Guid("551ea8b1-747e-46fd-9a34-6e6f74f721bb")
                         },
                         new
                         {
-                            id = new Guid("7ed61137-76f8-47c4-968f-a7a2d5363b86"),
+                            id = new Guid("d105a3e3-e5e6-4ae3-9682-adc4f5a43426"),
                             code = "540-666",
                             dateOfIssue = "30.10.1991",
                             issuedBy = "УМВД РОССИИ ПО ТОМСКОЙ ОБЛАСТИ",
                             number = "952812",
                             series = "9997",
-                            userId = new Guid("c652f8fd-aa0e-4a91-99b1-199c75dfd8a8")
+                            userId = new Guid("2ff859e1-4105-4a14-b24c-32f2f446c24a")
                         });
                 });
 
@@ -255,8 +255,8 @@ namespace Logistics.Migrations
                     b.HasData(
                         new
                         {
-                            transporterId = new Guid("ad00bd02-91cf-49b5-9519-0f75aa6feb19"),
-                            requestId = new Guid("d6e1d164-2fa4-4902-961e-a134ab0ac947")
+                            transporterId = new Guid("551ea8b1-747e-46fd-9a34-6e6f74f721bb"),
+                            requestId = new Guid("883be808-d7eb-461f-b9e9-984f452618d1")
                         });
                 });
 
@@ -322,15 +322,15 @@ namespace Logistics.Migrations
                     b.HasData(
                         new
                         {
-                            id = new Guid("404a6b20-7b7a-475d-a3ed-241389b84d71"),
+                            id = new Guid("10e0b282-f3a9-4389-90f9-9631b6c9f703"),
                             additionalCostInRubles = 0f,
                             costInRubles = 293750f,
-                            creationTime = new DateTime(2025, 1, 9, 7, 49, 28, 296, DateTimeKind.Utc).AddTicks(822),
+                            creationTime = new DateTime(2025, 1, 13, 12, 27, 0, 442, DateTimeKind.Utc).AddTicks(5590),
                             loadAddress = "ул. Комсомольская, д. 33",
                             loadCity = 0,
-                            sendingTime = new DateTime(2025, 1, 11, 11, 29, 28, 296, DateTimeKind.Utc).AddTicks(828),
-                            sendingTimeFrom = new DateTime(2025, 1, 11, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(830),
-                            shipperId = new Guid("c652f8fd-aa0e-4a91-99b1-199c75dfd8a8"),
+                            sendingTime = new DateTime(2025, 1, 15, 16, 7, 0, 442, DateTimeKind.Utc).AddTicks(5595),
+                            sendingTimeFrom = new DateTime(2025, 1, 15, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5598),
+                            shipperId = new Guid("2ff859e1-4105-4a14-b24c-32f2f446c24a"),
                             status = 2,
                             truckType = 1,
                             unloadAddress = "ул. Ленина, д. 55",
@@ -338,16 +338,16 @@ namespace Logistics.Migrations
                         },
                         new
                         {
-                            id = new Guid("ab3f99db-9320-4c7d-bac6-878743a4c088"),
+                            id = new Guid("c45aeff9-d1a8-4142-a0d1-8eebd29b0929"),
                             additionalCostInRubles = 0f,
-                            arrivalTime = new DateTime(2025, 1, 8, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(841),
+                            arrivalTime = new DateTime(2025, 1, 12, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5634),
                             costInRubles = 293750f,
-                            creationTime = new DateTime(2025, 1, 2, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(838),
+                            creationTime = new DateTime(2025, 1, 6, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5631),
                             loadAddress = "ул. Нахимова, д. 8",
                             loadCity = 0,
-                            sendingTime = new DateTime(2025, 1, 2, 11, 29, 28, 296, DateTimeKind.Utc).AddTicks(840),
-                            sendingTimeFrom = new DateTime(2025, 1, 2, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(840),
-                            shipperId = new Guid("c652f8fd-aa0e-4a91-99b1-199c75dfd8a8"),
+                            sendingTime = new DateTime(2025, 1, 6, 16, 7, 0, 442, DateTimeKind.Utc).AddTicks(5633),
+                            sendingTimeFrom = new DateTime(2025, 1, 6, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5633),
+                            shipperId = new Guid("2ff859e1-4105-4a14-b24c-32f2f446c24a"),
                             status = 5,
                             truckType = 1,
                             unloadAddress = "ул. Советская, д. 76",
@@ -355,14 +355,14 @@ namespace Logistics.Migrations
                         },
                         new
                         {
-                            id = new Guid("d6e1d164-2fa4-4902-961e-a134ab0ac947"),
+                            id = new Guid("883be808-d7eb-461f-b9e9-984f452618d1"),
                             additionalCostInRubles = 0f,
                             costInRubles = 293750f,
-                            creationTime = new DateTime(2025, 1, 2, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(843),
+                            creationTime = new DateTime(2025, 1, 6, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5637),
                             loadAddress = "ул. Комсомольская, д. 33",
                             loadCity = 0,
-                            sendingTime = new DateTime(2025, 1, 12, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(844),
-                            shipperId = new Guid("c652f8fd-aa0e-4a91-99b1-199c75dfd8a8"),
+                            sendingTime = new DateTime(2025, 1, 16, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5638),
+                            shipperId = new Guid("2ff859e1-4105-4a14-b24c-32f2f446c24a"),
                             status = 0,
                             truckType = 4,
                             unloadAddress = "ул. Ленина, д. 55",
@@ -370,15 +370,15 @@ namespace Logistics.Migrations
                         },
                         new
                         {
-                            id = new Guid("1ac8e0d5-4f7c-41ba-a435-9968daa5c429"),
+                            id = new Guid("a96d1d36-e374-4e2a-b2f0-86fd89bcc519"),
                             additionalCostInRubles = 0f,
                             costInRubles = 196000f,
-                            creationTime = new DateTime(2025, 1, 2, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(847),
+                            creationTime = new DateTime(2025, 1, 6, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5642),
                             loadAddress = "ул. Комсомольская, д. 33",
                             loadCity = 0,
-                            sendingTime = new DateTime(2025, 1, 12, 9, 9, 28, 296, DateTimeKind.Utc).AddTicks(848),
-                            sendingTimeFrom = new DateTime(2025, 1, 12, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(849),
-                            shipperId = new Guid("c652f8fd-aa0e-4a91-99b1-199c75dfd8a8"),
+                            sendingTime = new DateTime(2025, 1, 16, 13, 47, 0, 442, DateTimeKind.Utc).AddTicks(5643),
+                            sendingTimeFrom = new DateTime(2025, 1, 16, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5643),
+                            shipperId = new Guid("2ff859e1-4105-4a14-b24c-32f2f446c24a"),
                             status = 0,
                             truckType = 4,
                             unloadAddress = "ул. Ленина, д. 55",
@@ -386,14 +386,14 @@ namespace Logistics.Migrations
                         },
                         new
                         {
-                            id = new Guid("a303c657-df3f-4b83-8055-921adf86c7b7"),
+                            id = new Guid("5bc92ceb-97cd-42bd-9dc0-c9b19d909a83"),
                             additionalCostInRubles = 0f,
                             costInRubles = 196000f,
-                            creationTime = new DateTime(2025, 1, 2, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(852),
+                            creationTime = new DateTime(2025, 1, 6, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5646),
                             loadAddress = "ул. Комсомольская, д. 33",
                             loadCity = 0,
-                            sendingTime = new DateTime(2025, 1, 12, 9, 9, 28, 296, DateTimeKind.Utc).AddTicks(853),
-                            shipperId = new Guid("c652f8fd-aa0e-4a91-99b1-199c75dfd8a8"),
+                            sendingTime = new DateTime(2025, 1, 16, 13, 47, 0, 442, DateTimeKind.Utc).AddTicks(5647),
+                            shipperId = new Guid("2ff859e1-4105-4a14-b24c-32f2f446c24a"),
                             status = 0,
                             truckType = 4,
                             unloadAddress = "ул. Ленина, д. 55",
@@ -401,14 +401,14 @@ namespace Logistics.Migrations
                         },
                         new
                         {
-                            id = new Guid("5d77b8c9-382b-4b04-8eab-ff14634f447f"),
+                            id = new Guid("34d15192-2707-4c45-943f-7ea3bc22f886"),
                             additionalCostInRubles = 0f,
                             costInRubles = 196000f,
-                            creationTime = new DateTime(2025, 1, 2, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(855),
+                            creationTime = new DateTime(2025, 1, 6, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5650),
                             loadAddress = "ул. Комсомольская, д. 33",
                             loadCity = 0,
-                            sendingTime = new DateTime(2025, 1, 12, 9, 9, 28, 296, DateTimeKind.Utc).AddTicks(856),
-                            shipperId = new Guid("c652f8fd-aa0e-4a91-99b1-199c75dfd8a8"),
+                            sendingTime = new DateTime(2025, 1, 16, 13, 47, 0, 442, DateTimeKind.Utc).AddTicks(5651),
+                            shipperId = new Guid("2ff859e1-4105-4a14-b24c-32f2f446c24a"),
                             status = 1,
                             truckType = 4,
                             unloadAddress = "ул. Ленина, д. 55",
@@ -450,60 +450,60 @@ namespace Logistics.Migrations
                     b.HasData(
                         new
                         {
-                            id = new Guid("dc5db599-f3c0-446b-8a16-7baa4842c50a"),
+                            id = new Guid("4eb23557-b415-409c-8e02-aa9aeb6bd3d5"),
                             heightInMeters = 2f,
                             lengthInMeters = 5f,
-                            requestId = new Guid("404a6b20-7b7a-475d-a3ed-241389b84d71"),
+                            requestId = new Guid("10e0b282-f3a9-4389-90f9-9631b6c9f703"),
                             type = 1,
                             weightInTons = 5f,
                             widthInMeters = 2f
                         },
                         new
                         {
-                            id = new Guid("27469b5e-645d-4cbc-a717-bdef5a1bbb06"),
+                            id = new Guid("631057a7-b9b8-42b0-859c-f7abdfa8c9e0"),
                             heightInMeters = 2f,
                             lengthInMeters = 5f,
-                            requestId = new Guid("d6e1d164-2fa4-4902-961e-a134ab0ac947"),
+                            requestId = new Guid("883be808-d7eb-461f-b9e9-984f452618d1"),
                             type = 1,
                             weightInTons = 5f,
                             widthInMeters = 2f
                         },
                         new
                         {
-                            id = new Guid("35f51937-4522-4302-a0b3-011906dac771"),
+                            id = new Guid("5f96e0dc-45f6-4faf-915a-db3e64096f6e"),
                             heightInMeters = 2f,
                             lengthInMeters = 5f,
-                            requestId = new Guid("ab3f99db-9320-4c7d-bac6-878743a4c088"),
+                            requestId = new Guid("c45aeff9-d1a8-4142-a0d1-8eebd29b0929"),
                             type = 6,
                             weightInTons = 5f,
                             widthInMeters = 2f
                         },
                         new
                         {
-                            id = new Guid("08159fab-72ca-4933-93f9-0f7c4ba8b801"),
+                            id = new Guid("6aab8759-d911-485e-bb33-16e74581cbd7"),
                             heightInMeters = 2f,
                             lengthInMeters = 5f,
-                            requestId = new Guid("1ac8e0d5-4f7c-41ba-a435-9968daa5c429"),
+                            requestId = new Guid("a96d1d36-e374-4e2a-b2f0-86fd89bcc519"),
                             type = 6,
                             weightInTons = 5f,
                             widthInMeters = 2f
                         },
                         new
                         {
-                            id = new Guid("853dea98-37a4-402d-8895-3ee03183542a"),
+                            id = new Guid("fe8bcac9-738d-4305-b510-330c5e94bcb4"),
                             heightInMeters = 2f,
                             lengthInMeters = 5f,
-                            requestId = new Guid("a303c657-df3f-4b83-8055-921adf86c7b7"),
+                            requestId = new Guid("5bc92ceb-97cd-42bd-9dc0-c9b19d909a83"),
                             type = 6,
                             weightInTons = 5f,
                             widthInMeters = 2f
                         },
                         new
                         {
-                            id = new Guid("09c2fa8c-6c57-4638-b16b-4f431a114358"),
+                            id = new Guid("16eeeb98-5480-4142-a248-f1056e6b6cf4"),
                             heightInMeters = 2f,
                             lengthInMeters = 5f,
-                            requestId = new Guid("5d77b8c9-382b-4b04-8eab-ff14634f447f"),
+                            requestId = new Guid("34d15192-2707-4c45-943f-7ea3bc22f886"),
                             type = 6,
                             weightInTons = 5f,
                             widthInMeters = 2f
@@ -559,17 +559,17 @@ namespace Logistics.Migrations
                     b.HasData(
                         new
                         {
-                            id = new Guid("e3f4bcc5-6c47-44d7-bd32-a30e2c4f92a4"),
-                            requestId = new Guid("404a6b20-7b7a-475d-a3ed-241389b84d71"),
+                            id = new Guid("e6a1a126-72a8-4977-9e24-7b8a276c7b2e"),
+                            requestId = new Guid("10e0b282-f3a9-4389-90f9-9631b6c9f703"),
                             status = 2,
-                            transporterId = new Guid("ad00bd02-91cf-49b5-9519-0f75aa6feb19")
+                            transporterId = new Guid("551ea8b1-747e-46fd-9a34-6e6f74f721bb")
                         },
                         new
                         {
-                            id = new Guid("0fe37385-0d20-4c5a-be16-54564f72b569"),
-                            requestId = new Guid("ab3f99db-9320-4c7d-bac6-878743a4c088"),
+                            id = new Guid("52dc6a12-f4cb-495f-acfc-26c0e48259f8"),
+                            requestId = new Guid("c45aeff9-d1a8-4142-a0d1-8eebd29b0929"),
                             status = 6,
-                            transporterId = new Guid("ad00bd02-91cf-49b5-9519-0f75aa6feb19")
+                            transporterId = new Guid("551ea8b1-747e-46fd-9a34-6e6f74f721bb")
                         });
                 });
 
@@ -597,73 +597,73 @@ namespace Logistics.Migrations
                     b.HasData(
                         new
                         {
-                            id = new Guid("72bee96c-9740-4327-b354-6fb0681e80ae"),
+                            id = new Guid("7cc22088-9068-43ae-ae3d-b125eac42737"),
                             status = 0,
-                            time = new DateTime(2025, 1, 8, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(965),
-                            transportationId = new Guid("e3f4bcc5-6c47-44d7-bd32-a30e2c4f92a4")
+                            time = new DateTime(2025, 1, 12, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5768),
+                            transportationId = new Guid("e6a1a126-72a8-4977-9e24-7b8a276c7b2e")
                         },
                         new
                         {
-                            id = new Guid("3bbd5318-4ff7-4940-8eb9-38ef358195c0"),
+                            id = new Guid("bc154f23-4072-48b4-8bec-0eb0372f2805"),
                             status = 1,
-                            time = new DateTime(2025, 1, 9, 4, 29, 28, 296, DateTimeKind.Utc).AddTicks(967),
-                            transportationId = new Guid("e3f4bcc5-6c47-44d7-bd32-a30e2c4f92a4")
+                            time = new DateTime(2025, 1, 13, 9, 7, 0, 442, DateTimeKind.Utc).AddTicks(5770),
+                            transportationId = new Guid("e6a1a126-72a8-4977-9e24-7b8a276c7b2e")
                         },
                         new
                         {
-                            id = new Guid("f745d5b5-d6f1-4908-90a7-c891cfd82d78"),
+                            id = new Guid("0c73878d-c382-4f01-888c-7d6bea29ff28"),
                             status = 2,
-                            time = new DateTime(2025, 1, 9, 7, 49, 28, 296, DateTimeKind.Utc).AddTicks(971),
-                            transportationId = new Guid("e3f4bcc5-6c47-44d7-bd32-a30e2c4f92a4")
+                            time = new DateTime(2025, 1, 13, 12, 27, 0, 442, DateTimeKind.Utc).AddTicks(5772),
+                            transportationId = new Guid("e6a1a126-72a8-4977-9e24-7b8a276c7b2e")
                         },
                         new
                         {
-                            id = new Guid("dc7298ac-a16a-4742-8483-5c7b5c628308"),
+                            id = new Guid("90b31e34-1f8f-4ec2-86bf-36680c7da8a6"),
                             status = 0,
-                            time = new DateTime(2025, 1, 3, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(972),
-                            transportationId = new Guid("0fe37385-0d20-4c5a-be16-54564f72b569")
+                            time = new DateTime(2025, 1, 7, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5776),
+                            transportationId = new Guid("52dc6a12-f4cb-495f-acfc-26c0e48259f8")
                         },
                         new
                         {
-                            id = new Guid("d618eef5-087a-4cc3-8cc6-0bdd5187935f"),
+                            id = new Guid("d38e64db-3b34-484e-a049-9a5f2dbde991"),
                             status = 1,
-                            time = new DateTime(2025, 1, 4, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(974),
-                            transportationId = new Guid("0fe37385-0d20-4c5a-be16-54564f72b569")
+                            time = new DateTime(2025, 1, 8, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5777),
+                            transportationId = new Guid("52dc6a12-f4cb-495f-acfc-26c0e48259f8")
                         },
                         new
                         {
-                            id = new Guid("7f1b9170-7488-406b-bc3c-397923023383"),
+                            id = new Guid("64346a6d-c1e3-4180-a00c-70da1c8b26ba"),
                             status = 2,
-                            time = new DateTime(2025, 1, 5, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(975),
-                            transportationId = new Guid("0fe37385-0d20-4c5a-be16-54564f72b569")
+                            time = new DateTime(2025, 1, 9, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5779),
+                            transportationId = new Guid("52dc6a12-f4cb-495f-acfc-26c0e48259f8")
                         },
                         new
                         {
-                            id = new Guid("72b6ea99-c58b-449a-85b9-c4bbdcb11bc3"),
+                            id = new Guid("4a91bd25-a53a-4a8d-ab1f-36ad87118632"),
                             status = 3,
-                            time = new DateTime(2025, 1, 6, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(977),
-                            transportationId = new Guid("0fe37385-0d20-4c5a-be16-54564f72b569")
+                            time = new DateTime(2025, 1, 10, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5781),
+                            transportationId = new Guid("52dc6a12-f4cb-495f-acfc-26c0e48259f8")
                         },
                         new
                         {
-                            id = new Guid("3a33e845-44c4-490f-90e1-5552fe5b64f7"),
+                            id = new Guid("08640e44-d184-4c15-96ae-beff89b41ea4"),
                             status = 4,
-                            time = new DateTime(2025, 1, 7, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(979),
-                            transportationId = new Guid("0fe37385-0d20-4c5a-be16-54564f72b569")
+                            time = new DateTime(2025, 1, 11, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5782),
+                            transportationId = new Guid("52dc6a12-f4cb-495f-acfc-26c0e48259f8")
                         },
                         new
                         {
-                            id = new Guid("1382bc15-c122-44a4-98e9-91c5e7a94a8a"),
+                            id = new Guid("503c855d-43c4-48e8-a0c1-00b24ffd8072"),
                             status = 5,
-                            time = new DateTime(2025, 1, 8, 8, 29, 28, 296, DateTimeKind.Utc).AddTicks(980),
-                            transportationId = new Guid("0fe37385-0d20-4c5a-be16-54564f72b569")
+                            time = new DateTime(2025, 1, 12, 13, 7, 0, 442, DateTimeKind.Utc).AddTicks(5784),
+                            transportationId = new Guid("52dc6a12-f4cb-495f-acfc-26c0e48259f8")
                         },
                         new
                         {
-                            id = new Guid("4985675a-710c-4f35-a02c-3cd0eb8cb9c8"),
+                            id = new Guid("fede16f2-a602-4120-b9f9-bf30a7416d27"),
                             status = 6,
-                            time = new DateTime(2025, 1, 9, 7, 49, 28, 296, DateTimeKind.Utc).AddTicks(982),
-                            transportationId = new Guid("0fe37385-0d20-4c5a-be16-54564f72b569")
+                            time = new DateTime(2025, 1, 13, 12, 27, 0, 442, DateTimeKind.Utc).AddTicks(5786),
+                            transportationId = new Guid("52dc6a12-f4cb-495f-acfc-26c0e48259f8")
                         });
                 });
 
@@ -676,7 +676,7 @@ namespace Logistics.Migrations
                     b.HasData(
                         new
                         {
-                            id = new Guid("c652f8fd-aa0e-4a91-99b1-199c75dfd8a8"),
+                            id = new Guid("2ff859e1-4105-4a14-b24c-32f2f446c24a"),
                             email = "shipper@gmail.com",
                             fullName = "Семенов Александр Никитич",
                             password = "240BE518FABD2724DDB6F04EEB1DA5967448D7E831C08C8FA822809F74C720A9",
@@ -697,7 +697,7 @@ namespace Logistics.Migrations
                     b.HasData(
                         new
                         {
-                            id = new Guid("ad00bd02-91cf-49b5-9519-0f75aa6feb19"),
+                            id = new Guid("551ea8b1-747e-46fd-9a34-6e6f74f721bb"),
                             email = "transporter@gmail.com",
                             fullName = "Петров Анатолий Степанович",
                             password = "BDD0E4C431DEF2F5CF7549034C0CB76B0F992F3991F0E6357B542F4B67DBE859",
@@ -756,13 +756,13 @@ namespace Logistics.Migrations
                             b1.HasData(
                                 new
                                 {
-                                    Userid = new Guid("ad00bd02-91cf-49b5-9519-0f75aa6feb19"),
+                                    Userid = new Guid("551ea8b1-747e-46fd-9a34-6e6f74f721bb"),
                                     INN = "345055094345",
                                     organizationalForm = 2
                                 },
                                 new
                                 {
-                                    Userid = new Guid("c652f8fd-aa0e-4a91-99b1-199c75dfd8a8"),
+                                    Userid = new Guid("2ff859e1-4105-4a14-b24c-32f2f446c24a"),
                                     INN = "3450550943",
                                     companyName = "Herriot-Watt",
                                     organizationalForm = 0
@@ -786,9 +786,8 @@ namespace Logistics.Migrations
                             b1.Property<Guid>("DriverLicenseid")
                                 .HasColumnType("uuid");
 
-                            b1.Property<byte[]>("data")
-                                .IsRequired()
-                                .HasColumnType("bytea");
+                            b1.Property<Guid>("fileId")
+                                .HasColumnType("uuid");
 
                             b1.Property<string>("fileName")
                                 .IsRequired()
@@ -820,9 +819,8 @@ namespace Logistics.Migrations
                             b1.Property<Guid>("Passportid")
                                 .HasColumnType("uuid");
 
-                            b1.Property<byte[]>("data")
-                                .IsRequired()
-                                .HasColumnType("bytea");
+                            b1.Property<Guid>("fileId")
+                                .HasColumnType("uuid");
 
                             b1.Property<string>("fileName")
                                 .IsRequired()

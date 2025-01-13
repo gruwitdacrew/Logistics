@@ -27,9 +27,22 @@ services:
       POSTGRES_USER: ${POSTGRES_USER} 
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}    
     volumes:  
-      - pgdata:/var/lib/postgresql/data # Персистентное хранилище для данных базы
+      - pgdata:/var/lib/postgresql/data
     networks:  
       - network
+
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:  
+      - minio_data:/data  
+    environment:
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT} 
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}  
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}  
+    command: server /data --console-address ":9001"
 
   pgadmin:  
     image: dpage/pgadmin4  
@@ -48,5 +61,6 @@ networks:
   network:  
     driver: bridge
 
-volumes:  
+volumes:
+  minio_data:  
   pgdata:

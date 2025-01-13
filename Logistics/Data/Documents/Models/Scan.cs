@@ -7,12 +7,12 @@ namespace Logistics.Data.Documents.Models
     {
         public string fileName { get; set; }
 
-        public byte[] data { get; set; }
+        public Guid fileId { get; set; }
 
-        public Scan(string fileName, byte[] data)
+        public Scan(string fileName, Guid fileId)
         {
             this.fileName = fileName;
-            this.data = data;   
+            this.fileId = fileId;   
         }
     }
 }
