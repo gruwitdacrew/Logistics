@@ -46,6 +46,8 @@ services:
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}  
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}  
     command: server /data --console-address ":9001"
+    networks:  
+      - network
 
   pgadmin:  
     image: dpage/pgadmin4  
