@@ -347,7 +347,7 @@ namespace Logistics.Services
             if (!new List<string>() { "image/png", "image/jpeg", "image/gif" }.Contains(file.ContentType))
                 return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Файл должен быть картинкой"));
 
-            await _fileService.delete(FileType.photo, user.photoId);
+            if (user.photoId != null) await _fileService.delete(FileType.photo, user.photoId);
 
             Guid fileId = Guid.NewGuid();
             await _fileService.put(file, FileType.photo, fileId);
