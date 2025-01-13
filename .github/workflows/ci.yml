@@ -18,6 +18,9 @@ jobs:
           docker-compose up -d --build
         env:
           ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+          MINIO_ENDPOINT: ${{ vars.MINIO_ENDPOINT }}
+          MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
+          MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
           MAILING_EMAIL: ${{ vars.MAILING_EMAIL }}
           MAILING_EMAIL_PASSWORD: ${{ secrets.MAILING_EMAIL_PASSWORD }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
