@@ -178,7 +178,7 @@ namespace Logistics.Services
             CheckIfCanInteractWithRequest(transporter);
             if (!TransporterSuitableForRequest(request, transporter)) return new ObjectResult(new ErrorResponse(403, "Транспорт не подходит для заявки")) { StatusCode = StatusCodes.Status403Forbidden };
 
-            RejectedRequest rejectedRequest = _context.RejectedRequests.Where(x => x.transporterId == transporterId && x.requestId == requestId).First();
+            RejectedRequest? rejectedRequest = _context.RejectedRequests.Where(x => x.transporterId == transporterId && x.requestId == requestId).FirstOrDefault();
 
             if (rejectedRequest != null) return new OkObjectResult(new TransporterRequestResponse(request, RequestStatus.Rejected));
             else return new OkObjectResult(new TransporterRequestResponse(request));
