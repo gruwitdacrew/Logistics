@@ -90,7 +90,7 @@ namespace Logistics.Data.Common
         {
             public CarNumberAttribute() : base("^[АВЕКМНОРСТУХ][0-9]{3}[АВЕКМНОРСТУХ]{2}$")
             {
-                ErrorMessage = "Автомобильный номер имеет маску A000AA (буквы английские)";
+                ErrorMessage = "Автомобильный номер имеет маску A000AA (буквы русские)";
             }
         }
 

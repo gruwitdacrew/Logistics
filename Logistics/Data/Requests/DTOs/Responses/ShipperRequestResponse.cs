@@ -63,5 +63,11 @@ namespace Logistics.Data.Requests.DTOs.Responses
         {
             company = request.shipper.company;
         }
+
+        public TransporterRequestResponse(Request request, RequestStatus requestStatus) : base(request)
+        {
+            company = request.shipper.company;
+            status = requestStatus;
+        }
     }
 }

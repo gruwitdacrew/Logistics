@@ -30,6 +30,28 @@ namespace Logistics.Controllers
             return await _requestService.CreateRequest(new Guid(userId), createRequest, isDelayed);
         }
 
+        [Authorize(Roles = "Transporter")]
+        [HttpGet]
+        [Route("/api/transporter/request/{requestId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> getTransporterRequest([FromRoute] Guid requestId)
+        {
+            var userId = User.Claims.ToList()[0].Value;
+
+            return await _requestService.GetTransporterRequest(requestId, new Guid(userId));
+        }
+
+        [Authorize(Roles = "Shipper")]
+        [HttpGet]
+        [Route("/api/shipper/request/{requestId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> getShipperRequest([FromRoute] Guid requestId)
+        {
+            var userId = User.Claims.ToList()[0].Value;
+
+            return await _requestService.GetShipperRequest(requestId, new Guid(userId));
+        }
+
 
         [Authorize(Roles = "Shipper")]
         [HttpPut]

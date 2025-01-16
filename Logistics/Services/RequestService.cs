@@ -148,6 +148,13 @@ namespace Logistics.Services
             return new OkObjectResult("");
         }
 
+        public async Task<ActionResult> GetShipperRequest(Guid requestId, Guid shipperId)
+        {
+            Request request = getRequestByIdAndShipperId(requestId, shipperId);
+
+            return new OkObjectResult(new ShipperRequestResponse(request));
+        }
+
         public async Task<ActionResult> GetShipperRequests(Guid shipperId, RequestStatus[] statuses)
         {
             if (statuses.Contains(RequestStatus.Rejected)) return new UnprocessableEntityObjectResult(new ErrorResponse(422, "Для грузоотправителя нет типа заявки 'Отклоненная'"));
@@ -157,6 +164,24 @@ namespace Logistics.Services
             var response = requests.Select(x => new ShipperRequestResponse(x)).ToList();
  
             return new OkObjectResult(response);
+        }
+
+        public async Task<ActionResult> GetTransporterRequest(Guid requestId, Guid transporterId)
+        {
+            Transporter transporter = getTransporterWithTruckById(transporterId);
+            Request? request = _context.Requests.Include(x => x.shipment).Include(x => x.shipper).Where(x => x.id == requestId).FirstOrDefault();
+            if (request == null)
+            {
+                return new NotFoundObjectResult(new ErrorException(404, "Заявка не найдена"));
+            }
+
+            CheckIfCanInteractWithRequest(transporter);
+            if (!TransporterSuitableForRequest(request, transporter)) return new ObjectResult(new ErrorResponse(403, "Транспорт не подходит для заявки")) { StatusCode = StatusCodes.Status403Forbidden };
+
+            RejectedRequest rejectedRequest = _context.RejectedRequests.Where(x => x.transporterId == transporterId && x.requestId == requestId).First();
+
+            if (rejectedRequest != null) return new OkObjectResult(new TransporterRequestResponse(request, RequestStatus.Rejected));
+            else return new OkObjectResult(new TransporterRequestResponse(request));
         }
 
         public async Task<ActionResult> GetTransporterRequests(Guid transporterId, RequestStatus status)
@@ -189,7 +214,7 @@ namespace Logistics.Services
                 }
             }
 
-            var response = requests.Select(x => new TransporterRequestResponse(x)).ToList();
+            var response = requests.Select(x => new TransporterRequestResponse(x, status)).ToList();
 
             return new OkObjectResult(response);
         }
