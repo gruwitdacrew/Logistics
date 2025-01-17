@@ -239,7 +239,7 @@ namespace Logistics.Services
         {
             Request request = getRequestByIdAndShipperId(requestId, shipperId);
 
-            if (request.status != RequestStatus.Active && request.status != RequestStatus.Delayed) return new ObjectResult(new ErrorResponse(403, "Удалять можно только активные и отложенные заявки")) { StatusCode = StatusCodes.Status403Forbidden };
+            if (request.status == RequestStatus.Accepted) return new ObjectResult(new ErrorResponse(403, "Нельзя удалять принятые заявки")) { StatusCode = StatusCodes.Status403Forbidden };
 
             _context.Requests.Remove(request);
             _context.SaveChanges();
