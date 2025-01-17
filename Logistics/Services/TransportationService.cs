@@ -94,7 +94,7 @@ namespace Logistics.Services
 
         public async Task<ActionResult> GetShipperTransportations(Guid shipperId, bool isFinished)
         {
-            List<Transportation> transportations = _context.Transportations.Where(x => (isFinished ? x.status == TransportationStatus.Finished : x.status != TransportationStatus.Finished) && x.request.shipper.id == shipperId).Include(x => x.transporter).Include(x => x.transporter.truck).ToList();
+            List<Transportation> transportations = _context.Transportations.Where(x => (isFinished ? x.status == TransportationStatus.Finished : x.status != TransportationStatus.Finished) && x.request.shipper.id == shipperId).Include(x => x.transporter).Include(x => x.transporter.truck).Include(x => x.request).ToList();
 
             var response = transportations.Select(x => new ShipperTransportationResponseDTO(x)).ToList();
 
