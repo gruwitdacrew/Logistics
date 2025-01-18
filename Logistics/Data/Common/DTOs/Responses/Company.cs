@@ -33,8 +33,6 @@ namespace Logistics.Data.Common.DTOs.Responses
 
         public string INN { get; set; }
 
-        public string phone { get; set; }
-
         public CompanyResponse(User user)
         {
             organizationalForm = (OrganizationForm)user.company.organizationalForm;
