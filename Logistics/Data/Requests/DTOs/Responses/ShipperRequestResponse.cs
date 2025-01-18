@@ -57,16 +57,16 @@ namespace Logistics.Data.Requests.DTOs.Responses
     }
     public class TransporterRequestResponse : RequestResponse
     {
-        public Company company { get; set; }
+        public CompanyResponse company { get; set; }
 
         public TransporterRequestResponse(Request request) : base(request)
         {
-            company = request.shipper.company;
+            company = new CompanyResponse(request.shipper);
         }
 
         public TransporterRequestResponse(Request request, RequestStatus requestStatus) : base(request)
         {
-            company = request.shipper.company;
+            company = new CompanyResponse(request.shipper);
             status = requestStatus;
         }
     }

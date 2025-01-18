@@ -25,6 +25,43 @@ namespace Logistics.Data.Common.DTOs.Responses
         }
     }
 
+    public class CompanyResponse
+    {
+        public OrganizationForm organizationalForm { get; set; }
+
+        public string companyName { get; set; }
+
+        public string INN { get; set; }
+
+        public string phone { get; set; }
+
+        public CompanyResponse(User user)
+        {
+            organizationalForm = (OrganizationForm)user.company.organizationalForm;
+            if (user.company.organizationalForm == OrganizationForm.Individual)
+            {
+                companyName = user.fullName;
+            }
+            else
+            {
+                companyName = user.company.companyName;
+            }
+            INN = user.company.INN;
+        }
+    }
+
+    public class CompanyResponseWithPhone : CompanyResponse
+    {
+        public string phone { get; set; }
+
+        public CompanyResponseWithPhone(User user) : base(user)
+        {
+            phone = user.phone;
+        }
+    }
+
+
+
     public enum OrganizationForm
     {
         OOO,

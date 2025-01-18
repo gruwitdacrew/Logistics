@@ -38,7 +38,6 @@ namespace Logistics.Data.Transportations.DTOs.Responses
 
             unloadCity = transportation.request.unloadCity;
             unloadDate = statusChangeHistory.Where(x => x.status == TransportationStatus.Unloading).Select(x => (DateTime?)x.time).FirstOrDefault(defaultValue: null);
-            unloadDate = null;
             unloadAddress = transportation.request.unloadAddress;
 
             sendingTime = transportation.request.sendingTime;
@@ -52,25 +51,25 @@ namespace Logistics.Data.Transportations.DTOs.Responses
 
     public class TransporterTransportationWideResponseDTO : TransportationWideResponseDTO
     {
-        public Company company { get; set; }
+        public CompanyResponseWithPhone company { get; set; }
         public ShipmentResponse shipment { get; set; }
 
         public TransporterTransportationWideResponseDTO(Transportation transportation, List<TransportationStatusChangeResponseDTO> statusChangeHistory) : base(transportation, statusChangeHistory)
         {
-            company = transportation.request.shipper.company;
+            company = new CompanyResponseWithPhone(transportation.request.shipper);
             shipment = new ShipmentResponse(transportation.request.shipment);
         }
     }
 
     public class ShipperTransportationWideResponseDTO : TransportationWideResponseDTO
     {
-        public Company transporter { get; set; }
+        public CompanyResponseWithPhone transporter { get; set; }
         public string truckBrand { get; set; }
         public string truckModel { get; set; }
 
         public ShipperTransportationWideResponseDTO(Transportation transportation, List<TransportationStatusChangeResponseDTO> statusChangeHistory) : base(transportation, statusChangeHistory)
         {
-            transporter = transportation.transporter.company;
+            transporter = new CompanyResponseWithPhone(transportation.transporter);
             truckBrand = transportation.transporter.truck.truckBrand.ToString();
             truckBrand = transportation.transporter.truck.model;
         }

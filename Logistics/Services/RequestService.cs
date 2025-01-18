@@ -169,14 +169,22 @@ namespace Logistics.Services
         public async Task<ActionResult> GetTransporterRequest(Guid requestId, Guid transporterId)
         {
             Transporter transporter = getTransporterWithTruckById(transporterId);
-            Request? request = _context.Requests.Include(x => x.shipment).Include(x => x.shipper).Where(x => x.id == requestId).FirstOrDefault();
+            Request? request = _context.Requests.Include(x => x.shipment).Include(x => x.shipper).Where(x => x.id == requestId).Include(x => x.transportation).FirstOrDefault();
             if (request == null)
             {
                 return new NotFoundObjectResult(new ErrorException(404, "Заявка не найдена"));
             }
 
-            CheckIfCanInteractWithRequest(transporter);
-            if (!TransporterSuitableForRequest(request, transporter)) return new ObjectResult(new ErrorResponse(403, "Транспорт не подходит для заявки")) { StatusCode = StatusCodes.Status403Forbidden };
+            if (request.status == RequestStatus.Active)
+            {
+                CheckIfCanInteractWithRequest(transporter);
+                if (!TransporterSuitableForRequest(request, transporter)) return new ObjectResult(new ErrorResponse(403, "Заявка недоступна")) { StatusCode = StatusCodes.Status403Forbidden };
+            }
+            else if (request.status == RequestStatus.Accepted || request.status == RequestStatus.ArchivedTransportationFinished)
+            {
+                if (request.transportation.transporter != transporter) return new ObjectResult(new ErrorResponse(403, "Заявка недоступна")) { StatusCode = StatusCodes.Status403Forbidden };
+            }
+            else return new ObjectResult(new ErrorResponse(403, "Заявка недоступна")) { StatusCode = StatusCodes.Status403Forbidden };
 
             RejectedRequest? rejectedRequest = _context.RejectedRequests.Where(x => x.transporterId == transporterId && x.requestId == requestId).FirstOrDefault();
 
