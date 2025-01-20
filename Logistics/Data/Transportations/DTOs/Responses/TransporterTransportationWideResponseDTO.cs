@@ -24,6 +24,8 @@ namespace Logistics.Data.Transportations.DTOs.Responses
         public DateTime sendingTime { get; set; }
         public DateTime? arrivalTime { get; set; }
 
+        public ShipmentResponse shipment { get; set; }
+
         public List<TransportationStatusChangeResponseDTO> statusChangeHistory { get; set; }
 
         public TransportationWideResponseDTO(Transportation transportation, List<TransportationStatusChangeResponseDTO> statusChangeHistory)
@@ -52,7 +54,6 @@ namespace Logistics.Data.Transportations.DTOs.Responses
     public class TransporterTransportationWideResponseDTO : TransportationWideResponseDTO
     {
         public CompanyResponseWithPhone company { get; set; }
-        public ShipmentResponse shipment { get; set; }
 
         public TransporterTransportationWideResponseDTO(Transportation transportation, List<TransportationStatusChangeResponseDTO> statusChangeHistory) : base(transportation, statusChangeHistory)
         {
@@ -70,6 +71,8 @@ namespace Logistics.Data.Transportations.DTOs.Responses
         public ShipperTransportationWideResponseDTO(Transportation transportation, List<TransportationStatusChangeResponseDTO> statusChangeHistory) : base(transportation, statusChangeHistory)
         {
             transporter = new CompanyResponseWithPhone(transportation.transporter);
+            shipment = new ShipmentResponse(transportation.request.shipment);
+
             truckBrand = transportation.transporter.truck.truckBrand.ToString();
             truckBrand = transportation.transporter.truck.model;
         }

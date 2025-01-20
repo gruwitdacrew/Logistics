@@ -103,7 +103,7 @@ namespace Logistics.Services
 
         public async Task<ActionResult> GetShipperTransportation(Guid shipperId, Guid transportationId)
         {
-            Transportation? transportation = _context.Transportations.Where(x => x.id == transportationId).Include(x => x.request).Include(x => x.transporter).Include(x => x.transporter.truck).FirstOrDefault();
+            Transportation? transportation = _context.Transportations.Where(x => x.id == transportationId).Include(x => x.request).Include(x => x.transporter).Include(x => x.transporter.truck).Include(x => x.request.shipment).FirstOrDefault();
             Guid requestShipperId = _context.Transportations.Where(x => x.id == transportationId).Select(x => x.request.shipper.id).FirstOrDefault();
 
             if (transportation == null)
