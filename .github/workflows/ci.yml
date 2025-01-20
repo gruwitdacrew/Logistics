@@ -15,6 +15,7 @@ jobs:
       - name: Build and Start Services  
         run: |
           docker-compose down
+          docker system prune -af
           docker-compose up -d --build
         env:
           ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
