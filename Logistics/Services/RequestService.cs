@@ -138,7 +138,7 @@ namespace Logistics.Services
 
             createRequest.validate();
 
-            CheckIfCanInteractWithRequest(shipper);
+            if (!isDelayed) CheckIfCanInteractWithRequest(shipper);
 
             Request newRequest = new Request(createRequest, shipper, isDelayed);
 
